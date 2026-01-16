@@ -1,0 +1,367 @@
+
+<p class="alert alert-info">
+A buffer (short for buffer solution) commonly is an aqueous solution consisting of a mixture of a weak acid and its conjugate base (or vice versa) which are the additives to the solvent. A duplicate check is performed automatically, see table below.
+</p>
+<%= form_for @buffer, :html => { :class => 'form-horizontal' } do |f| %>
+<div class="form-group">
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= f.label :name, "Name" %>
+  </div>
+  <div class="col-md-4">
+  <%= f.text_field :name, :class => 'form-control', placeholder:"e.g. 10 mM sodium phosphate buffer pH-7.0"%>
+  </div>
+  <div class="control-label col-md-1" >
+  </div>
+  <div class="control-label col-md-2" style="text-align:left;">
+  <%= f.label :abbreviation, "Abbreviation" %>
+  </div>
+  <div class="col-md-3">
+  <%= f.text_field :abbreviation, :class => 'form-control', placeholder:"e.g. 10 mM phosphate pH-7.0"%>
+  </div>
+</div>
+
+<hr>
+<div class="form-group">
+  <div class="control-label col-md-1" style="text-align:left;" class="has-tooltip" data-toggle="tooltip" title="If a protic deuterated solvent was utilized, this value corresponds to pD, not pH. In this case, please write pD also in the buffer's name instead of pH.">
+  <%= f.label :pH, "pH" %>
+  </div>
+  <div class="col-md-4">
+  <%= f.text_field :pH, :class => 'form-control', placeholder:"e.g. 7.0", onchange: "checkValidNumber(this)"%>
+  </div>
+
+  <div class="control-label col-md-1" >
+  </div>
+  <div class="control-label col-md-2" style="text-align:left;">
+  <%= f.label :conc, "Total concentration" %>
+  </div>
+  <div class="col-md-3">
+  <%= f.text_field :conc, :class => 'form-control', placeholder:"is calculated if additives given", onchange: "checkValidNumber(this),removeCalculatedClass(),calcTotalConcBuf()"%>
+  </div>
+  <div class="col-md-1">
+    <label class="control-label unit">mM</label>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+</div>
+
+<div class="form-group">
+ <div class="col-md-6 col-md-offset-6 error-mes-naN" style="text-align:left;" id="inconsistentTotalConc">
+ </div>
+</div>
+
+<hr>
+
+<div class="form-group">
+  <strong class="control-label col-md-1" style="text-align:left;" >
+    Recipe
+  </strong>
+  <strong class="control-label col-md-4" style="text-align:left;"> <u>Solvents</u> </strong>
+  <strong class="control-label col-md-1" style="text-align:left;">Vol%</strong>
+  <strong class="control-label col-md-4" style="text-align:left;"> <u>Additives</u> </strong>
+  <strong class="control-label col-md-1" style="text-align:left;">Conc.</strong>
+</div>
+
+<div class="form-group">
+  <div class="container col-md-6 solvent-container">
+      <% number=0 %>
+      <%= f.fields_for :buffer_solvents do |builder| %>
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8 ">
+            <%= builder.text_field :solvent_name , :class => 'form-control first_solvent_name interaction-solvent' , data: {autocomplete_source: query_solvents_path }, placeholder:"live search" %>
+
+          </div>
+          <div class="col-md-2">
+            <%= builder.text_field :volume_percent , :class => 'form-control',  onchange: "checkValidNumber(this),calculatevolume()" %>
+          </div>
+        </div>
+      <% number=number+1 %>
+      <% end %>
+  </div>
+
+  <div class="container col-md-6 additive-container">
+    <% number=0 %>
+    <%= f.fields_for :buffer_additives do |builder| %>
+      <div class="row">
+        <div class="col-md-8 ">
+          <%= builder.text_field :additive_name , :class => 'form-control first_additive_name interaction-solvent' , data: {autocomplete_source: query_additives_path }, placeholder:"#{@buffer.buffer_additives[number].additive.present? ? @buffer.buffer_additives[number].additive.display_name : 'live search'}" %>
+        <%#= link_to_add_fields 'Add Co-Additive', f, :buffer_additives %>
+        </div>
+        <div class="col-md-2">
+          <%= builder.text_field :concentration , :class => 'form-control', :onchange => 'checkValidNumber(this), calcTotalConcBuf()' %>
+        </div>
+        <div class="col-md-2">
+          <strong>mM</strong>
+        </div>
+      </div>
+      <% number=number+1 %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6" >
+        </div>
+        <div class="control-label col-md-6" style="text-align:left;">
+        <%= f.label :sourceofconcentration, "<u>Source of Additives Concentrations</u>".html_safe %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6" >
+        </div>
+        <label class="radio-inline col-md-6" style="text-align:left;"><%= f.radio_button :sourceofconcentration, 'real', class:"assay-type" %><span></span> Real concentrations (from measurement or retrieved from paper)
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-6" >
+        </div>
+        <label class="radio-inline col-md-6" style="text-align:left;"><%= f.radio_button :sourceofconcentration, 'estimated', class:"assay-type" %><span></span> Estimated concentrations (lack of information in paper)
+        </label>
+      </div>
+    </div>
+ </div>
+</div>
+
+<div class="col-md-10 col-md-offset-1 error-mes-naN" style="text-align:left;" id="inconsistentTotalConc">
+</div>
+
+
+
+  <div class="panel panel-warning">
+    <div class="panel-heading">Buffers on SupraBank based on the given name.<strong> Please check before creation of a new entry.</strong></div>
+    <table class='table' id="results_table">
+      <thead>
+        <tr>
+          <th>SBID/Link</th>
+          <th>Name</th>
+          <th>Abbreviation</th>
+          <th>Solvent</th>
+          <th>Additive I</th>
+          <th>Additive II</th>
+          <th>Additive III</th>
+          <th>pH</th>
+          <th>Conc / mM</th>
+        </tr>
+      </thead>
+      <tbody id="results_table_body">
+      </tbody>
+    </table>
+  </div>
+
+
+<div class="form-group col-md-12">
+  <div class="col-md-1">
+  </div>
+  <div class="row col-md-8">
+    <%= f.submit nil, :class => 'btn btn-primary select_button_submit' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                 buffers_path, :class => 'btn btn-default select_button' %>
+  </div>
+</div>
+
+<% end %>
+
+<script type="text/javascript">
+
+
+  function requestBuffer(name){
+      $.ajax({
+      type: "GET",
+      url: "/buffers/buffer_check?term=" + name,
+      success: function(data) {
+      //  console.log(data)
+      // [ 0                   1     2      3      4  ]
+      // [n.abbreviation , n.name, n.conc, n.id, n.pH]
+        if (data.length > 0) {
+          console.log(data)
+          $("#results_table_body").empty()
+          for (var entry of data) {
+            $("#results_table_body").append("<tr><td> <a href=/buffers/" + entry[3] + " target=_blank >" + entry[3] + "</td><td> <a href=/buffers/" + entry[3] + " target=_blank >" + entry[1] + "</a></td><td> <a href=/buffers/" + entry[3] + " target=_blank >" + entry[0] + "</a></td><td>" + entry[5] + "</td><td>" + entry[6] + "</td><td>" + entry[7] + "</td><td>" + entry[8] + "</td><td>" + entry[4] + "</td><td>" + entry[2] + "</td></tr>")
+          };
+        }
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+        });
+  };
+
+
+  $(function(){
+    $("#buffer_name").on('input', function(){
+      var name = $(this).val();
+      requestBuffer(name);
+    });
+  });
+
+
+
+
+  $(document).ready(function() {
+    $('#buffer_buffer_additives_attributes_0_additive_name').autocomplete({
+    source: $('#buffer_buffer_additives_attributes_0_additive_name').data('autocomplete-source'),
+      select: function( event, additive0 ) {
+        $( "#buffer_buffer_additives_attributes_0_additive_name" ).val( additive0.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+
+  $(document).ready(function() {
+    $('#buffer_buffer_additives_attributes_1_additive_name').autocomplete({
+    source: $('#buffer_buffer_additives_attributes_1_additive_name').data('autocomplete-source'),
+      select: function( event, additive1 ) {
+        $( "#buffer_buffer_additives_attributes_1_additive_name" ).val( additive1.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+
+  $(document).ready(function() {
+    $('#buffer_buffer_additives_attributes_2_additive_name').autocomplete({
+    source: $('#buffer_buffer_additives_attributes_2_additive_name').data('autocomplete-source'),
+      select: function( event, additive2 ) {
+        $( "#buffer_buffer_additives_attributes_2_additive_name" ).val( additive2.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+
+  $(document).ready(function() {
+    $('#buffer_buffer_additives_attributes_3_additive_name').autocomplete({
+    source: $('#buffer_buffer_additives_attributes_3_additive_name').data('autocomplete-source'),
+      select: function( event, additive3 ) {
+        $( "#buffer_buffer_additives_attributes_3_additive_name" ).val( additive3.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+
+    $(document).ready(function() {
+      $('#buffer_buffer_solvents_attributes_0_solvent_name').autocomplete({
+      source: $('#buffer_buffer_solvents_attributes_0_solvent_name').data('autocomplete-source'),
+        select: function( event, solvent0 ) {
+          $( "#buffer_buffer_solvents_attributes_0_solvent_name" ).val( solvent0.item[1] );
+          return false;
+          }
+        })
+        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li class='col-md-4'>" )
+          .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+          .appendTo( ul );
+        };
+      });
+
+    $(document).ready(function() {
+      $('#buffer_buffer_solvents_attributes_1_solvent_name').autocomplete({
+      source: $('#buffer_buffer_solvents_attributes_1_solvent_name').data('autocomplete-source'),
+        select: function( event, solvent1 ) {
+          $( "#buffer_buffer_solvents_attributes_1_solvent_name" ).val( solvent1.item[1] );
+          return false;
+          }
+        })
+        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li class='col-md-4'>" )
+          .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+          .appendTo( ul );
+        };
+      });
+
+    $(document).ready(function() {
+      $('#buffer_buffer_solvents_attributes_2_solvent_name').autocomplete({
+      source: $('#buffer_buffer_solvents_attributes_2_solvent_name').data('autocomplete-source'),
+        select: function( event, solvent2 ) {
+          $( "#buffer_buffer_solvents_attributes_2_solvent_name" ).val( solvent2.item[1] );
+          return false;
+          }
+        })
+        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li class='col-md-4'>" )
+          .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+          .appendTo( ul );
+        };
+      });
+
+  $(document).ready(function() {
+    $("#buffer_buffer_solvents_attributes_0_volume_percent").attr('readonly', true);
+
+  });
+
+
+
+    function calculatevolume(){
+          var vol1 = parseFloat(document.getElementById('buffer_buffer_solvents_attributes_1_volume_percent').value)
+          var vol2 = parseFloat(document.getElementById('buffer_buffer_solvents_attributes_2_volume_percent').value)
+
+          if (isNaN(vol1)) {
+            var vol1 = 0;
+          }
+
+          if (isNaN(vol2)) {
+            var vol2 = 0;
+          }
+
+          result = 100-(vol1+vol2);
+          document.getElementById('buffer_buffer_solvents_attributes_0_volume_percent').value = result;
+          if (result < 0) {
+            document.getElementById('buffer_buffer_solvents_attributes_0_volume_percent').classList.add('negative_value');
+          } else {
+            document.getElementById('buffer_buffer_solvents_attributes_0_volume_percent').classList.remove('negative_value');
+          }
+      };
+
+  function removeCalculatedClass(){
+    !$("#buffer_conc").hasClass('.calculatedTC') || $("#buffer_conc").removeClass('.calculatedTC');
+  };
+
+  function calcTotalConcBuf() {
+     var tc_orig = parseFloat(document.getElementById('buffer_conc').value);
+     var cs = [parseFloat(document.getElementById('buffer_buffer_additives_attributes_0_concentration').value),
+     parseFloat(document.getElementById('buffer_buffer_additives_attributes_1_concentration').value),
+     parseFloat(document.getElementById('buffer_buffer_additives_attributes_2_concentration').value),
+     parseFloat(document.getElementById('buffer_buffer_additives_attributes_3_concentration').value)]
+     tc=0
+     $.each(cs, function(index,value){
+       if (isFinite(value) ) {
+         tc=tc + value;
+       };
+     });
+     var tc_item = document.getElementById('buffer_conc');
+     if ( !isFinite(tc_orig)) {
+       $("#buffer_conc").val(tc);
+       $("#buffer_conc").addClass('.calculatedTC');
+       $("#inconsistentTotalConc").empty();
+     } else if ($("#buffer_conc").hasClass('.calculatedTC')) {
+       $("#buffer_conc").val(tc);
+       $("#inconsistentTotalConc").empty();
+     } else if (tc !== tc_orig && tc > 0) {
+      $("#inconsistentTotalConc").html("<%= escape_javascript(render 'interactions/autocomplete/response_inconsistentTotalConc') %>");
+     } else  if (tc == tc_orig){
+     $("#inconsistentTotalConc").empty();
+     };
+   };
+
+</script>

@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+additive_one_buffer_one:
+ additive: additive_one
+ concentration: 10
+ buffer: buffer_one
+
+additive_two_buffer_one:
+ additive: additive_two
+ concentration: 20
+ buffer: buffer_one
+
+additive_one_buffer_two:
+ additive: additive_two
+ concentration: 30
+ buffer: buffer_two
+
+additive_two_buffer_two:
+ additive: additive_two
+ concentration: 40
+ buffer: buffer_two
+
+additive_one_buffer_three:
+ additive: additive_one
+ concentration: 20
+ buffer: buffer_three
+
+additive_two_buffer_three:
+ additive: additive_two
+ concentration: 30
+ buffer: buffer_three

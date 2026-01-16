@@ -1,0 +1,12 @@
+<% if params[:action] == 'dbsearch' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+  </div>
+  <% if @additives.present? %>
+    <%= render 'compounds/compound', compounds:@additives %>
+  <% end %>
+<% end %>

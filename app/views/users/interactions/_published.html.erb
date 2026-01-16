@@ -1,0 +1,3 @@
+<span class="text-success"><%= page_entries_info @interactions_published %></span>
+<%= render partial:"users/interactions/table_ransack", :locals =>{ranquery: @qpublished, interactions: @interactions_published, table_id:'published'} %>
+<%= paginate @interactions_published, btncolor:"primary"  %>

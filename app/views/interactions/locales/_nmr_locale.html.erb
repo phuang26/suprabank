@@ -1,0 +1,47 @@
+
+<% if @interaction.in_technique.nucleus.present? %>
+<tr>
+  <td class='no_top_border col-md-3'></td>
+  <td class="col-md-1">Nucleus</td>
+  <td class="col-md-1"> </td>
+  <td class="col-md-2"><%= @interaction.in_technique.nucleus %> </td>
+</tr>
+<% end %>
+
+<% if @interaction.in_technique.shift_unbound.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1"><math>&#948;<sub>free</sub></math></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.shift_unbound %> ppm</td>
+  </tr>
+<% end %>
+
+<% if @interaction.in_technique.shift_bound.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1"><math>&#948;<sub>bound</sub></math></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.shift_bound %> ppm</td>
+  </tr>
+<% end %>
+
+<% if @interaction.in_technique.delta_shift.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1"><math>&#916;&#948;<sub>bound</sub></math></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.delta_shift %> ppm</td>
+  </tr>
+<% end %>
+
+
+<% if @interaction.in_technique.free_to_bound.present? %>
+  <tr>
+    <td  class='no_top_border col-md-3'></td>
+    <td class="col-md-1">
+      <sup>&#948;<sub>bound</sub></sup>&frasl;<sub>&#948;<sub>free</sub></sub></td>
+      <td class="col-md-1">=</td>
+      <td class="col-md-2"><%= @interaction.in_technique.free_to_bound %></td>
+  </tr>
+<% end %>

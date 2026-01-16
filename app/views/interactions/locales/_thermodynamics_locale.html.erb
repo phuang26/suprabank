@@ -1,0 +1,62 @@
+<% if @interaction.itc_deltaH.present? %>
+  <tr>
+    <td style="width:8%; text-align:center;"><span  class="has-tooltip" data-toggle="tooltip" title="Enthalpy"><strong>&#916;<em>H</em></strong></td>
+    <td style="width:6%; text-align:center;"> <span> =</span>   </td>
+    <td style="width:18%; text-align:left; padding-left: 3%;"><%= @interaction.itc_deltaH %></td>
+    <td style="width:10%; text-align:left;">
+      <% if @interaction.itc_deltaH_error.present? %>
+        &#177; <span><%= @interaction.itc_deltaH_error %></span>
+      <% end %>
+    </td>
+    <td style="width:16%; text-align:left;" class="energy_td"><%= (@interaction.itc_deltaH*0.2390057).round(2) %></td>
+    <td style="width:22%; text-align:left;">
+      <% if @interaction.itc_deltaH_error.present? %>
+        &#177; <span><%= (@interaction.itc_deltaH_error*0.2390057).round(2) %></span>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
+
+<% if @interaction.itc_deltaST.present? %>
+  <tr>
+    <td style="width:8%; text-align:center;"><span  class="has-tooltip" data-toggle="tooltip" title="Entropy Term"><strong>-T&#916;<em>S</em></strong></td>
+    <td style="width:6%; text-align:center;"> <span> =</span>   </td>
+    <td style="width:18%; text-align:left; padding-left: 3%;">  <%= @interaction.itc_deltaST %>    </td>
+    <td style="width:10%; text-align:left;">
+      <% if @interaction.itc_deltaST_error.present? %>
+        &#177; <span><%= @interaction.itc_deltaST_error %></span>
+      <% end %>
+    </td>
+    <td style="width:16%; text-align:left;" class="energy_td"><%= (@interaction.itc_deltaST*0.2390057).round(2) %></td>
+    <td style="width:22%; text-align:left;">
+      <% if @interaction.itc_deltaST_error.present? %>
+      &#177; <span><%= (@interaction.itc_deltaST_error*0.2390057).round(2) %></span>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="width:8%; text-align:center;"></td>
+    <td style="width:6%; text-align:center;"> </td>
+    <td colspan="2" style="text-align:left; padding-left: 3%;"> <strong> J mol<sup>-1</sup> K<sup>-1</sup> </strong> </td>
+    <td colspan="2" style="text-align:left; padding-left: 5%;"> <strong> cal mol<sup>-1</sup> K<sup>-1</sup> </strong> </td>
+  </tr>
+
+  <tr>
+    <td style="width:8%; text-align:center;"><span  class="has-tooltip" data-toggle="tooltip" title="Entropy"><strong>&#916;<em>S</em></strong></td>
+    <td style="width:6%; text-align:center;"> <span> =</span>   </td>
+    <td style="width:18%; text-align:left; padding-left: 3%;">  <%= (-@interaction.itc_deltaST/(@interaction.temperature+273.15)*1000).round(1) %>    </td>
+    <td style="width:10%; text-align:left;">
+      <% if @interaction.itc_deltaST_error.present? %>
+        &#177; <span><%= (@interaction.itc_deltaST_error/(@interaction.temperature+273.15)*1000).round(1)%></span>
+      <% end %>
+    </td>
+    <td style="width:16%; text-align:left;" class="energy_td"><%= (-@interaction.itc_deltaST*0.2390057/(@interaction.temperature+273.15)*1000).round(1) %></td>
+    <td style="width:22%; text-align:left;">
+      <% if @interaction.itc_deltaST_error.present? %>
+      &#177; <span><%= (@interaction.itc_deltaST_error*0.2390057/(@interaction.temperature+273.15)*1000).round(1) %></span>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

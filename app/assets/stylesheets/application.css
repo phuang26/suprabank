@@ -1,0 +1,166 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ * tree loads all assets in ALPHABETICAL order
+ *
+ *= require_self
+ *= require jquery-ui
+ *= require token-input-facebook
+ *= require font_awesome5_webfont
+ *= require_tree .
+ */
+.editor {
+  height: calc((60vw) * 0.5625);
+  max-width: 100%;
+}
+
+ ul.ui-autocomplete
+ {
+
+     left: 20vw!important;
+
+     width: 50%!important;
+     border-radius: 5px!important;
+     border-color: #5479b4!important;
+     border: none !important;
+ }
+
+
+  ul.ui-menu .ui-menu-item a{
+      background:blue;
+      height:10px;
+      font-size:8px;}
+
+.group_menu {
+  position: fixed;
+  left: 0;
+}
+
+.sidebar-container {
+  position: fixed;
+  width: 140px;
+  max-height: 80%;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #1a1a1a;
+  color: #fff;
+  z-index: 100;
+}
+
+.content-container {
+  padding-top: 20px;
+}
+
+.sidebar-logo {
+  padding: 10px 15px 10px 30px;
+  font-size: 20px;
+  color: white;
+  /* background-color: #5479b4; */
+}
+
+.sidebar-logo a {
+  color: white;
+  /* background-color: #5479b4; */
+}
+
+.sidebar-logo a:visited {
+  color: white;
+  /* background-color: #5479b4; */
+}
+.sidebar-logo a:hover {
+  text-decoration: none;
+  /* background-color: #5479b4; */
+}
+
+
+
+
+
+.sidebar-navigation {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+.sidebar-navigation li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
+}
+
+.sidebar-navigation tr td a {
+ text-decoration: none;
+ color: white;
+}
+
+
+.sidebar-navigation li a {
+  padding: 10px 15px 10px 30px;
+  display: block;
+  color: #fff;
+}
+
+.sidebar-navigation li .fa {
+  margin-right: 10px;
+}
+
+.sidebar-navigation li a:active,
+.sidebar-navigation li a:hover,
+.sidebar-navigation li a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.sidebar-navigation li::before {
+  background-color: #5479b4;
+  position: absolute;
+  content: '';
+  height: 100%;
+  left: 0;
+  top: 0;
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 3px;
+  z-index: -1;
+}
+
+
+
+.sidebar-navigation li:hover::before {
+  width: 100%;
+}
+
+.sidebar-navigation .header {
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: #151515;
+  padding: 10px 15px 10px 30px;
+}
+
+.sidebar-navigation .header::before {
+  background-color: transparent;
+}
+
+.content-container {
+  padding-left: 220px;
+}
+
+#group_toggle {
+  font-size: smaller;
+}
+
+#group_toggle:hover {
+  cursor: pointer;
+}

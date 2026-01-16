@@ -1,0 +1,169 @@
+<%= form_for @molecule, :html => { :class => "form-horizontal molecule" } do |f| %>
+
+  <% if @molecule.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@molecule.errors.count, "error") %> prohibited this molecule from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @molecule.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+<div class="container col-md-8">
+   <div class="form-group">
+       <div class="col-md-4">
+        <%= f.label :display_name, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-8">
+        <%= f.text_field :display_name, :class => 'form-control' %>
+      </div>
+      <%=f.error_span(:display_name) %>
+  </div>
+
+  <div class="form-group">
+     <div class="col-md-4">
+    <%= f.label :preferred_abbreviation, :class => 'control-label form-label' %>
+    </div>
+    <div class="col-md-8">
+      <%= f.text_field :preferred_abbreviation, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:preferred_abbreviation) %>
+  </div>
+
+  <div class="form-group">
+     <div class="col-md-4">
+       <%= f.label :cas,"CAS", :class => 'control-label form-label' %>
+     </div>
+     <div class="col-md-8">
+      <%= f.text_field :cas, :class => 'form-control' %>
+     </div>
+     <%=f.error_span(:cas) %>
+  </div>
+
+  <div class="form-group">
+     <div class="col-md-4">
+       <%= f.label :tag_list,"Tags", :class => 'control-label form-label' %>
+     </div>
+     <div class="col-md-8">
+       <%= f.text_field :tag_list, value:nil, :class => 'form-control' , id: "tag_tokens", data: {load: @molecule.tag_counts.to_json}%>
+     </div>
+  </div>
+</div>
+
+<div class="container col-md-4">
+  <div class="col-md-12">
+      <label class="btn btn-primary btn-change-avatar  login_button"  style="margin-bottom: 30px;">
+        Upload new structure
+        <span style="display:none;">
+          <%= f.file_field :png, id: "fileUploader", accept: 'image/png, image/gif, image/jpeg'%>
+        </span>
+      </label>
+  </div>
+
+  <div class="col-md-12">
+        <%= image_tag @molecule.png_url, alt:"Structure", id:"instant_image", class:"img-rounded instant-image"%>
+  </div>
+
+  <div class="col-md-12">
+      <label class="btn btn-primary btn-change-avatar login_button"  style="margin-top: 30px;">
+        Upload ChemDraw File
+        <span style="display:none;">
+          <%= f.file_field :cdx, id: "cdxUploader", accept: 'chemical/x-cdx, image/x-coreldraw, chemical/x-chem3d' %>
+        </span>
+      </label>
+  </div>
+
+  <div class="col-md-12">
+        <% if @molecule.cdx.present? %>
+          <%= link_to "Download CDX", @molecule.cdx.url , :class => 'btn btn-default login_button'%>
+        <% end %>
+        <%#= image_tag @molecule.cdx.url, alt:"Structure", id:"instant_cdx", class:"img-rounded instant-image"%>
+        <p class="" id="instant_cdx"></p>
+  </div>
+</div>
+
+<div class="container col-md-12">
+<hr>
+</div>
+
+
+<div class="container col-md-12">
+  <div class="form-group">
+      <%= f.submit nil, :class => 'btn btn-primary login_button' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                molecules_path, :class => 'btn btn-default  select_button' %>
+  </div>
+</div>
+
+
+<div class="container col-md-12">
+<hr>
+</div>
+
+
+<div class="container col-md-12">
+  <div class="panel-default panel">
+      <div class="panel-heading">
+        <h4>Synonyms</h4>
+      </div>
+      <div class="panel-body ">
+        <div class="container">
+                  <% @molecule.names.each do |element| %>
+                  <ul class="list-inline ul-names">
+                    <li class="li-names"><strong><%= element %></strong></li>
+                  </ul>
+                  <% end %>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+
+
+<% end %>
+
+
+
+
+<script type="text/javascript">
+
+$("#fileUploader").change(function(){
+    readURL(this);
+});
+
+
+
+$("#cdxUploader").change(function(e){
+
+            var fileName = e.target.files[0].name;
+
+            $('#instant_cdx').text('The file "' + fileName +  '" has been selected.');
+
+        });
+
+
+
+
+  $(document).ready(function () {
+      $("#tag_tokens").tokenInput("/molecules/query_tags.json", {
+              theme: "facebook",
+              placeholder: 'e.g. dye, hormone, macrocycle (separated, by, commas)',
+              tokenValue: "name",
+              allowFreeTagging: true,
+              allowCreation: true,
+              creationText: 'Add new element',
+              hintText: 'Enter new tags by typing and hitting ENTER',
+             prePopulate: $('#tag_tokens').data('load')
+            });
+
+  });
+
+
+</script>

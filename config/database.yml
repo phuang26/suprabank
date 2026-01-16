@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: datasets_framework
+  pool: 5
+  username: postgres 
+  host: db  
+  port: 5432
+
+
+

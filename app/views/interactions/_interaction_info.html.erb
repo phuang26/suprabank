@@ -1,0 +1,26 @@
+<%- model_class = Interaction -%>
+<div class="page-header container-fluid">
+  <div class="row">
+    <h1 class="col-xs-12"><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+    <p class="col-xs-12">
+    <strong>Interactions</strong> are SupraBank's way to collect information about experiments that describe the binding interaction between molecules. The form for creating an interaction enables you to list all experimental conditions. An interaction is similar to an entry in a table in your scientific publication, but providing machine readable comprehensive information.
+    </p>
+    <p class="col-xs-12">Interactions are bundled in <strong><%= link_to "Datasets", datasets_path %> </strong> in order to publish them on SupraBank.</p>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <%= render 'buttons/create_interactions' %>
+    </div>
+    <div class="col-md-4">
+      <%= render 'buttons/search_interactions' %>
+    </div>
+    <div class="col-md-4">
+      <%= render 'buttons/advanced_search_interactions' %>
+    </div>
+  </div>
+  <div class="row">
+    <p class="col-xs-12">
+    Below you find the latest Interactions on SupraBank.
+    </p>
+  </div>
+</div>

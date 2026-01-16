@@ -1,0 +1,31 @@
+<div class="panel panel-info">
+  <div class="panel-heading panelPubChem">SupraBank is using external services to search and load molecules. Please tell us first what type of molecule you are interested in.
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="btn-group btn-group-justified">
+        <%= link_to pubchem_help_molecules_path, remote: true, id: "pubchem_help_link", class:"btn btn-md btn-default" do %>
+          <%= image_tag "logos/pubchem_logo.svg", size: "150x38" %> <strong style="text-transform: uppercase">Compound/Small molecule</strong>
+        <% end %>
+        <%= link_to pdb_help_molecules_path, remote: true, id: "pdb_help_link", class:"btn btn-md btn-default" do %>
+          <%= image_tag "logos/rcsb_logo.png", size: "138x38" %> <strong style="text-transform: uppercase">Protein</strong>
+        <% end %>
+        <%= link_to framework_help_molecules_path, remote: true, id: "pdb_help_link", class:"btn btn-md btn-default" do %>
+          <%= image_tag "logos/IZA.png", height: "38" %> <strong style="text-transform: uppercase">Framework</strong>
+        <% end %>
+
+      </div>
+      <label class="radio-inline"></label>
+
+      <div id="content" class="col-md-12">
+      </div>
+
+      <div id="cidsearch" class="col-md-12 dynamic-interaction-panel">
+      </div>
+
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div id="message" ></div>
+  </div>
+</div>

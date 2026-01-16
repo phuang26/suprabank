@@ -1,0 +1,19 @@
+<p>Dear <%= @reviewer.full_name %> </p>
+<p>You are the reviewer of some interaction entries</p>
+<table class="table text-center" style="width: 50%">
+  <caption><h3>Overview of pending interactions</h3></caption>
+  <thead>
+    <tr>
+      <th style="text-align: center; ">Submitted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @interactions.submitted.size %></td>
+    </tr>
+  </tbody>
+  <caption><h4>Report of <strong><%= @date %></strong></h4></caption>
+</table>
+<p>Please follow this link to curate and update your entries:
+  <strong><%= link_to "Your Curations", users_revisions_url(@reviewer), style:"color: cadetblue !important;" %></strong>
+</p>

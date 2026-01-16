@@ -1,0 +1,29 @@
+<div class="page-header">
+  <h1>Interactions to curate
+  </h1>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Pending Interactions</h3>
+  </div>
+  <div class="panel-body">
+    <button class="btn btn-md btn-success" disabled="disabled">Accepted</button>
+    <span>
+      <em>Please publish</em>
+    </span>
+    <%= render "table", interactions:@interactions.embargoed, table_id:'accepted' %>
+    <hr>
+    <button class="btn btn-md btn-warning" disabled="disabled">Revision requested</button>
+    <span>
+      <em>Please revise</em>
+    </span>
+    <%= render "table", interactions:@interactions.pending, table_id:'pending' %>
+    <hr>
+    <button class="btn btn-md btn-primary" disabled="disabled">Submitted</button>
+    <span>
+      <em>Under revision</em>
+    </span>
+    <%= render "table", interactions:@interactions.submitted, table_id:'submitted' %>
+  </div>
+</div>

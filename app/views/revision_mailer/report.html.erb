@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row">
+    <h1>SupraBank Daily Revisions Report of <%= ENV["LOGOENV"] %> | <%= ENV["ENVHOST"]  %> </h1>
+    <div class="alert alert-info">
+      Report of <strong><%= @date %></strong>
+    </div>
+  </div>
+  <%= render 'revisions' %>
+</div>

@@ -1,0 +1,34 @@
+<table class="table table-responsive determination_specification">
+  <tbody>
+    <% if dataset&.citation.present? %>
+    <tr>
+      <td class="no_top_border col-md-4"><strong>Citation:</strong></td>
+      <td class="no_top_border col-md-8">
+      <div class="has-tooltip" id="dataset_citation" onclick="copyToClipboard('#dataset_citation')" data-toggle="tooltip" data-placement="top" title="Click to copy">
+        <p class="citation-text">
+          <%= dataset&.citation&.html_safe %>
+        </p>
+      </div>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="no_top_border col-md-4">
+      <strong>Link:</strong>
+      </td>
+      <td class="no_top_border col-md-8"><%= link_to "https://doi.org/" + dataset&.identifier, dataset_path(dataset), target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %></td>
+    </tr>
+    <% if dataset&.bibtex.present? %>
+    <tr>
+      <td class="no_top_border col-md-4">
+      <strong>Export:</strong>
+      </td>
+      <td class="no_top_border col-md-8">
+        <%= link_to " BibTex", {controller: "datasets", action: 'citation_export', id: dataset, export: "bibtex"}, class:'fa fa-download bibtex-export', data: {turbolinks: false} %> |
+        <%= link_to " RIS", {controller: "datasets", action: 'citation_export', id: dataset, export: "ris"}, class:'fa fa-download ris-export', data: {turbolinks: false} %> |
+        <%= link_to " EndNote", {controller: "datasets", action: 'citation_export', id: dataset, export: "endnote"}, class:'fa fa-download endnote-export', data: {turbolinks: false} %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,169 @@
+<h4 id="TD_unit" class="level3">Unit and stoichiometry</h4>
+
+<p class="item">
+  Strictly speaking, equilibrium constants and, thus, binding constants, are defined based on relative activities and are therefore unitless. For solutions, mostly absolute concentrations instead of relative activities are considered and, accordingly,
+  the association constants based on concentration have units as M<sup>-x</sup>.
+  <a href="#t1">Table 1</a>
+  gives an overview about common host-guest complex stoichiometry and the corresponding units.
+  <br>
+</p>
+
+<p id="t1" class="item">
+  Tab. 1: Examples of host-guest complex stoichiometries
+</p>
+
+<table class="table table-responsive">
+  <thead>
+    <tr>
+      <th class="col-md-1 text-center">
+        H:G ratio
+      </th>
+      <th class="col-md-2 text-center">
+        <em>K</em><sub>a</sub>
+        equation
+      </th>
+      <th class="col-md-1 text-center">
+        unit
+      </th>
+      <th class="col-md-8">
+        Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center">
+        1:1
+      </td>
+      <td>
+        <%= image_tag "glossary/f_k14.png", class:"eq", width: "130px"%>
+      </td>
+      <td class="text-center">
+        M<sup>-1</sup>
+      </td>
+      <td>
+        <a href="#direct_binding_assay">direct-binding assay</a>:
+        <em>e.g.</em>
+        cucurbit[7]uril (CB[7]) as host and phenylalanine as guest.<a href="interactions/3038">
+          <sup>[Suprabank]</sup>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center">
+        1:2
+      </td>
+      <td>
+        <%= image_tag "glossary/f_k15.png", class:"eq", width: "130px"%>
+      </td>
+      <td class="text-center">
+        M<sup>-2</sup>
+      </td>
+      <td>
+        <a href="#direct_binding_assay">direct-binding assay</a>: two guests bind concertedly to one host,
+        <em>e.g.</em>
+        two N-terminal aromatic peptides as Trp-Gly-Gly in CB[8].<a href="interactions/6119">
+          <sup>[Suprabank]</sup>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center">
+        2:1
+      </td>
+      <td>
+        <%= image_tag "glossary/f_k16.png", class:"eq", width: "130px"%>
+      </td>
+      <td class="text-center">
+        M<sup>-2</sup>
+      </td>
+      <td>
+        <a href="#direct_binding_assay">direct-binding assay</a>: one guest binds concurrently two hosts,
+        <em>e.g.</em>
+        the encapsulation of DABP by two CB[7] cavities.<a href="interactions/5847">
+          <sup>[Suprabank]</sup>
+        </a>
+      </td>
+    </tr>
+    <tr >
+      <td class="tablefoot text-center">
+        3:1
+      </td>
+      <td class="tablefoot">
+        <%= image_tag "glossary/f_k17.png", class:"eq", width: "130px"%>
+      </td>
+      <td class="tablefoot text-center">
+        M<sup>-3</sup>
+      </td>
+      <td class="tablefoot">
+        <a href="#direct_binding_assay">direct-binding assay</a>: three guest molecules bind concertedly to one host molecule, like the encapsulation of styrylcoumarin into three CB[7] molecules.<a href="interactions/5842">
+          <sup>[Suprabank]</sup>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p id="jobs" class="item">
+  <br>
+  A popular method to determine the stoichiometry,
+  <em>i.e.</em>
+  the H:G ratio, is the
+  <b>
+    Job plot</b>
+  or Job’s method.<a href="#TD_ref">
+    <sup>[2]</sup>
+  </a>
+  The idea behind is really simple: if the sum of the total concentrations of host and guest is constant ([H]<sub>0</sub>
+  + [G]<sub>0</sub>
+  = constant), the concentration of the complex H<sub>m</sub>G<sub>n</sub>
+  is at maximum when the concentration ratio [H]/[G] is equal to the H:G ratio (m/n). Practically, the host and guest concentrations are varied such that the sum of the total concentrations of host and guest is constant. Then, for instance, the
+  <a href="#abs">UV-Vis absorbance</a>
+  or the
+  <a href="#nmr">NMR chemical shift</a>
+  is detected giving a measure for the complex concentration. Finally, this signal read-out is plotted against the
+  <b>mole fraction f<sub>G</sub>
+  </b>
+  of the guest with:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_k18.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  The maximum of the curve is at the mole fraction f<sub>G</sub>
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_k19.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  The following
+  <a href="#f13">
+    Figure 13
+  </a>
+  shows a UV-Vis absorbance Job plot with an 1:1 stoichiometry of host and guest.
+</p>
+
+<p id="f13" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/fig_jobs.png", class:"figure"%>
+  <figcaption class="gloss_caption">
+    Fig. 13: UV-Vis absorbance Job plot of an 1:1 host-guest complex.</figcaption>
+</figure>
+
+<p class="item">
+  However, recent analysis<a href="#TD_ref">
+    <sup>[3]</sup>
+  </a>
+  suggest to use Job plot only to verify a 1:1 complex as it is unreliable for other stoichiometries. A best fit approach with different binding models was found to be a better way for the stoichiometry determination. Among others, the software package
+  <a href="#SimFit_tools">thermoSimFit</a>
+  offers this best fit approach.
+</p>
+
+<p class="item">
+  <b>Note</b>: If this or any other method has been utilized to confirm the presumed host-guest binding stoichiometry, please indicate this in the comments field provided in SupraBank.
+</p>
+<!-- #reviewed 4.2.2021 -->

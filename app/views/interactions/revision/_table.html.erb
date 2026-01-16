@@ -1,0 +1,108 @@
+<div class="table-responsive">
+ <table class="table col-md-12" id="int-index-<%= table_id %>" data-turbolinks='false'>
+  <thead>
+    <tr>
+      <th class="col-md-2"><span data-toggle="tooltip" title="Sort by name of User">Actions / Info</span ></th>
+      <th class="no-sort" style="text-align: right;">
+         <button class="btn btn-sm btn-primary has-tooltip " id="tableMolName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewMolStructure('<%= table_id %>')">
+           <%= image_tag "struc.svg", size:"17x17" %>
+         </button></th>
+      <th class="col-md-2"><span >Molecule</span> </th>
+      <th class="no-sort" style="text-align: right;">
+         <button class="btn btn-sm btn-primary has-tooltip " id="tableMolStruc-<%= table_id %>" type="button" data-toggle="tooltip" title="Show names" onclick="viewMolNames('<%= table_id %>')">
+              <i class="fa fa-list" aria-hidden="true"></i>
+         </button></th>
+      <th class="col-md-2" ><span >Molecule</span></th>
+      <th class="no-sort" style="text-align: right;">
+         <button class="btn btn-sm btn-primary has-tooltip " id="tablePartName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewPartStructure('<%= table_id %>')">
+            <%= image_tag "struc.svg", size:"17x17" %>
+         </button></th>
+      <th class="col-md-2"><span >Partner</span></th>
+      <th class="no-sort" style="text-align: right;">
+           <button class="btn btn-sm btn-primary has-tooltip " id="tablePartStruc-<%= table_id %>"type="button" data-toggle="tooltip" title="Show names" onclick="viewPartNames('<%= table_id %>')">
+                <i class="fa fa-list" aria-hidden="true"></i>
+           </button></th>
+      <th class="col-md-2" ><span >Partner</span></th>
+      <th class="no-sort"></th>
+      <th class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="decadic logarithm of the binding constant">lg<em>K</em><sub>a</sub> </span></th>
+      <th class="col-md-1">DOI</th>
+      <th class="col-md-1">Reviewer</th>
+      <th><i class="fas fa-marker"></i></th>
+      <th><i class="fas fa-magic"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interactions.each do |interaction| %>
+      <% if policy(interaction).displayable? %>
+      <tr>
+          <td class="col-md-2 tight-column">
+            <%= render "interactions/revision/tds/td_info_new", interaction:interaction %>
+          </td>
+<!-- Molecule structure button -->
+          <td class="" >
+          </td>
+
+          <td class="col-md-2">
+            <%= render "interactions/revision/tds/td_molecule_name", interaction:interaction %>
+          </td>
+<!-- Molecule name button -->
+
+          <td class="" >
+          </td>
+
+          <td class="col-md-2" style="height: 160px">
+            <%= render "interactions/revision/tds/td_molecule_structure", interaction:interaction %>
+          </td>
+<!-- Host structure button -->
+          <td class="" >
+          </td>
+
+          <td class="col-md-2">
+            <%= render "interactions/revision/tds/td_host_name", interaction:interaction %>
+          </td>
+<!-- Host name button -->
+          <td class="" >
+          </td>
+
+          <td class="col-md-2" style="height: 160px">
+            <%= render "interactions/revision/tds/td_host_structure", interaction:interaction %>
+          </td>
+
+          <td class="center">
+            <%= render "interactions/revision/tds/td_ka_range", interaction:interaction %>
+          </td>
+
+          <td class="col-md-1 center">
+              <%= render "interactions/revision/tds/td_logka", interaction:interaction %>
+          </td>
+          <td class="col-md-1">
+            <%= render "interactions/revision/tds/td_doi", interaction:interaction %>
+          </td>
+          <td class="col-md-1">
+            <%= link_to interaction.reviewer.givenName, interaction.reviewer, target:"_blank"  %>
+          </td>
+          <td>
+            <%= render "interactions/revision/tds/td_updated", interaction:interaction %>
+          </td>
+          <td>
+            <%= render "interactions/revision/tds/td_created", interaction:interaction %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+  window.alert = (function() {
+    var nativeAlert = window.alert;
+    return function(message) {
+        window.alert = nativeAlert;
+        message.indexOf("DataTables warning") === 0 ?
+            console.warn(message) :
+            nativeAlert(message);
+    }
+  })();
+</script>

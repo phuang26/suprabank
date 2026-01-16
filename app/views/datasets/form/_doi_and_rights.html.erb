@@ -1,0 +1,29 @@
+<div class="container-flex">
+  <div class="row">
+    <div class="col-md-6 dataset-form-panel">
+      <label for="" class="bootstrap-label">Reference DOI</label>
+      <%= f.input :primary_reference, as: :string, label: false, :placeholder =>"You have the DOI from the manuscript? Place it here! If not? Do it later!" %>
+    </div>
+    <div class="col-md-6">
+      <%= render "datasets/form/crossref" %>
+    </div>
+  </div>
+<hr class="dataset-ruler">
+<div class="row">
+  <div class="col-md-6 dataset-form-panel">
+    <div class="form-group">
+      <label for="rights" class="form-control-label bootstrap-label">Licence</label>
+      <!-- <select name="dataset[rights]" id="dataset_rights" class="form-control"> <option value="Creative Commons Attribution 4.0 International">Creative Commons Attribution 4.0 International</option> <option value="Creative Commons Attribution Share
+      Alike 4.0 International">Creative Commons Attribution Share Alike 4.0 International</option> <option value="Creative Commons Zero v1.0 Universal">Creative Commons Zero v1.0 Universal</option> </select> -->
+      <%= f.select :rights, [["Creative Commons Attribution 4.0 International", "Creative Commons Attribution 4.0 International"], ["Creative Commons Attribution Share Alike 4.0 International", "Creative Commons Attribution Share Alike 4.0 International"],
+      ["Creative Commons Zero v1.0 Universal", "Creative Commons Zero v1.0 Universal"] ], {}, {class: 'form-control'}%>
+    </div>
+  </div>
+  <div class="col-md-6 dataset-form-panel" ">
+    <div class="form-group">
+      <label for="rights" class="form-control-label bootstrap-label"></label>
+      <a id="datasets_rights_information" href="" target="_blank" rel="noopener noreferrer" class="external-link middle"></a>
+    </div>
+  </div>
+</div>
+</div>

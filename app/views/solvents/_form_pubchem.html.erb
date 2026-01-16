@@ -1,0 +1,108 @@
+<%= form_for @solvent, :html => { :class => "form-horizontal solvent" } do |f| %>
+  <% if @solvent.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@solvent.errors.count, "error") %> prohibited this solvent from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <% @solvent.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="container col-md-12">
+    <div class="col-md-6">
+      <label class="btn btn-primary btn-change-avatar  login_button"  style="margin-bottom: 30px;">
+        Upload new structure
+        <span style="display:none;">
+          <%= f.file_field :png, id: "fileUploader", accept: 'image/png, image/gif, image/jpeg'%>
+        </span>
+      </label>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag @solvent.png_url, alt:"Structure", id:"instant_image", class:"img-rounded instant-image"%>
+    </div>
+  </div>
+  <div class="container col-md-12">
+    <hr>
+  </div>
+  <div class="container col-md-12">
+    <div class="form-group">
+      <div class="col-md-3">
+        <%= f.label :display_name, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-9">
+        <%= f.text_field :display_name, :class => 'form-control' %>
+      </div>
+      <%=f.error_span(:display_name) %>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3">
+        <%= f.label :preferred_abbreviation, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-9">
+        <%= f.text_field :preferred_abbreviation, :class => 'form-control' %>
+      </div>
+      <%=f.error_span(:preferred_abbreviation) %>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3">
+        <%= f.label :cas,"CAS", :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-9">
+        <%= f.text_field :cas, :class => 'form-control' %>
+      </div>
+      <%=f.error_span(:cas) %>
+    </div>
+    <% if current_user == User.where(email:"stephan.sinn@kit.edu").first %>
+      <div class="form-group">
+        <div class="col-md-3">
+          <%= f.label :png,"solvent Image", :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-9">
+          <%= f.file_field :png %>
+        </div>
+        <%=f.error_span(:png) %>
+      </div>
+    <% end %>
+  </div>
+  <div class="container col-md-12">
+    <hr>
+  </div>
+  <div class="container col-md-12">
+    <div class="form-group">
+      <%= f.submit nil, :class => 'btn btn-primary login_button' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                solvents_path, :class => 'btn btn-default select_button' %>
+    </div>
+  </div>
+  <div class="container col-md-12">
+    <hr>
+  </div>
+  <div class="container col-md-12">
+    <div class="panel-default panel">
+      <div class="panel-heading">
+        <h4>Synonyms</h4>
+      </div>
+      <div class="panel-body ">
+        <div class="container">
+          <% @solvent.names.each do |element| %>
+            <ul class="list-inline ul-names">
+              <li class="li-names"><strong><%= element %></strong></li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<script>
+  $(document).on('turbolinks:load', function () {
+    $("#fileUploader").change(function(){
+      readURL(this);
+    });
+  });
+</script>

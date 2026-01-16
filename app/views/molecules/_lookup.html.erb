@@ -1,0 +1,39 @@
+<div class="col-md-12" >
+  <h3 style="margin-top: 30px; margin-bottom: 20 px">PubChem powered search <%= link_to (image_tag("logos/pubchem_logo.svg", size: "150x38")), "https://pubchem.ncbi.nlm.nih.gov/", target: :_blank, class:"pull-right" %></h3>
+</div>
+<div class="col-md-12">
+  <br>
+</div>
+
+<div class="form-group" id="molecule-lookup">
+  <%= form_tag pubchem_request_molecules_path, remote: true, method: :get, id: "molecule-lookup-form" do %>
+  <div class="form-group row">
+    <div class="col-md-8">
+      <%= text_field_tag :molecule, params[:molecule], placeholder: "by Molecule Name or CAS", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1">
+      <div id='loader'>
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= button_tag(type: :submit, class: "btn btn-primary btn-lg search_button", onclick: "showLoader('pubchem')") do %>
+        <i class="fa fa-search"></i> Search in PubChem
+      <% end %>
+    </div>
+  </div>
+
+ <div class="form-group row">
+   <div class="col-md-9">
+   </div>
+    <div class="col-md-3">
+      <span class="has-tooltip" data-toggle="ajax-tooltip" title="The CID is unambigiuous, unlike the name"><button type="button" name="button" id="cid-button" class="btn btn-default btn-lg search_button ">Use CID Instead</button></span>
+    </div>
+</div>
+
+</div>
+  <% end %>
+
+  <div class="container col-md-12" id='results'>
+    <%= render 'molecules/result' %>
+  </div>

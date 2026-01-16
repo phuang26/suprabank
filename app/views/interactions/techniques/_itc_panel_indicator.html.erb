@@ -1,0 +1,28 @@
+
+<div class="form-group" style="margin-top: 40px">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+    <label for="" class="control-label form-label">Indicator:</label>
+  </div>
+
+  <div class="col-md-3 itc_position_radio">
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :indicator_cell, true , class:"indicator_cell custom_radio itc_radio", checked:"checked", onchange: "calculateConcFromITC('indicator')", data: {species: "indicator"} %><span></span>
+        Cell
+      </label>
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :indicator_cell, false, class:"indicator_cell custom_radio itc_radio",  onchange: "calculateConcFromITC('indicator')" , data: {species: "indicator"} %><span></span>
+        Syringe
+      </label>
+  </div>
+  <div class="col-md-1 unit control-label">
+    <%= technique.label :concentration_indicator, "C<sub>indicator</sub>".html_safe, class:"form-label" %>
+  </div>
+
+  <div class="col-md-4" >
+    <%= technique.text_field :concentration_indicator, :class => 'form-control' , placeholder:"concentration indicator", onchange: "checkValidNumber(this), calculateConcFromITC('indicator')" %>
+  </div>
+
+  <label class="control-label col-md-1 unit"> &#120583;M </label>
+</div>

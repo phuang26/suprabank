@@ -1,0 +1,2 @@
+$("#interactions_index_content").html("<%= escape_javascript(render 'ransack_table', interactions:@interactions, table_id:'molecules') %>");
+$('#interactions_index_paginator').html('<%= escape_javascript(paginate(@interactions, btncolor:"primary", :remote => true).to_s) %>');

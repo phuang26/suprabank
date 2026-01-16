@@ -1,0 +1,27 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Summary</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>New Interactions</th>
+          <th>New Molecules</th>
+          <th>New Solvents</th>
+          <th>New Additives</th>
+          <th>New Buffers</th>
+          <th>New Users</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> <%= @interactions.size %> </td>
+        <td> <%= @molecules.size %> </td>
+        <td> <%= @solvents.size %> </td>
+        <td> <%= @additives.size %> </td>
+        <td> <%= @buffers.size %> </td>
+        <td> <%= @users.size %> </td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+ <%- model_class = Framework -%>     
+<tr>
+  <td><%= model_class.human_attribute_name(:name) %>:</td>
+  <td><%= framework.name %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:code) %>:</td>
+  <td><%= framework.code %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:iza_url) %>:</td>
+  <td><%=link_to framework.iza_url, framework.iza_url, target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:crystal_system) %>:</td>
+  <td><%= framework.crystal_system %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:space_group) %>:</td>
+  <td><%= framework.space_group %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_a) %>:</td>
+  <td><%= framework.unit_cell_a %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_b) %>:</td>
+  <td><%= framework.unit_cell_b %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_c) %>:</td>
+  <td><%= framework.unit_cell_c %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_alpha) %>:</td>
+  <td><%= framework.unit_cell_alpha %></td>
+  <td>°</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_beta) %>:</td>
+  <td><%= framework.unit_cell_beta %></td>
+  <td>°</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:unit_cell_gamma) %>:</td>
+  <td><%= framework.unit_cell_gamma %></td>
+  <td>°</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:volume) %>:</td>
+  <td><%= framework.volume %></td>
+  <td>&#8491;&sup3;</td>
+</tr>
+<tr>
+  <td>R<sub>DLS</sub>:</td>
+  <td><%= framework.rdls %></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Framework density FD<sub>Si</sub>:</td>
+  <td><%= framework.framework_density %></td>
+  <td>T/1000 &#8491;&sup3;</td>
+</tr>
+<tr>
+  <td>Topological density TD:</td>
+  <td><%= framework.topological_density %></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Topological density TD<sub>10</sub>:</td>
+  <td><%= framework.topological_density_10 %></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Ring sizes (# T-atoms):</td>
+  <td><%= framework.ring_sizes %></td>
+  <td></td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:channel_dimensionality) %>:</td>
+  <td><%= framework.channel_dimensionality %></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Max diameter of a sphere that can be included:</td>
+  <td><%= framework.max_d_sphere_included %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td>Max diameter of a sphere that can diffuse along a:</td>
+  <td><%= framework.max_d_sphere_diffuse_a %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td>Max diameter of a sphere that can diffuse along b:</td>
+  <td><%= framework.max_d_sphere_diffuse_b %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td>Max diameter of a sphere that can diffuse along c:</td>
+  <td><%= framework.max_d_sphere_diffuse_c %></td>
+  <td>&#8491;</td>
+</tr>
+<tr>
+  <td><%= model_class.human_attribute_name(:accessible_volume) %>:</td>
+  <td><%= framework.accessible_volume %></td>
+  <td>%</td>
+</tr>

@@ -1,0 +1,43 @@
+<div class="form-group row">
+  <div class="col-md-3" style="text-align:left;">
+    <label class="labelAlign" for="q_solvents_display_name_eq"><i class="fas fa-trash"></i> Solvent</label>
+  </div>
+  <div class="col-md-9">
+    <%= f.search_field :solvents_display_name_eq, class:"form-control search-box searchfield refinement-input", placeholder: "type and select", data: {autocomplete_source: query_solvents_path }  %>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-md-3" style="text-align:left;">
+    <label class="labelAlign" for="q_buffer_name_eq"><i class="fas fa-trash"></i> Buffer</label>
+  </div>
+  <div class="col-md-9">
+    <%= f.search_field :buffer_name_eq, class:"form-control search-box searchfield refinement-input", placeholder: "type and select", autofocus: true, data: {autocomplete_source: query_buffers_path }  %>
+  </div>
+</div>
+<div class="form-group row">
+<div class="col-md-12" id="loaded-buffer">
+
+</div>
+</div>
+<div class="form-group row">
+  <div class="col-md-3" style="text-align:left;">
+    <label for="q_pH_gteq_any" class="alignLabel" > <i class="fas fa-trash"></i> pH </label>
+  </div>
+  <div class="col-md-5">
+    <%= f.search_field :pH_gteq_any, placeholder: "from", autofocus: true, class: "form-control search-box searchfield refinement-input" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.search_field :pH_lteq_any, placeholder: "to", autofocus: true, class: "form-control search-box searchfield refinement-input" %>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-md-3" style="text-align:left;">
+    <label for="q_temperature_gteq_any" class="alignLabel" > <i class="fas fa-trash"></i> T / °C </label>
+  </div>
+  <div class="col-md-5">
+    <%= f.search_field :temperature_gteq_any, placeholder: "from", autofocus: true, class: "form-control search-box searchfield refinement-input" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.search_field :temperature_lteq_any, placeholder: "to", autofocus: true, class: "form-control search-box searchfield refinement-input" %>
+  </div>
+</div>

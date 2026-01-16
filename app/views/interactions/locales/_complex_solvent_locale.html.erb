@@ -1,0 +1,99 @@
+<tr>
+</tr>
+<% number = 0 %>
+<% for intsol in @interaction.interaction_solvents.order(:id) do %>
+  <tr>
+    <% if intsol.solvent.present? %>
+      <td  class="<%= 'no_top_border' unless number == 0 %> col-md-2">
+        <% if number == 0 %>
+          <strong >Solvents</strong>
+        <% end %>
+      </td>
+      <td class="col-md-2">
+        <span class="has-js-popover" data-toggle="popover" title="Structure"
+    data-content='
+    <div class="">
+          <% if intsol.solvent.present? %>
+            <%= image_tag intsol.solvent.png_url, size: "250x250"%>
+          <% end %>
+        </div>
+        ' >
+        <% if intsol.solvent %>
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= intsol.solvent.display_name if intsol.solvent.display_name.present? %>">
+            <%= intsol.solvent.preferred_abbreviation.present? ? intsol.solvent.preferred_abbreviation.truncate(18) : intsol.solvent.display_name.truncate(18)  %>
+          </span>
+        <% end %>
+      </span>
+    </td>
+    <% if intsol.volume_percent.present? %>
+      <td class="col-md-2">
+        <span class="has-tooltip" data-toggle="tooltip" title="Percentage by volume"><%= intsol.volume_percent %> %</span>
+      </td>
+    <% end %>
+  <% end %>
+</tr>
+<% number = number+1 %>
+<% end %>
+<tr>
+  <td class="no_top_border col-md-1"></td>
+</tr>
+<% if @interaction.interaction_additives.present? %>
+  <% number = 0 %>
+  <% for intsol in @interaction.interaction_additives.order(:id) do %>
+    <tr>
+      <% if intsol.additive.present? %>
+        <td  class="<%= 'no_top_border' unless number == 0 %> col-md-1">
+          <% if number == 0 %>
+            <strong >Additives</strong>
+          <% end %>
+        </td>
+        <td class="col-md-2">
+          <span class="has-js-popover" data-toggle="popover" title="Structure"
+      data-content='
+      <div class="">
+            <% if intsol.additive.present? %>
+              <%= image_tag intsol.additive.png_url, size: "250x250"%>
+            <% end %>
+          </div>
+          ' >
+          <% if intsol.additive %>
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= intsol.additive.display_name if intsol.additive.display_name.present? %>">
+              <%= intsol.additive.preferred_abbreviation.present? ? intsol.additive.preferred_abbreviation.truncate(18) : intsol.additive.display_name.truncate(18)  %>
+            </span>
+          <% end %>
+        </span>
+      </td>
+      <% if intsol.concentration.present? %>
+        <td class="col-md-1">
+          <span class="has-tooltip" data-toggle="tooltip" title="Concentration of Additive"><%= intsol.concentration %></span><span class="unit"> mM</span>
+        </td>
+      <% end %>
+    </tr>
+    <% number = number+1 %>
+  <% end %>
+<% end %>
+<% end %>
+  <% if @interaction.solvent_system == "Buffer System" %>
+    <tr>
+      <td><strong>Source of Concentration</strong></td>
+      <td> <%= @interaction.buffer&.sourceofconcentration %> </td>
+    </tr>
+  <% end %>
+<% if @interaction.ionic_strength.present? %>
+  <tr>
+    <td class="col-md-1 "><strong>Total concentration</strong></td>
+    <td class="col-md-1"><span><%= @interaction.ionic_strength %> </span> mM</td>
+  </tr>
+<% end %>
+<% if @interaction.pH.present? %>
+  <tr>
+    <td  class=" col-md-1"><strong >pH</strong></td>
+    <td class="col-md-2"><%= @interaction.pH %> </td>
+  </tr>
+<% end %>
+<% if @interaction.solubility.present? %>
+  <tr>
+    <td class="col-md-1 "><strong>Solubility</strong></td>
+    <td class="col-md-1"><span><%= @interaction.solubility %> </span> mM</td>
+  </tr>
+<% end %>

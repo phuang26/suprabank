@@ -1,0 +1,292 @@
+<div class="page-header normalWidthOnLargeScreens">
+ <h1><%= t('.sign_up') %></h1>
+ <p><br></p>
+ </div>
+
+ <div class="row col-md-12 normalWidthOnLargeScreens">
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= bootstrap_devise_error_messages! %>
+
+
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :email, class: "alignLabel" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.email_field :email, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+  <div class="form-group row">
+     <div class="col-md-2">
+        <%= f.label :givenName, "Given Name", class: "alignLabel" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.text_field :givenName, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+  <div class="form-group row">
+      <div class="col-md-2">
+        <%= f.label :familyName, "Family Name", class: "alignLabel" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.text_field :familyName, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+    <div class="form-group row">
+      <% if resource.avatar.present? %>
+      <div class="col-md-2">
+      <%= image_tag resource.avatar.url, alt:"You Image", id:"instant_image", class:"img-rounded instant-image"%>
+      </div>
+      <% else %>
+      <div class="col-md-2">
+      <%= image_tag "blank-user-profile.png", alt:"You Image", id:"instant_image", class:"img-rounded instant-image"%>
+      </div>
+      <% end %>
+      <div class="col-md-6">
+        <label class="btn btn-primary btn-change-avatar search_button">
+          Upload new image
+          <span style="display:none;">
+             <%= f.file_field :avatar, id: "fileUploader", accept: 'image/png, image/gif, image/jpeg'%>
+         </span>
+        </label>
+      </div>
+      <div class="col-md-1">
+
+      </div>
+      <div id='loader' class="col-md-1">
+        <%= image_tag "preloader/default_trans.gif", size:"64x64"%>
+      </div>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+
+  <hr>
+
+  <div class="form-group row">
+      <div class="col-md-2">
+        <%= f.label :nameIdentifier, "ORCID", class: "alignLabel"  %> <%= image_tag "logos/orcid.png", size: "16x16" %>
+      </div>
+      <div class="col-md-6">
+        <%= f.text_field :nameIdentifier, autofocus: true, class: 'form-control' %>
+      </div>
+      <div class="col-md-4">
+         <%= link_to 'Let SupraBank search for your ORCID', orcid_modal_users_path, { :remote => true, method: :post, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class => "btn btn-primary search_button ", :id => "modal_request"}  %>
+        <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+      </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :affiliation, class: "alignLabel"  %> <%= image_tag "logos/ror.png", size: "16x16" %>
+        <%= f.hidden_field :affiliationIdentifier %>
+    </div>
+    <div class="col-md-6">
+        <%= f.text_field :affiliation, :class => 'form-control' , placeholder: "live search", data: {autocomplete_source: query_affiliation_path }%>
+    </div>
+    <div class="col-md-4">
+      <span id="affiliationIdentifier">  <%= link_to @user.affiliationIdentifier.present? ? @user.affiliationIdentifier : "" %> </span>
+
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :url, class: "alignLabel"  %>
+      </div>
+      <div class="col-md-6">
+        <%= f.text_field :url, autofocus: true, autocomplete: 'name', class: 'form-control', placeholder:"You might having a website/blog or other profile listing page" %>
+      </div>
+  </div>
+
+  <hr>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 ">
+          <p><strong>Role in your Research Unit</strong></p>
+          <label class="radio-inline control-label"><%= f.radio_button :desired_role, 'Group Member', id:'group_member_new' , class:"role", disabled: true %> Group Member
+          </label>
+          <label class="radio-inline control-label"><%= f.radio_button :desired_role, 'Group Leader', id:'group_leader_new', class:"role", disabled: true %> Group Leader
+          </label>
+          <label class="radio-inline control-label"><%= f.radio_button :desired_role, 'independent', id:'independent_new', class:"role", checked:true   %> independent
+          </label>
+        </div>
+
+      </div>
+      <div class="row" id="groupAssignmentInfo">
+        <div class="col-md-12">
+          <p class="text-info"><strong>Note:</strong> After you signed up and confirmed your account (check your emails comprising your spam folder) you will be able to join a research group or create your own!</p>
+        </div>
+      </div>
+    </div>
+
+
+  <hr>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+    <%= f.label :password, class: "alignLabel" %>
+    </div>
+    <div class="col-md-10">
+    <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
+
+    <% if @minimum_password_length %>
+      <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+    <%= f.label :password_confirmation, "Confirm password", class: "alignLabel" %>
+  </div>
+  <div class="col-md-10">
+    <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
+  </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-2">
+      <label for="" class="alignLabel">Are you a robot?</label>
+    </div>
+    <div class="col-md-10">
+      <%= recaptcha_tags %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
+    <%= f.submit t('.sign_up'), class: 'btn btn-primary search_button' %>
+   </div>
+   <div class="col-md-4">
+   </div>
+  </div>
+<% end %>
+
+<div class="form-group row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-10">
+   <%= render 'devise/shared/links' %>
+  </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).on('ready turbolinks:load', function(){
+        $('.role').on('change', function() {
+          var val = $('.role:checked').val();
+          switch (val) {
+            case 'Group Leader':
+              $("#group_info_panel").show();
+              return event.preventDefault();
+              break;
+
+            case 'Group Member':
+              $("#group_info_panel").show();
+              return event.preventDefault();
+              break;
+
+            case 'independent':
+              $("#group_info_panel").hide();
+              return event.preventDefault();
+              break;
+            }
+        });
+    });
+
+    $(document).on('ready turbolinks:load', function(){
+
+          var val = $('.role:checked').val();
+          switch (val) {
+            case 'Group Leader':
+              $("#group_info_panel").show();
+              return event.preventDefault();
+              break;
+
+            case 'Group Member':
+              $("#group_info_panel").show();
+              return event.preventDefault();
+              break;
+
+            case 'independent':
+              $("#group_info_panel").hide();
+              return event.preventDefault();
+              break;
+            }
+    });
+
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#instant_image').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#fileUploader").change(function(){
+    readURL(this);
+});
+
+  $(document).ready(function() {
+    $('#user_affiliation').autocomplete({
+    source: $('#user_affiliation').data('autocomplete-source'),
+    focus: function( event, affiliation ) {
+      $( "#user_affiliation" ).val( affiliation.item[0] );
+      return false;
+    },
+      select: function( event, affiliation ) {
+        $( "#user_affiliation" ).val( affiliation.item[0] );
+        $( "#affiliationIdentifier" ).text( affiliation.item[1] );
+        $( "#user_affiliationIdentifier" ).val( affiliation.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+        .appendTo( ul );
+      };
+    });
+
+    $(document).ready(function() {
+      $('#modal_request').click(function(){
+        var href = "/users/orcid_modal";
+        var fn = $('#user_givenName').val();
+        var ln = $('#user_familyName').val();
+
+        // href = $(this).attr('href');
+        var queryhref = href + "?givenName=" + fn + "&familyName=" + ln;
+        $(this).attr('href', queryhref);
+        // var queryString = '?street=' +  encodeURIComponent($('#form').text());
+        // $('#form').attr('href', href + queryString );
+      });
+  });
+
+
+
+          $(document).ready(function(){
+          var $loading = $('#loader').hide();
+          $(document)
+            .ajaxStart(function () {
+              $loading.show();
+            })
+            .ajaxStop(function () {
+              $loading.hide();
+            });  });
+</script>

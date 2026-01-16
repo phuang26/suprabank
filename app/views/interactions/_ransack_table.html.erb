@@ -1,0 +1,137 @@
+<% if @interactions.present? %>
+  
+<%= page_entries_info @interactions %>
+
+<div class="table-responsive">
+<table class="table" id="int-index-<%= table_id ||="molecules" %>" >
+    <thead>
+      <tr>
+        <th class="col-md-1 no-sort tight-column " > <span class="has-js-popover" id="explainPopup" data-toggle="popover" data-container="body" title= "<span class='text-info'><strong>Try it!</strong></span>
+              <button type='button' id='close' class='close' onclick='$(&quot;#explainPopup&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+              style=""
+        data-content='Click the blue buttons in the table head to show the substance names and again to show the structures. Click on the chemical names or structures in the table for more information as <em>e.g.</em> enlargable structures.</p>' >Info </span> </th>
+        <th class="no-sort" style="text-align: right;">
+           <button class="btn btn-sm btn-primary has-tooltip " id="tableMolName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewMolStructure('<%= table_id %>')">
+               <%= image_tag "struc.svg", size:"17x17" %>
+            </button>
+         </th>
+        <th class="col-md-2 no-sort"><span> Molecule <%= sort_link(@q, :molecule_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tableMolStruc-<%= table_id %>" type="button" data-toggle="tooltip" title="Show names" onclick="viewMolNames('<%= table_id %>')">
+               <i class="fa fa-list" aria-hidden="true"></i>
+          </button>
+        </th>
+        <th class="col-md-2 no-sort" ><span> Molecule <%= sort_link(@q, :molecule_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tablePartName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewPartStructure('<%= table_id %>')">
+             <%= image_tag "struc.svg", size:"17x17" %>
+           </button>
+         </th>
+        <th class="col-md-2 no-sort"><span>Partner <%= sort_link(@q, :host_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tablePartStruc-<%= table_id %>" type="button" data-toggle="tooltip" title="Show names" onclick="viewPartNames('<%= table_id %>')">
+               <i class="fa fa-list" aria-hidden="true"></i>
+          </button>
+        </th>
+        <th class="col-md-2 no-sort" ><span>Partner <%= sort_link(@q, :host_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort"></th>
+        <th class="col-md-2 no-sort hidden-xs"><span class="has-tooltip" data-toggle="tooltip" title="binding affinity"> <em>K</em><sub>a</sub> </span><%= sort_link(@q, :binding_constant, "")%></th>
+        <th class="col-md-2 no-sort"><span class="has-tooltip" data-toggle="tooltip" title="Decadic logarithm of the binding affinity">log <em>K</em><sub>a</sub> </span></th>
+        <th class="col-md-1 no-sort hidden-xs">Conditions</th>
+        <th class="col-md-2 no-sort hidden-xs">Supplement</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+      <% @interactions.each do |interaction| %>
+        <% if policy(interaction).displayable? %>
+
+          <tr>
+            <td class="col-md-2 tight-column">
+              <%= render "interactions/interaction_table/td_info_new", interaction:interaction %>
+            </td>
+  <!-- Molecule structure button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2  img-td">
+              <%= render "interactions/interaction_table/td_molecule_name", interaction:interaction %>
+            </td>
+  <!-- Molecule name button -->
+
+            <td class="" >
+            </td>
+
+            <td class="col-md-2 img-td" style="height: 160px">
+              <%= render "interactions/interaction_table/td_molecule_structure", interaction:interaction %>
+            </td>
+  <!-- Host structure button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2  img-td">
+              <%= render "interactions/interaction_table/td_host_name", interaction:interaction %>
+            </td>
+  <!-- Host name button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2 img-td" style="height: 160px">
+              <%= render "interactions/interaction_table/td_host_structure", interaction:interaction %>
+            </td>
+
+
+            <td class="center">
+              <%= render "interactions/interaction_table/td_ka_range", interaction:interaction %>
+            </td>
+
+            <td class="col-md-1 hidden-xs" >
+              <span class="scientificKa"><%= interaction.convert_to_scientific.html_safe %> <%= interaction.convert_unit.html_safe %></span>
+            </td>
+
+            <td class="col-md-1 center">
+                <%= render "interactions/interaction_table/td_logka", interaction:interaction %>
+            </td>
+
+            <td class="col-md-1 hidden-xs">
+              <% if interaction.solvent_system.present?  %>
+                <% if interaction.solvent_system == "Single Solvent"  %>
+
+                  <% if interaction.solvents.first.present?  %>
+                  <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.solvents.first.display_name}, " %> <%= "pH =  #{interaction.pH}, " if interaction.pH.present? %> <%= "T = #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" %>">
+                  <%= interaction.solvents.first.display_name %>
+                  </span>
+                  <% end %>
+
+              <% elsif interaction.solvent_system == "Complex Mixture" %>
+                  <span class="has-tooltip" data-toggle="ajax-tooltip" title="<% number = 1 %><% for intsol in interaction.interaction_solvents.order(:id) do %> <% if intsol.solvent.present? %><% if intsol.solvent %><%= intsol.solvent.display_name + ", " if intsol.solvent.display_name.present? %> <% end %><% end %><% number = number+1 %><% end %>  <% number = 1 %><% for intaddi in interaction.interaction_additives.order(:id) do %> <% if intaddi.additive.present? %><% if intaddi.additive %><%= intaddi.additive.display_name + ", " if intaddi.additive.display_name.present? %> <% end %><% end %><% number = number+1 %><% end %> <%= "pH =  #{interaction.pH}, " if interaction.pH.present? %> <%= "T =  #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" if interaction.temperature.present? %>">
+                  complex
+                  </span>
+
+              <% elsif interaction.solvent_system == "Buffer System" %>
+                  <% if interaction.buffer.present? %>
+                    <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= interaction.buffer.name if interaction.buffer.name.present? %>, <%= "T =  #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" %>">
+                      buffer
+                    </span>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </td>
+
+
+            <td class="col-md-1 hidden-xs">
+              <%= render "interactions/interaction_table/td_supplement", interaction:interaction %>
+            </td>
+
+
+          </tr>
+        <% end %>
+      <% end %>
+
+    </tbody>
+  </table>
+
+  </div>
+  
+<% end %>

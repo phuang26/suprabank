@@ -1,0 +1,52 @@
+<%- model_class = Interaction -%>
+<div class="page-header normalWidthOnLargeScreens">
+  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %>
+    <span class="btn btn-md btn-black" id="interaction_form_guide" >Guide</span>
+
+  </h1>
+  <p><br></p>
+</div>
+<div class="row col-md-12 normalWidthOnLargeScreens">
+<%= render :partial => 'form' %>
+
+</div>
+<script type="text/javascript">
+function populateInteractionForm() {
+  $('#in_technique_lambda_ex').val(<%= @technique.try(:lambda_ex) %>);
+  $('#in_technique_lambda_em').val(<%= @technique.try(:lambda_em) %>);
+  $('#in_technique_lambda_obs').val(<%= @technique.try(:lambda_obs) %>);
+  $('#in_technique_nu_obs').val(<%= @technique.try(:nu_obs) %>);
+  $('#in_technique_free_to_bound').val(<%= @technique.try(:free_to_bound) %>);
+
+  $('#in_technique_magnetic_flux_obs').val(<%= @technique.try(:magnetic_flux_obs) %>);
+
+  if ($('.in_technique:checked').val() === 'IsothermalTitrationCalorimetry'){
+    $('input[name="in_technique[instrument]"]').val("<%= @technique.try(:instrument) %>");
+    $('#in_technique_cell_volume').val(<%= @technique.try(:cell_volume) %>);
+    $('#in_technique_syringe_volume').val(<%= @technique.try(:syringe_volume) %>);
+    $('#in_technique_injection_number').val(<%= @technique.try(:injection_number) %>);
+    $('#in_technique_injection_volume').val(<%= @technique.try(:injection_volume) %>);
+    $('#in_technique_initial_injection_volume').val(<%= @technique.try(:initial_injection_volume) %>);
+    $(".molecule_cell[value=<%= @technique.try(:molecule_cell) %>]").prop("checked",true);
+    $("#in_technique_concentration_indicator").val(<%= @technique.try(:concentration_indicator) %>)
+    $(".indicator_cell[value=<%= @technique.try(:indicator_cell) %>]").prop("checked",true);
+    $("#in_technique_concentration_conjugate").val(<%= @technique.try(:concentration_conjugate) %>);
+    $(".conjugate_cell[value=<%= @technique.try(:conjugate_cell) %>]").prop("checked",true);
+    $('#in_technique_concentration_molecule').val(<%= @technique.try(:concentration_molecule) %>);
+    $('#in_technique_concentration_host').val(<%= @technique.try(:concentration_host) %>);
+  };
+
+  $('#in_technique_nucleus').val("<%= @technique.try(:nucleus) %>");
+  $('#in_technique_delta_shift').val(<%= @technique.try(:delta_shift) %>);
+  $('#in_technique_shift_unbound').val(<%= @technique.try(:shift_unbound) %>);
+  $('#in_technique_shift_bound').val(<%= @technique.try(:shift_bound) %>);
+};
+
+$(document).on('ready turbolinks:load', function(){
+
+  populateInteractionForm();
+  $('.in_technique').on('change', function() {
+    populateInteractionForm();
+  });
+})
+</script>

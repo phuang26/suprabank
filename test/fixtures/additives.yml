@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+additive_one:
+ display_name: sodium chloride
+ preferred_abbreviation: sodium chloride
+ cid: 5234
+ iso_smiles: CCCCO
+ molecular_weight: 58.44
+ inchikey: FAPWRFPIFSIZLT-UHFFFAOYSA-M
+ inchistring: InChI=1S/ClH.Na/h1H;/q;+1/p-1
+ volume_3d: 34
+ tpsa: 0.0
+ complexity: 2.0
+ sum_formular: ClNa
+ names: ['salt']
+ iupac_name: sodium;chloride
+ cas: 7647-14-5
+ conformer_count_3d: 0.0
+ bond_stereo_count: 0.01
+ atom_stereo_count: 0.02
+ h_bond_donor_count: 0.01
+ h_bond_acceptor_count: 1.02
+ x_log_p: 0.0
+ charge: 0.0
+ cano_smiles: "[Na+].[Cl-]"
+ iso_smiles: "[Na+].[Cl-]"
+ fingerprint_2d: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 133120]
+ mdl_string:   OpenBabel07162109222D  2  0  0  0  0  0  0  0  0  0999 V2000    0.0000    0.0000    0.0000 Na  0  3  0  0  0  0  0  0  0  0  0  0    0.0000    0.0000    0.0000 Cl  0  5  0  0  0  0  0  0  0  0  0  0M  CHG  2   1   1   2  -1M  END
+
+
+# column: value
+#
+additive_two:
+  display_name: sodium iodide
+  preferred_abbreviation: sodium iodide
+  cid: 5238
+#  column: value

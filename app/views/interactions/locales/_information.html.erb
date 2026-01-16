@@ -1,0 +1,39 @@
+
+<% if @interaction.related_identifier.present?
+  literature = @interaction.related_identifier
+%>
+      <table class="table table-responsive determination_specification">
+        <tbody>
+          <tr>
+            <td class="no_top_border col-md-4"><strong>Literature:</strong></td>
+            <td class="no_top_border col-md-8"><%= literature&.citation&.html_safe %> </td>
+          </tr>
+          <tr>
+            <td class="no_top_border col-md-4">
+            <strong>Link:</strong>
+            </td>
+            <td class="no_top_border col-md-8"><%= link_to literature.url, literature.url, target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %></td>
+          </tr>
+          <% if literature.bibtex.present? %>
+          <tr>
+            <td class="no_top_border col-md-4">
+            <strong>Export:</strong>
+            </td>
+            <td class="no_top_border col-md-8">
+            <% if literature.bibtex.present? %>
+              <%= link_to " BibTex", {controller: "interactions", action: 'citation_export', id: @interaction, export: "bibtex"}, class:'fa fa-download bibtex-export', data: {turbolinks: false} %> |
+              <%= link_to " RIS", {controller: "interactions", action: 'citation_export', id: @interaction, export: "ris"}, class:'fa fa-download ris-export', data: {turbolinks: false} %> |
+              <%= link_to " EndNote", {controller: "interactions", action: 'citation_export', id: @interaction, export: "endnote"}, class:'fa fa-download endnote-export', data: {turbolinks: false} %>
+            <% end  %>
+            <% if @interaction.citation_pdf.present? %>
+              |
+              <%= link_to "", @interaction.citation_pdf, class:'fa fa-file-pdf-o pdf-export', taget:"_blank" %>
+            <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+
+  <% end %>

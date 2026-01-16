@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="panel panel-info">
+  <%= form_tag add_interactions_datasets_path, method: :put do %>
+  <table class="table" id="dataset_int_index">
+    <thead>
+      <tr>
+        <th class="col-md-1 no-sort">Selection</th>
+        <th class="col-md-2">Info</th>
+        <th class="col-md-2">Molecule</th>
+        <th class="col-md-2">Partner</th>
+        <th class="col-md-1">logKa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @interactions.each do |interaction| %>
+
+          <tr>
+            <td><%= check_box_tag "interaction_ids[]", interaction.id %> </td>
+            <td>
+              <%= link_to "", {controller: "interactions", action: 'show', id: interaction.id}, class:'fas fa-eye', target:"_blank"%>
+              <span> | </span>
+                <i class="fa fa-circle
+                <%= if interaction.revision=='revised entry'
+                  'revised'
+                elsif interaction.revision=='needs revision'
+                  'revision'
+                elsif interaction.revision=='pending inspection'
+                  'inspection'
+                end %>"></i>
+              <span> | </span>
+
+                <% if interaction.published? %>
+                  <i class="fa fa-check-circle"></i>
+                <% else %>
+                  <i class="fa fa-times-circle-o"></i>
+                <% end %>
+              <span> | </span>
+              <% if interaction.assay_type == "Direct Binding Assay" %>
+                <span class="icon-dba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% elsif interaction.assay_type == 'Competitive Binding Assay' %>
+                <span class="icon-cba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% elsif interaction.assay_type == "Associative Binding Assay" %>
+                <span class="icon-aba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% else %>
+              <% end %>
+              <span> | </span>
+              <span class="icon-<%= Technique.search_by_names(interaction.technique).first.names[1].downcase if interaction.technique.present? %> <%= Technique.search_by_names(interaction.technique).first.names[1] if interaction.technique.present? %>" ></span>
+
+
+            </td>
+            <td><%= interaction.molecule.preferred_abbreviation.present? ?interaction.molecule.preferred_abbreviation.truncate(15) : truncate(interaction.molecule.display_name, length: 15) %></td>
+            <td><%= interaction.host.preferred_abbreviation.present? ?interaction.host.preferred_abbreviation.truncate(15) : truncate(interaction.host.display_name, length: 15) %></td>
+            <td><%= interaction.logKa %></td>
+          </tr>
+
+      <% end  %>
+    </tbody>
+  </table>
+  <div class="panel-footer" id="panel_footer">
+    <%= hidden_field_tag "dataset_id", dataset_id %>
+    <%= submit_tag "Add selected Interactions", class: "btn btn-primary" , id:"add_selected_interactions"%> <strong id="add_interactions_footer_info"></strong>
+  </div >
+  <% end %>
+</div >
+</div >
+<hr>

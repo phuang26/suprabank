@@ -1,0 +1,25 @@
+<tr>
+
+</tr>
+
+
+<% if object.conc.present? %>
+  <tr>
+    <td class="col-md-6 no_top_border"><strong>Total concentration</strong></td>
+    <td class="col-md-6"><span><%= object.conc %> </span> mM</td>
+  </tr>
+<% end %>
+
+<% if object.pH.present? %>
+  <tr>
+    <td  class=" col-md-6"><strong >pH</strong></td>
+    <td class="col-md-6"><%= object.pH %> </td>
+  </tr>
+<% end %>
+
+<% if object.sourceofconcentration.present? %>
+  <tr>
+    <td  class=" col-md-6"><strong >Source of concentration of additives</strong></td>
+    <td class="col-md-6"><%= object.sourceofconcentration %> </td>
+  </tr>
+<% end %>

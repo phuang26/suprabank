@@ -1,0 +1,4 @@
+<span class="has-tooltip" data-toggle="left-tooltip" title="Created at: <%= interaction.created_at.strftime("%d. %B %Y") %>">
+  <span style="display:none"><%= interaction.created_at.strftime("%Y/%m/%d") %></span>
+  <i class="fas fa-magic <%= interaction.maturity %>"></i>
+</span>

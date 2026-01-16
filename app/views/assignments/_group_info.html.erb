@@ -1,0 +1,94 @@
+
+    <%= f.fields_for :group do |grouper| %>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-12 ">
+          <%= grouper.label :name, "Name of the group" %>
+          <%= grouper.text_field :name , :class => 'form-control' %>
+        </div>
+
+        <div class="">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <div class="row">
+        <div class="col-md-6">
+          <%= grouper.label :affiliation %>
+          <%= grouper.text_field :affiliation, :class => 'form-control' , placeholder: "live search", data: {autocomplete_source: query_affiliation_path }%>
+
+        </div>
+        <div class="col-md-6">
+          <%= grouper.label :department %>
+          <%= grouper.text_field :department , :class => 'form-control' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= image_tag "logos/ror.png", size: "16x16" %>
+          <%= grouper.hidden_field :affiliationIdentifier %>
+          <span id="affiliationIdentifier"> </span>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 ">
+          <%= grouper.label :city %>
+          <%= grouper.text_field :city , :class => 'form-control' %>
+        </div>
+
+        <div class="col-md-6">
+          <%= grouper.label :country %>
+          <%= grouper.text_field :country , :class => 'form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+
+        <div class="col-md-6">
+          <%= grouper.label :website %>
+          <%= grouper.text_field :website , :class => 'form-control' %>
+        </div>
+        <div class="col-md-6 ">
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $('#assignment_group_attributes_affiliation').autocomplete({
+  source: $('#assignment_group_attributes_affiliation').data('autocomplete-source'),
+  focus: function( event, affiliation ) {
+    $( "#group_affiliation" ).val( affiliation.item[0] );
+    return false;
+  },
+    select: function( event, affiliation ) {
+      $( "#assignment_group_attributes_affiliation" ).val( affiliation.item[0] );
+      $( "#affiliationIdentifier" ).text( affiliation.item[1] );
+      $( "#assignment_group_attributes_affiliationIdentifier" ).val( affiliation.item[1] );
+      $( "#assignment_group_attributes_country" ).val( affiliation.item[3] );
+      if(!$("#assignment_group_attributes_website").val()) {$( "#assignment_group_attributes_website" ).val( affiliation.item[4] );};
+      return false;
+      }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li'>" )
+      .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+      .appendTo( ul );
+    };
+  });
+</script>

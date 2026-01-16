@@ -1,0 +1,31 @@
+
+<div class="page-header">
+  <h1>Interactions to curate </h1>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Pending Interactions</h3>
+  </div>
+  <div class="panel-body">
+    <button class="btn btn-md btn-success" disabled><span class="badge"><%= @interactions.accepted.count %></span> Accepted</button>
+    <%= render partial:"interactions/revision/table", :locals =>{ranquery: @qsubmitted, interactions: @interactions_accepted, table_id:'accepted'} %>
+    <hr>
+    <button class="btn btn-md btn-warning" disabled><span class="badge"><%= @interactions.pending.count %></span> Revision requested</button>
+    <%= render partial:"interactions/revision/table", :locals =>{ranquery: @qpending, interactions: @interactions_pending, table_id:'pending'} %>
+    <hr>
+    <% if current_user.moderator %>
+      <%= form_tag update_reviewers_interactions_path, method: :put do %>
+      <button class="btn btn-md btn-primary" disabled><span class="badge"><%= @interactions.submitted.count %></span> Submitted</button>
+      <span class="text-primary"><%= page_entries_info @interactions_submitted %></span>
+      <%= submit_tag "Update the reviewers", class: "btn btn-md btn-primary pull-right" , id:"update_interactions_reviewers"%> <strong id="update_interactions_reviewers_footer_info"></strong>
+      <%= hidden_field_tag "user_id", @user.id %>
+        <%= render partial:"interactions/revision/table_submitted", :locals =>{ranquery: @qsubmitted, interactions: @interactions_submitted, table_id:'submitted_datacurator'} %>
+        <%= paginate @interactions_submitted, btncolor:"primary"  %>
+      <% end %>
+    <% else %>
+      <button class="btn btn-md btn-primary" disabled><span class="badge"><%= @interactions.submitted.count %></span> Submitted</button>
+      <%= render partial:"interactions/revision/table", :locals =>{ranquery: @qsubmitted, interactions: @interactions.submitted, table_id:'submitted'} %>
+    <% end %>
+  </div>
+</div>

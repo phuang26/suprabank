@@ -1,0 +1,46 @@
+<hr>
+<div id="stoichiometry">
+    <div class="form-group">
+      <strong class="control-label col-md-2 unit" style="text-align:left;"><u>Stoichiometry</u></strong>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1">
+        <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Choose the stoichiometry. Click for further information in glossary."}), glossary_url(anchor:'TD_unit'),      target: :_blank %>
+      </div>
+
+      <div class="col-md-1">
+        <%= f.label :stoichometry_molecule, "Molecule:", :class => 'control-label form-label' %>
+      </div>
+
+      <div class="col-md-1">
+        <%= f.text_field :stoichometry_molecule, :class => 'form-control', onchange: "checkValidNumber(this), adjustDecimalPlaces(this)" %>
+      </div>
+
+      <div class="col-md-1">
+        <%= f.label :stoichometry_host, "Partner:", :class => 'control-label form-label' %>
+      </div>
+
+      <div class="col-md-1">
+        <%= f.text_field :stoichometry_host, :class => 'form-control', onchange: "checkValidNumber(this), adjustDecimalPlaces(this)" %>
+      </div>
+
+      <div class="col-md-1 indicator-related">
+        <%= f.label :stoichometry_indicator, "Indicator:", :class => 'control-label form-label' %>
+      </div>
+
+      <div class="col-md-1 indicator-related">
+        <%= f.text_field :stoichometry_indicator, :class => 'form-control', onchange: "checkValidNumber(this), adjustDecimalPlaces(this)" %>
+      </div>
+
+      <div class="col-md-1 conjugate-related">
+        <%= f.label :stoichometry_conjugate, "Cofactor:", :class => 'control-label form-label' %>
+      </div>
+
+      <div class="col-md-1 conjugate-related">
+        <%= f.text_field :stoichometry_conjugate, :class => 'form-control', onchange: "checkValidNumber(this), adjustDecimalPlaces(this)" %>
+      </div>
+
+
+    </div>
+  </div>

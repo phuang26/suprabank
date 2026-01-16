@@ -1,0 +1,114 @@
+<%- model_class = Dataset -%>
+<div class="row">
+  <div class="col-md-12" id="datasets_index_content"></div>
+</div>
+<div class="row">
+  <div class="col-md-3 center">
+    <%= image_tag "preloader/default_trans.png", size:"50x50", class:"formLoader"%>
+  </div>
+  <div class="col-md-9" id="datasets_index_paginator"></div>
+</div>
+
+<script type="text/javascript">
+
+
+
+var dataTablesProp = {
+    retrieve: true,
+    "bAutoWidth": false,
+    stateSave: true,
+    paging: false,
+    ordering: false,
+    searching: false,
+    info: false,
+    "pageLength": 10,
+    "order": [],
+    "columnDefs": [{
+      "targets"  : 'no-sort',
+      "orderable": false,
+      }],
+    "drawCallback": function(){
+
+        $('[data-toggle="ajax-popover"]').popover({
+          container: 'body',
+          placement : 'top',
+            trigger : 'click',
+            html : true,
+        });
+        $('[data-toggle="ajax-tooltip"]').tooltip({
+            placement : 'right',
+            trigger : 'hover',
+            html : true,
+        });
+        $('[data-toggle="tooltip"]').tooltip({
+            placement : 'left',
+            trigger : 'hover',
+            html : true,
+        });
+        $('[data-toggle="left-tooltip"]').tooltip({
+            placement : 'left',
+            trigger : 'hover',
+            html : true,
+        });
+
+      }
+    }
+
+    var dataTables = {
+      "datasets":NaN
+    }
+
+
+
+
+    $(document).on('ready turbolinks:load', function(){
+    var $loading = $('.formLoader').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show();
+      })
+      .ajaxComplete(function () {
+        $loading.hide();
+        dataTables.datasets = $('#datasets_table').DataTable(dataTablesProp);
+        $('.kaminari-paginate-button').on("click", function (){
+          hidePopovers();
+        });
+      });
+     });
+
+$(document).on('ready turbolinks:load', function(){
+  //$("#content").html("Gguten Tag")
+  $("#datasets_index_content").html("<%= escape_javascript(render 'ransack_table', datasets:@datasets) %>")
+  $('#datasets_index_paginator').html('<%= escape_javascript(paginate(@datasets, btncolor:"primary", :remote => true).to_s) %>');
+  dataTables.datasets = $('#datasets_table').DataTable(dataTablesProp);
+  $('.kaminari-paginate-button').on("click", function (){
+    hidePopovers();
+  });
+  
+});
+
+
+$(document).on('ready turbolinks:load', function() {
+  var explainPopupShown = localStorage.getItem('explainPopupShown');
+
+  if (explainPopupShown === null) {
+  $('#explainPopup').popover({
+      container: 'body',
+      placement : 'top',
+      trigger : 'click',
+      html : true,
+  }).popover('show');
+  localStorage.setItem('explainPopupShown', 1);
+} else {
+  $('#explainPopup').popover({
+      container: 'body',
+      placement : 'top',
+      trigger : 'click',
+      html : true,
+  });
+};
+
+
+});
+
+</script>

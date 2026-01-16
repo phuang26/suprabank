@@ -1,0 +1,147 @@
+<h3 id="nmr" class="level2">Nuclear magnetic resonance (NMR)</h3>
+
+<p class="item">
+  Nuclear magnetic resonance (NMR) spectroscopy is a method used to examine the electronic environment of single atoms and their interaction with their neighbor atoms. It enables the elucidation of the structure and molecular dynamics as
+  well as of concentrations of a sample.
+</p>
+
+<p class="item">
+  Nuclear magnetic resonance is based on the interplay of an external magnetic field with the magnetic moment of the atomic nucleus. The magnetic moments of atomic nuclei are directly correlated to their spin S and only nuclei with a spin S≠0 show a
+  magnetic moment. In organic chemistry, preferrably nuclei with a nuclear spin S=1/2 are examined,
+  <em>i.e.</em>
+  <sup>1</sup>H,
+  <sup>13</sup>C,
+  <sup>15</sup>N, and
+  <sup>31</sup>P.<a href="#Tec_ref">
+    <sup>[5]</sup>
+  </a>
+
+</p>
+<h4  class="level3">Theoretical Background of NMR
+  <a href="#Tec_ref">
+    <sup>[5-7]</sup>
+  </a>
+</h4>
+
+<p class="item">
+  Without an external magnetic field, all nuclear spin orientations for S=1/2 are energetically equal, but in the presence of an external magnetic field B<sub>0</sub>, the nucleic spins orientate either parallel (α) or antiparallel (β) to the external magnetic B<sub>0</sub>-field (see
+  <a href="f6"> Figure 6</a>). Due to the Boltzmann distribution, the parallel and, thus, lower energetic α-state is (slightly) higher populated than the β-state. This leads to a macroscopic magnetization in B<sub>0</sub>
+  (longitudinal), where all nuclear spins move in a precession along the magnetization. In order to generate a signal, a short pulse (short term magnetic field with high frequency) is induced causing a flip of the magnetization M<sub>z</sub>
+  along a certain phase.
+  <a href="f6"> Figure 6</a> illustrates a 90 ° pulse causing a flip with the degree p along the y-axis. The magnetization M<sub>x</sub>
+  starts to rotate along the z-axis with the precession frequency ω, which is defined as ω = γ*B<sub>eff</sub>. The local magnetic field B<sub>eff</sub>
+  is influenced by the local electron density.
+</p>
+
+<p class="item">
+  As B<sub>eff</sub>
+  is very similar in magnitude to B<sub>0</sub>, there is only a small difference between the ω of different nuclei. In a rotating coordinate system, the detector is moving with the frequency ω<sub>0</sub>
+  along the z-axis. Therefore, only the difference ω-ω<sub>0</sub>, the precession frequency Ω, can be registered by the detector. The precession frequency Ω is the oscillation frequency of the signal S(t), also known as free induction decay(FID),which can be translated into a spectrum with a signal at the frequency Ω
+  <em>via</em>
+  Fourier transformation.
+</p>
+
+<p id="f6" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/NMR.png", class:"figure"%>
+  <figcaption class="gloss_caption">
+    Fig. 6: Scheme of an NMR experiment.
+  </figcaption>
+</figure>
+
+<p class="item">
+  The liquid NMR measurement of a molecule is carried out by dissolving the sample in a deuterated solvent (<em>e.g.</em>
+  D<sub>2</sub>O) in an NMR tube. The tube is placed into a homogenous magnetic field inside the spectrometer and a high frequency pulse is induced, causing signals S(t), which are Fourier-transformed into a frequency spectrum of the sample.
+</p>
+
+<p class="item">
+  The chemical shift δ of the spectra signal is given in parts per million (ppm) and is referenced to a standard, making δ independent from the used external magnetic field strength and spectrometer.
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_nmr.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  The chemical shift for protons is dependent on their chemical environment causing different shift ranges for different functional groups. The integration of the signal gives the relative number of protons corresponding to the signal. Taking the
+  information from the chemical shift, relative signal integrals and potentially additional sources of information such as
+  <sup>13</sup>C NMR or 2D-NMR spectra into account, it is in most cases possible to elucidate the molecular structure of the unknown compound.
+
+</p>
+<h4 class="level3">NMR in supramolecular chemistry
+  <a href="#Tec_ref">
+    <sup>[5-7]</sup>
+  </a>
+</h4>
+<p class="item">
+  NMR spectroscopy is often used in supramolecular chemistry to examine host-guest complexes because the nuclei of host or guest molecules usually experience a change in the electron density and local magnetic fields upon complex formation. The
+  resulting change of chemical shifts and signal intensities can be observed by NMR spectroscopy.
+</p>
+<p id="timescale" class="item">
+  Generally, host-guest complexes have certain equilibrium exchange rates r and, thus, each of the states, bound and free, has a certain lifetime τ. For some of the nuclei, the local magnetic field differs significantly between the bound and the free
+  state due to changes in the electron density and, hence, there is chemical shift difference for these nuclei between the two states. This chemical shift difference gives the relevant
+  <b>NMR time scale</b>. In general, only nuclei can be studied for which this chemical shift difference is clearly different from the
+  <a href="#Kin">equilibrium exchange rate
+    <em>v</em>
+  </a>, from the rate of complex formation.<a href="#Tec_ref">
+    <sup>[8]</sup>
+  </a>
+</p>
+<p class="item">
+  If the equilibrium reaction rate
+  <em>v</em>
+  is large compared to the chemical shift difference between the two stabilities due to fast (de)complexation, the reaction is fast on NMR time scale and the two signals merge to one averaged signal. This is often the case in NMR titration of
+  supramolecular complexes. Therefore, one compound is added stepwise to the other and the change of the chemical shift is monitored over the concentration variation. Then, the binding affinity
+  <em>K</em><sub>a</sub>
+  can be determined by fitting the curve of the obtained data points (Δδ vs. concentration).<a href="#Tec_ref">
+    <sup>[15,16]</sup>
+  </a>
+</p>
+<p class="item">
+  If the equilibrium exchange rate is slow on the NMR time scale (so the nuclei change their environment slowly due to slow complexation), the signals of the nuclei in the free state and in the host-guest complex appear at their individual chemical
+  shifts. The signal integral gives a measure for the concentrations of both states. In this case, a
+  <a href="#jobs">Job plot</a>
+  or the best fit approach yield the stoichiometry of the complex.
+</p>
+
+<p class="item">
+  <b>Note</b>: If this or any other method has been utilized to confirm the presumed host-guest binding stoichiometry, please indicate this in the “comments field” provided in SupraBank.<br>
+
+  Furthermore, NMR spectroscopy can uncover hidden aggregation phenomena of supramolecular systems, which may be relatively common in the concentration range (~&nbspmM) needed for NMR analysis. Typical indications are line-broadening. Powerful NMR
+  methods such as diffusion-ordered spectroscopy DOSY provide additional indications for the formation of aggregates or higher complexes. If experimental data is available indicating aggregated superstructures in solution at the concentration range
+  probed, please indicate this in the comments field provided in SupraBank.
+</p>
+
+<p class="item">
+  Information output:
+  <ul class="list">
+    <li>binding affinity (<em>K</em><sub>a</sub>)</li>
+    <li>stoichiometry (N)</li>
+    <li>concentration (c)</li>
+    <li>complex conformation</li>
+  </ul>
+</p>
+
+<span class="item">
+  Examples:
+  <ol class="bibliography, list">
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1002/chem.200390008" target="_blank">
+        Z. R. Laughrey, C. L. D. Gibb, T. Senechal, B. C. Gibb,
+        <em>Chemistry – A European Journal</em>
+        <b>2003</b>,
+        <em>9</em>, 130-139.</a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.3390/ijms160920641" target="_blank">
+        R.-C. Brachvogel, H. Maid, M. von Delius,
+        <em>International Journal of Molecular Science</em>
+        <b>2015</b>,
+        <em>16</em>, 20641–20656.
+      </a>
+    </li>
+  </ol>
+  <br>
+</span>
+<!-- reviewed 2.2.2021 -->

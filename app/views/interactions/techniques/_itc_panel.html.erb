@@ -1,0 +1,92 @@
+<%= fields_for :in_technique do |technique| %>
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12" style="text-align:left;"><u class="technique-panel-label">Isothermal Titration Calorimetry</u></strong>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Click for further information in glossary"}), glossary_url(anchor:'itc'), target: :_blank %>
+  </div>
+  <div class="col-md-9">
+        <p> The molecule's and partner's concentrations above will be calculated automatically based on the parameters you may enter below.</p>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+
+  </div>
+  <div class="col-md-1">
+  <%= technique.label :instrument,"Instrument".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-8">
+    <%= technique.text_field :instrument, :class => 'form-control' , placeholder:"start typing name, brand e.g Malvern", id:"in_technique_itc_instrument", data: {autocomplete_source: query_itc_instruments_interactions_path }%>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+  <%= technique.label :cell_volume,"V<sub>Cell</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= technique.text_field :cell_volume, :class => 'form-control' , placeholder:"cell volume", onchange: "checkValidNumber(this), checkInstrumentStandard(this), calculateConcFromITC('all')" %>
+  </div>
+  <label class="col-md-1 unit control-label" >  	&#120583;L </label>
+  <div class="col-md-1 unit">
+  <%= technique.label :syringe_volume,"V<sub>Syringe</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-4">
+    <%= technique.text_field :syringe_volume, :class => 'form-control' , placeholder:"syringe volume", onchange: "checkValidNumber(this), checkInstrumentStandard(this), calculateConcFromITC('all')" %>
+  </div>
+  <label class="col-md-1 unit control-label" >  	&#120583;L </label>
+</div>
+
+
+<%= render "interactions/techniques/itc_panel_molecule_partner", technique: technique %>
+
+<div class="dynamic-interaction-panel" id="itc_cofactor">
+  <%= render "interactions/techniques/itc_panel_cofactor", technique: technique %>
+</div>
+
+<div class="dynamic-interaction-panel" id="itc_indicator">
+  <%= render "interactions/techniques/itc_panel_indicator", technique: technique %>
+</div>
+
+<div class="form-group" style="margin-top: 40px">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "How to get all these information? Click here for further information. If the number of injections or the injection volumes are unknown, SupraBank (over)estimates the concentration range assuming the whole syringe volume is added."}), glossary_url(anchor:'itc_data_acquisition_example'), target: :_blank %>
+  </div>
+  <div class="col-md-1 unit">
+  <%= technique.label :injection_number,"N<sub>injection</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= technique.text_field :injection_number, :class => 'form-control has-tooltip' , placeholder:"injection number", onchange: "checkValidNumber(this), calculateConcFromITC('all')" %>
+  </div>
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+  <%= technique.label :initial_injection_volume,"V<sub>init</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-4">
+    <%= technique.text_field :initial_injection_volume, :class => 'form-control' , placeholder:"first injection volume", onchange: "checkValidNumber(this), calculateConcFromITC('all')" %>
+  </div>
+  <label class="col-md-1 unit control-label" >  	&#120583;L </label>
+
+</div>
+
+<div class="form-group">
+  <div class="col-md-5">
+  </div>
+  <div class="col-md-1 unit">
+  <%= technique.label :injection_volume,"V<sub>injection</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-4">
+    <%= technique.text_field :injection_volume, :class => 'form-control' , placeholder:"injection volume", onchange: "checkValidNumber(this), calculateConcFromITC('all')" %>
+  </div>
+  <label class="col-md-1 unit control-label"  >  	&#120583;L </label>
+</div>
+
+<% end %>

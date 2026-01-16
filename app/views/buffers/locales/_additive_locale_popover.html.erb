@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table class="table determination_specification">
+    <tbody>
+
+
+
+      <tr>
+        <td class="no_top_border col-md-6"> <strong >Additive</strong> </td>
+        <td class="no_top_border col-md-6"> <strong >[Additive]</strong> </td>
+      </tr>
+
+      <% if object.buffer_additives.present? %>
+      <% number = 0 %>
+      <% for intsol in object.buffer_additives do %>
+      <% if intsol.additive.present? %>
+      <tr>
+
+        <td class="col-md-2">
+          <%= intsol.additive.preferred_abbreviation.present? ? intsol.additive.preferred_abbreviation.truncate(18) : intsol.additive.display_name.truncate(18) %>
+
+
+
+        </td>
+        <% if intsol.concentration.present? %>
+        <td class="col-md-2">
+          <%= intsol.concentration %> mM
+        </td>
+        <% end %>
+      </tr>
+      <% number = number+1 %>
+      <% end %>
+      <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+#
+# create_table "groups", force: :cascade do |t|
+#   t.string   "name"
+#   t.string   "affiliation"
+#   t.string   "department"
+#   t.string   "city"
+#   t.string   "website"
+#   t.datetime "created_at",            null: false
+#   t.datetime "updated_at",            null: false
+#   t.string   "country"
+#   t.string   "affiliationIdentifier"
+# end
+
+<% 1.upto(20) do |i| %>
+group_<%= i %>:
+  id: <%= i %>
+  name: <%= Faker::Superhero.name %> Group
+  affiliation: <%= Faker::University.name %>
+  city: <%= Faker::Address.city %>
+  country: <%= Faker::Address.country %>
+  website: <%= Faker::Internet.url %>
+<% end %>
+
+# column: value
+#
+
+#  column: value

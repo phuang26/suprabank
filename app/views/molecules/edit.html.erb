@@ -1,0 +1,18 @@
+<%- model_class = Molecule -%>
+<div class="page-header normalWidthOnLargeScreens">
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+
+<div class="row col-md-12 normalWidthOnLargeScreens">
+  <% if @molecule.cid < 0 %>
+     <% if @molecule.molecule_type == "compound" %>
+      <%= render :partial => 'form' %>
+     <% elsif @molecule.molecule_type == "framework" %>
+      <%= render :partial => 'molecules/custom/custom_framework_edit' %>
+    <% elsif @molecule.molecule_type == "protein" %>
+      <%= render :partial => 'form' %>
+     <% end %>
+  <% else %>
+     <%= render :partial => 'form_pubchem' %>
+  <% end %>
+</div>

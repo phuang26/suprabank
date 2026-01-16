@@ -1,0 +1,22 @@
+<%- model_class = Interaction -%>
+<div class="">
+  <h1 style="padding-left: 15px">Search Interactions</h1>
+</div>
+
+<div class="row col-md-12" ">
+  <hr>
+</div>
+
+
+<div class="">
+  <%= render 'dblookup' %>
+</div>
+
+
+<div class="container col-md-12" id='dbresults'>
+
+</div>
+<div class="container col-md-12">
+  <p> This is a fulltext search that aims on finding you as many as possible interactions to your desired molecule or derivatives thereof. <br>
+    A more specific search can be performed with our <%= link_to "filter rich Advanced Search", advanced_search_interactions_path, class: "external-link"%>.</p>
+  </div>

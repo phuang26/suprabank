@@ -1,0 +1,77 @@
+<% if params[:action] == 'pubchem_request' %>
+<div class="container-flex">
+  <div class="row">
+    <div class="col-sm-9">
+      <%= bootstrap_flash %>
+    </div>
+  </div>
+</div>
+<% end %>
+<% if @molecule  %>
+<hr>
+    <div class="container col-md-12" id="preliminary_result">
+
+            <div class="row">
+              <h4>We have found the following molecule.
+              </h4>
+            </div>
+            <div class="row">
+              <% if @molecule.molecule_type == "compound" %>
+              <div class="col-md-6">
+                <dl>
+                  <dt>CID:</dt>
+                  <dd>
+                    <%= @molecule.cid %>
+                  </dd>
+                  <dt>Molecular Weight:</dt>
+                  <dd>
+                    <%= @molecule.molecular_weight %> g/mol
+                  </dd>
+                </dl>
+              </div>
+              <% end %>
+              <% if @molecule.molecule_type == "protein" %>
+              <div class="col-md-6">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>PDB-ID:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_id %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Descriptor:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_descriptor %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Classification:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_keywords %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Total Structure Weight</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.total_structure_weight %> kDa </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border"><strong>Atom Count: </strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.atom_count %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border"><strong>Residue Count: </strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.residue_count %> </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <% end %>
+              <div class="col-md-6">
+                <%= image_tag  @molecule.png_url , size: "200x200"%>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <%= link_to "Go to molecule", molecule_path(@molecule), class:"btn btn-default btn-success"%>
+            </div>
+          </div>
+
+
+
+<% end %>

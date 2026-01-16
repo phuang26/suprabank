@@ -1,0 +1,176 @@
+<%= render 'users/interactions/info' %>
+<div class="panel panel-primary user-interactions-panel">
+  <div class="panel-heading collapsed" data-toggle="collapse" data-target="#collapse_pending">
+    <h3 class="panel-title"><i class="fas fa-arrow-alt-circle-down fa-lg fa-deactived"></i> Pending Interactions <span class="badge"><%= @user.interactions.under_revision.count %></span></h3>
+  </div>
+  <div id="collapse_pending" class="panel-collapse collapse">
+    <div class="panel-body">
+      <%= form_tag publish_accepted_interactions_path, method: :put do %>
+        <%= hidden_field_tag "user_id", @user.id %>
+        <button class="btn btn-md btn-success" disabled>Accepted <span class="badge"><%= @user.interactions.accepted.count %></span></button> <span><em><u>Please publish</u></em></span>
+        <% if @user.interactions.accepted.present? %>
+          <%= submit_tag "Publish selected interactions", class: "btn btn-md btn-primary pull-right" , id:"publish_accepted_interactions"%> <strong id="publish_accepted_footer_info"></strong>
+        <% end %>
+        <%= render "users/interactions/table", interactions:@user.interactions.accepted, table_id:'accepted' %>
+      <% end %>
+      <hr>
+      <button class="btn btn-md btn-warning" disabled>Revision requested <span class="badge"><%= @user.interactions.pending.count %></span></button> <span><em><u>Please revise</u></em></span>
+      <%= render "users/interactions/table", interactions:@user.interactions.pending, table_id:'pending' %>
+      <hr>
+      <button class="btn btn-md btn-primary" disabled>Submitted <span class="badge"><%= @user.interactions.submitted.count %></span></button> <span><em><u>Under review</u></em></span>
+      <%= render "users/interactions/table", interactions:@user.interactions.submitted, table_id:'submitted' %>
+    </div>
+  </div>
+</div>
+<% if @user == current_user %>
+  <div class="panel panel-danger user-interactions-panel">
+    <div class="panel-heading collapsed" data-toggle="collapse" data-target="#collapse_embargoed">
+      <h3 class="panel-title"><i class="fas fa-arrow-alt-circle-down fa-lg fa-deactived"></i> Embargoed Interactions <span class="badge"><%= @user.interactions.embargoed.count %></span></h3>
+    </div>
+    <div id="collapse_embargoed" class="panel-collapse collapse">
+      <div class="panel-body">
+        <%= render "users/interactions/table", interactions:@user.interactions.embargoed, table_id:'embargoed' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="panel panel-success user-interactions-panel">
+  <div class="panel-heading collapsed" data-toggle="collapse" data-target="#collapse_published">
+    <h3 class="panel-title"><i class="fas fa-arrow-alt-circle-down fa-lg fa-deactived"></i> Published Interactions <span class="badge"><%= @user.interactions.published.count %></span></h3>
+  </div>
+  <div id="collapse_published" class="panel-collapse collapse">
+    <div class="panel-body" >
+      <div id="user_interactions_published"></div>
+    </div>
+    <div class="panel-footer">
+      <span id="datasets_index_paginator"></span>
+      <%= image_tag "preloader/default_trans.png", size:"37x37", class:"formLoader"%>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).on('ready turbolinks:load', function(){
+  var $loading = $('.formLoader').hide();
+  $(document)
+    .ajaxStart(function () {
+      $loading.show();
+    })
+    .ajaxComplete(function () {
+      $loading.hide();
+      dataTables.datasets = $('#int-index-published').DataTable(dataTablesProp);
+      $('.kaminari-paginate-button').on("click", function (){
+        hidePopovers();
+      });
+      dataTables.submitted = $('#int-index-submitted').DataTable(dataTablesProp);
+      dataTables.accepted = $('#int-index-accepted').DataTable(dataTablesProp);
+      dataTables.pending = $('#int-index-pending').DataTable(dataTablesProp);
+      dataTables.published = $('#int-index-published').DataTable(dataTablesPropPublished);
+      dataTables.embargoed = $('#int-index-embargoed').DataTable(dataTablesProp);
+    });
+   });
+  
+  
+  $(document).on('ready turbolinks:load', function(){
+    //$("#content").html("Gguten Tag")
+    $("#user_interactions_published").html("<%= escape_javascript(render partial:"users/interactions/table_ransack", :locals =>{ranquery: @qpublished, interactions: @interactions_published, table_id:'published'}) %>")
+    $('#datasets_index_paginator').html('<%= escape_javascript(paginate(@interactions_published, btncolor:"primary", :remote => true).to_s) %>');
+    dataTables.datasets = $('#int-index-published').DataTable(dataTablesProp);
+    $('.kaminari-paginate-button').on("click", function (){
+  hidePopovers();
+    });
+  });
+  
+  
+  $(document).on('turbolinks:load',function(){
+    $('.panel-heading').click(function(){
+  $(this).find('.fas').toggleClass('fa-arrow-alt-circle-down fa-arrow-alt-circle-left fa-actived fa-deactived');
+    });
+  });
+  
+  
+  var dataTablesProp = {
+   "bAutoWidth": false,
+   "bDestroy": true,
+   stateSave: true,
+   searching: false,
+   paging: true,
+   info: true,
+   "order": [],
+   "columnDefs": [
+     {"targets"    : 'no-sort',
+  "orderable"  : false},
+     {"targets"    : [ 3,4,7,8 ],
+  "visible"    : false},
+  {"width": "2%", "targets": [9]},
+     {"width": "3%", "targets": [1,3,5,7]} ],
+   "drawCallback": function(){
+  
+     $('[data-toggle="popover"]').popover({
+     container: 'body',
+     placement : 'top',
+     trigger : 'click',
+     html : true,
+     });
+  
+     $('[data-toggle="ajax-popover"]').popover({
+     container: 'body',
+     placement : 'top',
+     trigger : 'click',
+     html : true,
+     });
+  
+     $('[data-toggle="top-popover"]').popover({
+     container: 'body',
+     placement : 'top',
+     trigger : 'click',
+     html : true,
+     });
+     $('[data-toggle="ajax-tooltip"]').tooltip({
+     placement : 'right',
+     trigger : 'hover',
+     html : true,
+     });
+     $('[data-toggle="tooltip"]').tooltip({
+     placement : 'left',
+     trigger : 'hover',
+     html : true,
+     });
+     $('[data-toggle="left-tooltip"]').tooltip({
+     placement : 'left',
+     trigger : 'hover',
+     html : true,
+     });
+   }
+  }
+  
+  var dataTables = {
+    "published":NaN,
+    "submitted":NaN,
+    "accepted":NaN,
+    "pending":NaN,
+    "embargoed":NaN
+  }
+  
+  
+  
+  
+  
+  var publishPropsSource = {
+    ordering: false,
+    info: false,
+    searching: false,
+    paging: false
+  }
+  
+  var publishPropsTarget=JSON.parse(JSON.stringify(dataTablesProp))
+  // dataTablesPropSubmitted["ordering"] = false
+  dataTablesPropPublished = Object.assign(publishPropsTarget,publishPropsSource)
+  
+  $(document).on('turbolinks:load',function(){
+  dataTables.submitted = $('#int-index-submitted').DataTable(dataTablesProp);
+  dataTables.accepted = $('#int-index-accepted').DataTable(dataTablesProp);
+  dataTables.pending = $('#int-index-pending').DataTable(dataTablesProp);
+  dataTables.published = $('#int-index-published').DataTable(dataTablesPropPublished);
+  dataTables.embargoed = $('#int-index-embargoed').DataTable(dataTablesProp);
+  });
+</script>

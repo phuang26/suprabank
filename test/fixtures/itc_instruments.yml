@@ -1,0 +1,27 @@
+one:
+  name: MircoCal PEAQ-ITC
+  alternative_name: PEAQ-ITC
+  brand: Malvern Pananalytical
+  cell_volume: 200
+  syringe_volume: 40
+
+two:
+  name: MircoCal VP-ITC
+  alternative_name: VP-ITC
+  brand: Malvern Pananalytical
+  cell_volume: 1400
+  syringe_volume: 350
+
+three:
+  name: MircoCal iTC200
+  alternative_name: iTC200
+  brand: Malvern Pananalytical
+  cell_volume: 200
+  syringe_volume: 50
+
+four:
+  name: Affinity ITC
+  alternative_name: ITC Auto
+  brand: TA instruments
+  cell_volume: 1000
+  syringe_volume: 250

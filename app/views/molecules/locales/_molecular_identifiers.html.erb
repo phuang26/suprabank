@@ -1,0 +1,50 @@
+<div class="panel panel-warning">
+  <div class="panel-heading">
+    <h2 class="panel-title"><i class="fas fa-fingerprint"></i> Identifiers</h2>
+  </div>
+  <div class="panel-body">
+    <ul class="molecule-properties container-fluid">
+      <li class="row">
+        <span class="col-md-3"> <strong>Tags: </strong> </span>
+        <span class="col-md-9"><%= object.tag_list %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>Name: </strong> </span>
+        <span class="col-md-9"><%= object.display_name %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>Preferred Abbreviation: </strong> </span>
+        <span class="col-md-9"><%= object.preferred_abbreviation %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>IUPAC Name: </strong> </span>
+        <span class="col-md-9"><%= object.iupac_name %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>CAS: </strong> </span>
+        <span class="col-md-9"><%= object.cas %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>CID: </strong> </span>
+        <span class="col-md-9"><%= object.cid %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>InChiKey: </strong> </span>
+        <span class="col-md-9"><%= object.inchikey %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>InChi: </strong> </span>
+        <span class="col-md-9"><%= object.inchistring %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>CanoSmiles: </strong> </span>
+        <span class="col-md-9"><%= object.cano_smiles %></span>
+      </li>
+      <li class="row">
+        <span class="col-md-3"> <strong>IsoSmiles: </strong> </span>
+        <span class="col-md-9"><%= object.iso_smiles %></span>
+      </li>
+      <!-- <li><%# @str = object.sum_formular.gsub(/(?<=[A-Z|\]])\d+/, '<sub>\0</sub>').gsub(/(?<=\+)\d+/, '<sup>\0</sup>').gsub(/(?<=\-)\d+/, '<sup>\0</sup>').html_safe %> <%= @str %>  </li> -->
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<%= simple_form_for @molecule, :html => { :class => "form-horizontal molecule" } do |f| %>
+
+  <% if @molecule.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@molecule.errors.count, "error") %> prohibited this molecule from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @molecule.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <div class="row">
+
+    <%= f.label :display_name, "Common Name *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :display_name, :class => 'form-control' %>
+      <p>Please provide a decent (common) name for the molecule to be displayed.</p>
+    </div>
+  </div>
+    <%=f.error_span(:display_name) %>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :preferred_abbreviation, :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.text_field :preferred_abbreviation, :class => 'form-control' %>
+        <p>A common abbreviation enables a facile representation of complicated names (e.g. CB, CD, CX or Trp-Gly-Trp) </p>
+      </div>
+      <%=f.error_span(:preferred_abbreviation) %>
+    </div>
+  </div>
+  
+
+  <div class="form-group">
+    <div class="row">
+
+
+    <%= f.label :iso_smiles,"ISO SMILES *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :iso_smiles, :class => 'form-control' %>
+      <p>Please provide the SMILES of the molecule, SupraBank is trying to do the rest for you, but you will be able to change anything. </p>
+    </div>
+    <%=f.error_span(:iso_smiles) %>
+    </div>
+    <div class="row">
+      <div class="col-md-2" id="link_label">
+
+      </div>
+      <div class="col-md-10" id="link_to_dublicate">
+
+      </div>
+    </div>
+  </div>
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading panelPubChem">Molecules on SupraBank based on your SMILES.<strong> Please check before creation of a new entry.</strong></div>
+    <table class='table' id="results_table">
+      <thead>
+        <tr>
+          <th>SBID/Link</th>
+          <th>Name</th>
+          <th>SMILES</th>
+          <th>MW</th>
+        </tr>
+      </thead>
+      <tbody id="results_table_body">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= f.submit nil, :class => 'btn btn-lg btn-primary login_button' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  molecules_path, :class => 'btn btn-default btn-lg' %>
+      </div>
+    </div>
+  </div>
+
+<% end %>
+
+
+
+<script type="text/javascript">
+
+function requestSMILES(smiles){
+    $.ajax({
+    type: "GET",
+    url: "/molecules/smilesquery?term=" + smiles,
+    success: function(data) {
+    //  console.log(data)
+    //  alert(data[0]);
+      if (data.length > 0) {
+        console.log(data)
+        $("#results_table_body").empty()
+        for (var entry of data) {
+          $("#results_table_body").append("<tr><td> <a href=/molecules/" + entry[4] + ">" + entry[4] + "</td><td> <a href=/molecules/" + entry[4] + ">" + entry[0] + "</a></td><td class='smiles-query-td-smiles'>" + entry[5] + "</td><td>" + entry[3] + "</td></tr>")
+        };
+      }
+      return false;
+    },
+    error: function(data) {
+      return false;
+    }
+      });
+};
+
+
+$(document).on('ready turbolinks:load', function(){
+  $("#molecule_iso_smiles").on('input', function(){
+    var smiles = $(this).val();
+    requestSMILES(smiles);
+  });
+});
+
+</script>

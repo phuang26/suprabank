@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <%= simple_form_for @dataset, :html => { :class => 'form-horizontal' } do |f| %>
+    <%- model_class = Dataset -%>
+    <div class="page-header row">
+      <h1>
+        <%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %>
+        <%= f.button :submit, :class => 'btn-primary' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")), dataset_path(@dataset), :class => 'btn btn-default' %>
+      </h1>
+        <span class="label label-supra has-tooltip" id="dataset_doi" onclick="copyToClipboard('#dataset_doi')" data-toggle="tooltip" data-placement="top" title="Click to copy">https://doi.org/<%= @dataset.identifier %></span> 
+        <span class="pull-right label <%= @dataset.state %>"><strong><i class="fas fa-database"></i> <%= @dataset.state.capitalize %></strong></span> 
+      <span id="creation_info" class="alert alert-success">You retrieved data from the referenced publication <em>via</em> Crossref. SupraBank will try to create all meta data from that and find all appropriate interactions. This process might take a while <strong>(up to 1 min)</strong>, but will save you a lot of work, thus please be patient.</span>
+    </div>
+    <div class="row">
+      <%#= render 'datasets/form/scholar_article_state', f:f %>
+    </div>
+    <div class="row">
+      <%= render "datasets/form/doi_and_rights", f:f %>
+      <hr class="dataset-ruler">
+      <%= render "datasets/form/metadata", f:f %>
+      <%= render "datasets/form/cooperators", f:f %>
+    </div>
+    <div class="row">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), dataset_path(@dataset), :class => 'btn btn-default' %>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  function uniqueDOIViolation(doi) {
+    $.ajax({
+      type: "GET",
+      url: "/dataset_related_identifiers/primary_reference_doi_query?q=" + doi,
+      success: function (data) {
+        //  console.log(data)  alert(data[0]);
+  
+        if (data.unique) {
+          $('#info_text').html("This DOI has been already used as primary reference, you cannot use it anymore, please find the corresponging dataset <a href=/datasets/" + data.dataset_id + " >here.</a>  " )
+          $('#info_text').addClass("text-danger")
+          $('#info_text').removeClass("text-success text-info")
+          $('input[name="commit"][value="Create Dataset"]').hide()
+          $('input[name="commit"][value="Update Dataset"]').hide()
+          $('#crossref_response').val(false).trigger('change')
+        } else {
+          $('#info_text').html("The DOI you inserted is not yet used as primary reference in SupraBank, great!" )
+          $('#info_text').addClass("text-success")
+          $('#info_text').removeClass("text-danger text-info")
+          $('#crossref_response').val(false).trigger('change')
+          $('#doi_request').tooltip({
+              title: "Click me!",
+              placement : 'top',
+              trigger : 'hover',
+              html : true,
+          })
+          $('#doi_request').tooltip("show")
+          $('input[name="commit"][value="Create Dataset"]').show()
+          $('input[name="commit"][value="Update Dataset"]').show()
+  
+        }
+        return false;
+      },
+      error: function (data) {
+        return false;
+      }
+    });
+  };
+</script>

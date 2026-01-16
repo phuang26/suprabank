@@ -1,0 +1,13 @@
+<div class="form-group row">
+  <div class="col-md-3 col-xs-12">
+    <span class="btn btn-md btn-default btn-lg refinement-button search_button" id="reset_refinement"><i class="fas fa-trash-alt"></i> Clear All</span>
+  </div>
+  <div class="col-md-3 col-xs-12">
+    <span class="btn btn-md btn-primary btn-lg refinement-button search_button" data-toggle="collapse" data-target="#more_options" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-plus-circle"></i> More Options</span>
+  </div>
+  <div class="col-md-3 col-xs-12">
+    <%= button_tag(type: :submit, class: "btn btn-success btn-lg refinement-button search_button", name: :commit) do %>
+      <i class="fas fa-search"></i> Search
+    <% end %>
+  </div>
+</div>

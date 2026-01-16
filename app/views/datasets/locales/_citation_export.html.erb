@@ -1,0 +1,86 @@
+<div class="">
+  <ul class="nav nav-tabs dataset-citation-tabs" role="tablist">
+    <li role="presentation" class="dataset-citation">
+      <a href="#datasets_info" role="tab" data-toggle="tab"><h6><strong>How to cite this Dataset <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong></h6></a>
+    </li>
+    <% if @dataset.related_identifiers.first.present? && @dataset.related_identifiers.first.relatedIdentifierType == "DOI" %>
+    <li role="presentation" class="dataset-citation">
+      <a href="#literature_info" role="tab" data-toggle="tab"><h6><strong>Scholarly Article <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong></h6></a>
+    </li>
+    <% end %>
+    <li role="presentation" class="dataset-citation">
+      <a href="#datasets_metrics" role="tab" data-toggle="tab"><h6><strong>Metrics <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong></h6></a>
+    </li>
+    <% if policy(@dataset).csv_exportable? %>
+    <li role="presentation" class="dataset-citation">
+      <a href="#data_export_info" role="tab" data-toggle="tab"><h6><strong>Data Export <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong></h6></a>
+    </li>
+    <% end %>
+    <li role="presentation" class="hidden" >
+      <a href="#tab4" role="tab" data-toggle="tab"></a>
+    </li>
+  </ul>
+</div>
+<div class="tab-content">
+  <div role="tabpanel" class="dummy-pane tab-pane fade active" id="tab4">
+    <button type="button" name="close" class="btn btn-xs btn-info pull-right closure">Close</button>
+  </div>
+  <div role="tabpanel" class="dataset-citation-pane tab-pane fade" id="datasets_info">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <button type="button" name="close" class="btn btn-xs btn-info pull-right closure">Close</button>
+        <%= render "interactions/locales/datasets_locale", dataset:@dataset%>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" class="dataset-citation-pane tab-pane fade" id="datasets_metrics">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <button type="button" name="close" class="btn btn-xs btn-info pull-right closure">Close</button>
+        <%= render "interactions/locales/datasets_metrics", dataset:@dataset%>
+      </div>
+    </div>
+  </div>
+  <% if @dataset.related_identifiers.first.present? && @dataset.related_identifiers.first.relatedIdentifierType == "DOI"  %>
+  <div role="tabpanel" class="dataset-citation-pane tab-pane fade" id="literature_info">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <button type="button" name="close" class="btn btn-xs btn-info pull-right closure">Close</button>
+        <%= render "interactions/locales/literature_locale", literature:@dataset.related_identifiers.first %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <div role="tabpanel" class="dataset-citation-pane tab-pane fade" id="data_export_info">
+    <div class="panel panel-default">
+      <div class="panel-body">
+          <button type="button" name="close" class="btn btn-xs btn-info pull-right closure">Close</button>
+          <% if policy(@dataset).csv_exportable? %>
+            <dt><strong>Export:</strong></dt>
+            <dd>
+            <%= link_to dataset_csv_export_dataset_path(@dataset), data: {turbolinks: false} do %>
+              <span class="csv-export"><i class='fas fa-file-csv'></i> CSV</span>
+            <% end %>
+            </dd>
+          <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+
+  $(document).on('ready turbolinks:load', function(){
+    $(".closure").on("click", function() {
+      $(".dataset-citation").removeClass("active");
+      $(".dataset-citation-pane").removeClass("active");
+      $(".dataset-citation-pane").removeClass("in");
+      $(".dummy-pane ").addClass("active");
+    });
+  })
+
+</script>
+
+<!-- Tab panes -->

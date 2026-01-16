@@ -1,0 +1,75 @@
+<div class="form-group" id="technique_selection">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "technique used for the determination of <em>K</em><sub>a</sub>, click for further information in glossary"}),
+    glossary_url(anchor:'techniques'), target: :_blank %>
+  </div>
+  <div class="col-md-1" style="text-align:left;">
+    <%= f.label :technique, :class => 'control-label' %>
+  </div>
+  <div class="col-md-10 ">
+    <%# f.text_field :assay_type, :class => 'form-control'%>
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="col-md-12">
+              <div class="row-fluid">
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Fluorescence').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Fluorescence', class:"technique" %> <%= Technique.search_by_names('Fluorescence').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Absorbance').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Absorbance', class:"technique" %> <%= Technique.search_by_names('Absorbance').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Isothermal Titration Calorimetry').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, Technique.search_by_names('Isothermal Titration Calorimetry').first.names[0], class:"technique"%> <%= Technique.search_by_names('Isothermal Titration Calorimetry').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Nuclear Magnetic Resonance').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Nuclear Magnetic Resonance', class:"technique"%> <%= Technique.search_by_names('Nuclear Magnetic Resonance').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Circular Dichroism').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Circular Dichroism', class:"technique"%> <%= Technique.search_by_names('Circular Dichroism').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Surface Enhanced Raman Scattering').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Surface Enhanced Raman Scattering', class:"technique"%> <%= Technique.search_by_names('Surface Enhanced Raman Scattering').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Extraction').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Extraction', class:"technique"%> <%= Technique.search_by_names('Extraction').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Potentiometry').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Potentiometry', class:"technique"%> <%= Technique.search_by_names('Potentiometry').first.names[1] %>
+                </label>
+                </span>
+                <span class="has-tooltip col-md-1" data-toggle="tooltip" title="<%= Technique.search_by_names('Electron Paramagnetic Resonance').first.names[0] %>">
+                <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel"><%= f.radio_button :technique, 'Electron Paramagnetic Resonance', class:"technique"%> <%= Technique.search_by_names('Electron Paramagnetic Resonance').first.names[1] %>
+                </label>
+                </span>
+              </div>
+              </div>
+          </div>
+
+      </div>
+
+    <%#= f.text_field :technique, :class => 'form-control' %>
+
+  <%=f.error_span(:technique) %>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "technique used for the determination of <em>K</em><sub>a</sub>, click for further information in glossary"}),
+    glossary_url(anchor:'techniques'), target: :_blank %>
+  </div>
+  <div class="col-md-1" style="text-align:left;">
+    <%= f.label :technique, :class => 'control-label' %>
+  </div>
+  <div class="col-md-10 ">
+    <label class="radio-inline control-label"  data-toggle="collapse" data-target="#technique_panel" aria-expanded="false" aria-controls="technique_panel">
+      <%= f.radio_button :in_technique_type, 'Fluorescence', class:"in_technique"%> Fluorescence
+    </label>
+  </div>
+</div>
+</div>

@@ -1,0 +1,36 @@
+<% if false %>
+<div class="alert alert-info">
+  Great that you decided to publish your data on SupraBank and make it available to others in a FAIR way! Here some quick information about the publishing process.
+</div>
+<% end %>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Review or Embargo</h3>
+  </div>
+  <div class="panel-body">
+    <p>SupraBank is providing a peer-review process so that the data entered complies the SupraBank standards.</p>
+    <p>You can postpone this review process by setting an embargo, which means that only you view and edit your data. This is the typical way when you are in the scientific pre-publication process and want to use the SupraBank to store your data and share it only with your group members.</p>
+    <hr>
+    <div class="container">
+      <span class="has-tooltip col-md-5" data-toggle="tooltip" title="The provided data will be reviewed and prepared for publication, but not yet published. Reference DOI muss be provided.">
+        <label class="radio-inline control-label radio-embargo"><%= f.radio_button :embargo, false, class:"custom_radio", checked: true %><span></span> No embargo, start the review process!
+        </label>
+      </span>
+      <span class="has-tooltip col-md-5" data-toggle="tooltip" title="The data will not be reviewed and no be published.">
+        <label class="radio-inline control-label radio-embargo">
+          <% if @interaction.embargo? || @interaction.embargo.nil? || @interaction.doi.blank? %>
+          <%= f.radio_button :embargo, true, class:"custom_radio" %>
+          <% else %>
+          <%= f.radio_button :embargo, true, class:"custom_radio", disabled: true %>
+          <% end %>
+          <span class="embargo"></span>Apply an embargo! Don't start the revision process.
+        </label>
+      </span>
+    </div>
+  </div>
+  <% if false %>
+  <div class="panel-footer">
+    <p>When the embargo is released, a SupraBank curator will have a look on the data and give you comments if you need to revise something. You keep track about updates via your email provided in your account.</p>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,64 @@
+<%- model_class = Group -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @group.name %></dd>
+  <dt><strong>Institution:</strong></dt>
+  <dd><%= @group.affiliation %></dd>
+  <dt><strong>ROR ID:</strong></dt>
+  <dd><%= link_to (image_tag("logos/ror.png", size: "16x16")), "#{@group.affiliationIdentifier}", target: :_blank %> <%= @group.affiliationIdentifier %> </dd>
+  <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong></dt>
+  <dd><%= @group.department %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:city) %>:</strong></dt>
+  <dd><%= @group.city %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:country) %>:</strong></dt>
+  <dd><%= @group.country %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
+  <dd><a href="<%= @group.website %>" target="_blank"><%= @group.website %></a></dd>
+  <hr>
+  <dt><strong>Members:</strong></dt>
+  <dd>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <% if policy(@group).group_membership? %>
+          <th>Datasets</th>
+          <th>Interactions</th>
+        <% end %>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for user in @group.users.sort_by{|word| word.role } %>
+      <tr>
+        <td><%= image_tag user.avatar.url(:thumb), class: "img-rounded inline group-show-img"%> </td>
+        <td><%= link_to user.full_name, user_path(user) %> </td>
+        <% if policy(@group).group_membership? %>
+          <td><%= link_to user.datasets.size, {controller: "/users", action: 'datasets', id:user}, class:'badge'%></td>
+          <td><%= link_to user.interactions.active.size, {controller: "/users", action: 'interactions', id:user}, class:'badge'%></td>
+        <% end %>
+        <td><%= user.role %></td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+
+  </dd>
+
+</dl>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+groups_path, :class => 'btn btn-default'  %>
+<% if current_user.assignments.first.group == @group %>
+
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                  edit_group_path(@group), :class => 'btn btn-default' %>
+
+
+
+<% end %>

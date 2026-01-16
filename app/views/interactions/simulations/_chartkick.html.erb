@@ -1,0 +1,32 @@
+
+<%= line_chart hg_sim_data_path(@interaction), id: "hg-chart", width: "600px", height: "600px",
+library: {
+    title: {display:true,text:'Bimolecular Binding Isotherm', fontSize: 16,fontFamily: "Open Sans"},
+    scales: {
+      yAxes: [{
+        ticks:{
+          fontFamily: "Open Sans",
+          fontSize: 12
+        },
+        scaleLabel: {
+          fontFamily: "Open Sans",
+          fontSize: 14,
+          display: true,
+          labelString: 'Concentration at equilibrium'
+        }
+      }],
+      xAxes: [{
+          ticks:{
+            fontFamily: "Open Sans",
+            fontSize: 12,
+          },
+          scaleLabel: {
+          fontFamily: "Open Sans",
+          fontSize: 14,
+          display: true,
+          labelString: 'Concentration of Host'
+        }
+      }]
+    },
+  elements: { point: { radius: 0 } }
+  } %>

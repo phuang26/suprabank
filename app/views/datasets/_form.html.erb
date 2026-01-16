@@ -1,0 +1,99 @@
+<%= simple_form_for @dataset, :html => { :class => 'form-horizontal' } do |f| %>
+<%- model_class = Dataset -%>
+<div class="page-header">
+  <h1>
+    <% if controller_name == 'datasets' && action_name == 'edit' %>
+      <%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %>
+    <% else %>
+      <%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %>
+    <% end %>
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <% if controller_name == 'datasets' && action_name == 'edit' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), dataset_path(@dataset), :class => 'btn btn-default' %>
+    <% else %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), datasets_path, :class => 'btn btn-default' %>
+    <% end %>
+  </h1>
+  <span id="creation_info">You retrieved data from the referenced publication <em>via</em> Crossref. SupraBank will try to create all meta data from that and find all appropriate interactions. This process might take a while (up to 1 min), but will save you a lot of work, thus please be patient.</span>
+</div>
+
+
+  <p>Your preliminary <strong>DOI</strong> is <em><%= @dataset.identifier %></em>. Your dataset will only be drafted, not yet published.</p>
+  <% if controller_name == 'datasets' && action_name == 'new' %>
+    <%= render "datasets/form/role_wizard", f:f %>
+    <%= render "datasets/form/doi_reference", f:f %>
+
+    <div id="wizard_metadata">
+      <%= render "datasets/form/metadata", f:f %>
+    </div>
+  <% end %>
+
+  <% if controller_name == 'datasets' && action_name == 'edit' %>
+    <%= render "datasets/form/doi_and_rights", f:f %>
+    <hr class="dataset-ruler">
+    <%= render "datasets/form/metadata", f:f %>
+    <%= render "datasets/form/cooperators", f:f %>
+  <% end %>
+
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <% if controller_name == 'datasets' && action_name == 'edit' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), dataset_path(@dataset), :class => 'btn btn-default' %>
+  <% else %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), datasets_path, :class => 'btn btn-default' %>
+  <% end %>
+
+<% end %>
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+  function uniqueDOIViolation(doi) {
+    $.ajax({
+      type: "GET",
+      url: "/dataset_related_identifiers/primary_reference_doi_query?q=" + doi,
+      success: function (data) {
+        //  console.log(data)  alert(data[0]);
+
+        if (data.unique) {
+          $('#info_text').html("This DOI has been already used as primary reference, you cannot use it anymore, please find the corresponging dataset <a href=/datasets/" + data.dataset_id + " >here.</a>  " )
+          $('#info_text').addClass("text-danger")
+          $('#info_text').removeClass("text-success text-info")
+          $('input[name="commit"][value="Create Dataset"]').hide()
+          $('input[name="commit"][value="Update Dataset"]').hide()
+        } else {
+          $('#info_text').html("The DOI you inserted is not yet used as primary reference in SupraBank, great!" )
+          $('#info_text').addClass("text-success")
+          $('#info_text').removeClass("text-danger text-info")
+
+          $('#doi_request').tooltip({
+              title: "Click me!",
+              placement : 'top',
+              trigger : 'hover',
+              html : true,
+          })
+          $('#doi_request').tooltip("show")
+          $('input[name="commit"][value="Create Dataset"]').show()
+          $('input[name="commit"][value="Update Dataset"]').show()
+
+        }
+        return false;
+      },
+      error: function (data) {
+        return false;
+      }
+    });
+  };
+
+
+
+
+
+
+
+
+</script>

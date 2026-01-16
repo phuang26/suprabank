@@ -1,0 +1,16 @@
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u>Comment</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+
+  </div>
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= f.label :comment," "%>
+  </div>
+  <div class="col-md-8">
+    <%= f.text_field :comment, :class => 'form-control' , placeholder:"maximum 100 characters" %>
+  </div>
+  <%=f.error_span(:doi) %>
+</div>

@@ -1,0 +1,32 @@
+<div class="panel-body center">
+  <div>
+    <h4 class="molecule_name_locale"><u>Stoichiometry </u></h4>
+  </div>
+  <div class="col-md-6" id="stoichio_molecule">
+    <p>
+      <% if @interaction.stoichometry_molecule.present? %>
+      <span> <% if ((@interaction.stoichometry_molecule % 1) === 0) %>
+                    <%= @interaction.stoichometry_molecule.round %>
+            <% else %>
+                    <%= @interaction.stoichometry_molecule %>
+            <% end %>
+      </span>
+    <% end %>
+    </p>
+  </div>
+  <div class="col-md-1">
+    <p> : </p>
+  </div>
+  <div class="col-md-5" id="stoichio_host">
+    <p>
+      <% if @interaction.stoichometry_host.present? %>
+        <span> <% if ((@interaction.stoichometry_host % 1) === 0) %>
+                    <%= @interaction.stoichometry_host.round %>
+              <% else %>
+                    <%= @interaction.stoichometry_host %>
+              <% end %>
+        </span>
+      <% end %>
+    </p>
+  </div>
+</div>

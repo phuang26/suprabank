@@ -1,0 +1,20 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+buffer_one:
+  name: Buffer One
+  abbreviation: BO
+  user: user_one
+
+buffer_two:
+  name: Buffer Two
+  abbreviation: BT
+  conc: 1.5
+  user: user_one
+
+buffer_three:
+  name: Phosphate
+  abbreviation: PO4
+  pH: 7.0
+  conc: 50.0
+  sourceofconcentration: real
+  user: user_one

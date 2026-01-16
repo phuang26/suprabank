@@ -1,0 +1,105 @@
+<div id="graph-container" style="position: relative">
+  <canvas id="results-graph"></canvas>
+  <p>The plot depicts the binding isotherm simulation of a 1:1 interaction of <%= @interaction.molecule.preferred_abbreviation.present? ? @interaction.molecule.preferred_abbreviation : @interaction.molecule.display_name %> (<%= 20./@interaction.binding_constant %> M) and <%= @interaction.host.preferred_abbreviation.present? ? @interaction.host.preferred_abbreviation : @interaction.host.display_name %> (0 &mdash; <%= (40./@interaction.binding_constant) %> M). </p>
+</div>
+<script type="text/javascript">
+  var ctx = document.getElementById('results-graph').getContext('2d');
+  
+  var jsonfile = $.ajax({
+    type: "GET",
+    url: "/interactions/<%= @interaction.id %>/hg_sim_data",
+    dataType:"json",
+    success:function(data){
+        message = data;
+        console.log(data)
+      }
+  });
+  
+  function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  
+  $(document).ajaxComplete(function(){
+  
+  var labels = window.jsonfile.responseJSON.jsonarray.map(function(e) {
+   return e.x;
+  });
+  var data = window.jsonfile.responseJSON.jsonarray.map(function(e) {
+  return e.y;
+  });
+  
+  var config = {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Host:Guest Complex',
+      fontFamily: "Verdana",
+      data: data,
+      backgroundColor: 'rgba(0, 119, 204, 0.3)'
+    }]
+  },
+  responsive: true,
+  aspectRatio: 1,
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    title: {display:true,text:'Equilibrium Concentration', fontSize: 30,fontFamily: "Verdana"},
+    scales: {
+      yAxes: [{
+        ticks:{
+          fontFamily: "Verdana",
+          fontSize: 16,
+  
+        },
+        gridLines: {
+          display: true,
+          drawTicks: true
+          },
+        scaleLabel: {
+          fontFamily: "Verdana",
+          fontSize: 16,
+          display: true,
+          labelString: 'Concentration of Complex / M at Equilibrium'
+        }
+      }],
+      xAxes: [{
+          ticks:{
+            fontFamily: "Verdana",
+            fontSize: 16,
+            callback: function(value, index, values) {
+                      expo = Math.log10(value)
+                      factor = Math.pow(10,Math.round(expo))
+                      value=value/factor
+                      value=parseFloat(Math.round(value*100)/100).toFixed(2);
+  
+                      if (isNaN(value)) {
+                        value = 0.
+                      } else {
+                        value = value + 'e' + Math.round(expo)
+                      }
+                      return value;
+                  }
+          },
+          gridLines: {
+            display: false,
+            drawTicks: true
+            },
+          scaleLabel: {
+          fontFamily: "Verdana",
+          fontSize: 16,
+          display: true,
+          labelString: 'Concentration of Host / M'
+            }
+      }],
+  
+    },
+    elements: { point: { radius: 0 }
+    },
+  
+  }
+  };
+  
+  var chart = new Chart(ctx, config);
+  });
+</script>

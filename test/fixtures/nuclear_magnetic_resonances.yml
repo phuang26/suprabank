@@ -1,0 +1,38 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+
+<% nuclei = ["H-1, Xe-129, C-13"] %>
+
+<% 1.upto(10) do |i| %>
+nuclear_magnetic_resonance_<%= i %>:
+ id: <%= i %>
+ shift_bound: <%= Faker::Number.number(digits: 3) %>
+ shift_unbound: <%= Faker::Number.number(digits: 3) %>
+ delta_shift: <%= Faker::Number.number(digits: 1) %>
+ nucleus: <%= nuclei.sample %>
+ instrument: <%= Faker::ElectricalComponents.active %>
+<% end %>
+
+nuclear_magnetic_resonance_11:
+ id: 11
+ shift_bound: 4
+ shift_unbound: 3
+ delta_shift: 1
+ free_to_bound: 0.75
+ nucleus: H-1
+ instrument: Test_Instrument
+  #
+  # create_table "nuclear_magnetic_resonances", force: :cascade do |t|
+  #   t.float    "shift_bound"
+  #   t.float    "shift_unbound"
+  #   t.float    "delta_shift"
+  #   t.text     "nucleus"
+  #   t.text     "instrument"
+  #   t.datetime "created_at",    null: false
+  #   t.datetime "updated_at",    null: false
+  #   t.float    "free_to_bound"
+  # end

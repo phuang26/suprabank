@@ -1,0 +1,13 @@
+<div class="col-md-12 col-xs-12" >
+  <div class="col-md-6 col-md-offset-3 col-xs-12">
+    <%= link_to (image_tag "logo-#{ENV['LOGOENV']}.png", :class => "img-rounded nav-logo"), root_path, id: 'logo' %>
+  </div>
+  <div class="container col-md-12 col-xs-12">
+    <b style="font-size: larger;"><br>An open repository for intermolecular interactions,<br>
+      comprising currently <strong><%= Interaction.published.count %></strong> peer-reviewed interactions including <strong><%= Molecule.all.size %></strong> molecules.</b><br>
+    <br>
+    <p> If you have questions or suggestions, please contact us:<br> <a href="mailto:contact@suprabank.org"  class="external-link">contact@suprabank.org </a> <br>
+    <br> Your feedback is very welcome, please use <a href="https://www.surveymonkey.de/r/66DZGZS"  target="_blank" rel="noopener noreferrer" class="external-link">our online feedback survey</a>. Thanks a lot! <br>
+    <br> Find out more <a href="/about_us" target="_blank" rel="noopener noreferrer" class="external-link">about the SupraBank team</a>.</p>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container-flex col-md-12">
+  <div class="row">
+    <div class="col-md-9">
+      <strong class="text-info" id="info_text">If you provide a DOI of an already published paper for which you want to provide a dataset, the SupraBank engine will try to prefill the MetaData for you. Just paste the DOI here and click the button on the right.
+      </strong>
+      <%= hidden_field_tag 'crossref_response', false, id:"crossref_response"%>
+    </div>
+    <div class="col-md-3">
+      <button type="button" name="doi_request" id="doi_request" class="btn btn-sm btn-info" >DOI request</button>
+      <img src="https://assets.crossref.org/logo/crossref-logo-landscape-200.svg" width="103" height="35" alt="Crossref logo">
+      <%= image_tag "preloader/38.gif", size:"35x35", class:"pull-right", id:"doi_loader", class:"loader" %>
+    </div>
+  </div>
+</div>
+<%= hidden_field_tag "authors","" ,id:"dataset_creators" %>
+
+<script type="text/javascript">
+
+  $(document).on('ready turbolinks:load', function () {
+    $("#doi_request").unbind("click").on('click', function () {
+      var doi = $("#dataset_primary_reference").val();
+      requestDOI(doi);
+      $('.popover').hide()
+      $('.tooltip').hide()
+    });
+  });
+
+</script>

@@ -1,0 +1,19 @@
+<% if interaction.molecule.present? %>
+  <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.molecule.display_name}" %>">
+    <span class="has-js-popover structure_popover_molecule" data-toggle="ajax-popover" data-container="body" title= "<span class='text-info'><strong>Structure</strong></span>
+          <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_molecule&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+          style=""
+    data-content='
+    <div class="center" structure-image-panel">
+      <input type="checkbox" id="zoomCheck" class="zoomCheck">
+      <label for="zoomCheck">
+
+        <%= image_tag interaction.molecule.png_url, class:"popover_molecule_image"%>
+      </label>
+        <p><%= link_to "Show all Information", molecule_path(interaction.molecule) %></p>
+    </div>
+    ' >
+    <%= interaction.molecule.preferred_abbreviation.present? ? interaction.molecule.preferred_abbreviation.truncate(15) : truncate(interaction.molecule.display_name, length: 15) %>
+  </span>
+</span>
+<% end %>

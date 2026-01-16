@@ -1,0 +1,180 @@
+<%= simple_form_for @molecule, url:update_framework_molecule_molecule_path, :html => { :class => "form-horizontal molecule" } do |f| %>
+  <% if @molecule.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@molecule.errors.count, "error") %> prohibited this molecule from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <% @molecule.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :display_name, "Common Name *", :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.text_field :display_name, :class => 'form-control' %>
+        <p>Please provide a decent (common) name for the molecule to be displayed.</p>
+      </div>
+    </div>
+    <%=f.error_span(:display_name) %>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :preferred_abbreviation, :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.text_field :preferred_abbreviation, :class => 'form-control' %>
+        <p>A common abbreviation enables a facile representation of complicated names (e.g. LTL2.33) </p>
+      </div>
+      <%=f.error_span(:preferred_abbreviation) %>
+    </div>
+  </div>
+  <%= fields_for :framework_molecule do |fm| %>
+    <div class="form-group">
+      <div class="row">
+        <%= fm.label :framework_code, :class => 'control-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= fm.text_field :framework_code, :class => 'form-control' , placeholder: "Start typing the select. e.g. LTL", data: {autocomplete_source: query_frameworks_path } %>
+          <p>Please give the code of the base framework you want to load. </p>
+          <p id="empty_message_framework"></p>
+        </div>
+        <%= hidden_field_tag :framework_id %>
+        <%=fm.error_span(:framework_code) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <%= fm.label :si_al_ratio,"Si/Al ratio", :class => 'control-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= fm.text_field :si_al_ratio, :class => 'form-control', placeholder: "2.33" %>
+          <p>Please provide the Si/Al ratio</p>
+        </div>
+        <%=fm.error_span(:si_al_ratio) %>
+      </div>
+    </div>
+  <% end %>
+  <%= fields_for :framework_molecule do |fma| %>
+    <div class="form-group">
+      <div class="row">
+        <%= fma.label :additive, "counter ion", :class => 'control-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= fma.text_field :additive, :class => 'form-control', placeholder: "live search", data: {autocomplete_source: query_additives_path }  %>
+          <p>Please provide the counter ion</p>
+          <p id="empty_message_additive"></p>
+        </div>
+        <%= hidden_field_tag :additive_id %>
+        <%=fma.error_span(:additive) %>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= f.submit nil, :class => 'btn btn-lg btn-primary login_button' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  molecules_path, :class => 'btn btn-default btn-lg' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div id="preview_framework"></div>
+<script>
+  function frameworkPrepopulation() {
+      $( "#molecule_display_name" ).val("<%= @molecule&.display_name %>");
+      $( "#framework_molecule_framework_code" ).val("<%= @molecule&.framework&.code %>");
+      $( "#framework_id" ).val("<%= @molecule&.framework&.id %>");
+      $( "#framework_molecule_si_al_ratio" ).val("<%= @molecule&.framework_molecule&.si_al_ratio %>");
+      $( "#framework_molecule_additive" ).val("<%= @molecule&.framework_molecule&.additives&.first&.display_name %>");
+      $( "#additive_id" ).val("<%= @molecule&.framework_molecule&.additives&.first&.id %>");
+    }
+  
+  
+  
+  function frameworkAutoComplete(input) {
+    $(input).autocomplete({
+      source: $(input).data('autocomplete-source'),
+      select: function( event, ui ) {
+        $( input ).val( ui.item[0] );
+        $('#framework_id').val(ui.item[4]);
+        previewFramework(ui.item[4])
+        return false;
+      },
+      response: function(event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+        if (ui.content.length === 0) {
+          $("#empty_message_framework").html("<%= escape_javascript(render 'interactions/autocomplete/response_frameworks', molecule:'Framework') %>");
+        } else {
+          $("#empty_message_framework").empty();
+        }
+      }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+        .appendTo( ul );
+      };
+  };
+  
+  function additiveAutoComplete(input) {
+    $(input).autocomplete({
+      source: $(input).data('autocomplete-source'),
+      select: function( event, ui ) {
+        $( input ).val( ui.item[1] );
+        $('#additive_id').val(ui.item[3]);
+        // previewFramework(ui.item[4])
+        return false;
+      },
+      response: function(event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+        if (ui.content.length === 0) {
+          $("#empty_message_additive").html("<%= escape_javascript(render 'interactions/autocomplete/response_additive', molecule:'Additive') %>");
+        } else {
+          $("#empty_message_additive").empty();
+        }
+      }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+        .appendTo( ul );
+      };
+  };
+  
+  
+  function previewFramework(id){
+      $.ajax({
+      type: "GET",
+      url: "/frameworks/" + id + "/preview",
+      success: function(data) {
+      //  console.log(data)
+      //  alert(data[0]);
+        if (data) {
+          console.log(data);
+        }
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+        });
+  };
+  
+  
+  $(document).on('ready turbolinks:load', function(){
+    frameworkPrepopulation();
+    frameworkAutoComplete('#framework_molecule_framework_code')
+    additiveAutoComplete('#framework_molecule_additive')
+    $('.loader').hide();
+    $(document)
+      .ajaxStart(function () {
+        $('.loader').show();
+      })
+      .ajaxComplete(function () {
+        $('.loader').hide();
+      });
+  });
+</script>

@@ -1,0 +1,90 @@
+<%= render "revisions" %>
+<script type="text/javascript">
+var dataTablesProp = {
+ "bAutoWidth": false,
+ "bDestroy": true,
+ stateSave: true,
+ searching: true,
+ paging: true,
+ ordering: true,
+ info: true,
+ "order": [],
+ "columnDefs": [
+   {"targets"    : 'no-sort',
+    "orderable"  : false},
+   {"targets"    : [ 3,4,7,8 ],
+    "visible"    : false},
+    {"width": "2%", "targets": [9]},
+   {"width": "3%", "targets": [1,3,5,7]} ],
+ "drawCallback": function(){
+
+   $('[data-toggle="popover"]').popover({
+       container: 'body',
+       placement : 'top',
+       trigger : 'click',
+       html : true,
+   });
+
+   $('[data-toggle="ajax-popover"]').popover({
+       container: 'body',
+       placement : 'top',
+       trigger : 'click',
+       html : true,
+   });
+
+   $('[data-toggle="ajax-tooltip"]').tooltip({
+       placement : 'right',
+       trigger : 'hover',
+       html : true,
+   });
+
+   $('[data-toggle="tooltip"]').tooltip({
+       placement : 'left',
+       trigger : 'hover',
+       html : true,
+   });
+
+   $('[data-toggle="left-tooltip"]').tooltip({
+       placement : 'left',
+       trigger : 'hover',
+       html : true,
+   });
+
+   $('[data-toggle="top-tooltip"]').tooltip({
+       placement : 'top',
+       trigger : 'hover',
+       html : true,
+   });
+
+ }
+}
+
+var dataTables = {
+  "submitted":NaN,
+  "accepted":NaN,
+  "pending":NaN,
+  "submitted_datacurator":NaN
+}
+
+var submitPropsSource = {
+  ordering: false,
+  info: false,
+  searching: false,
+  paging: false
+}
+var submitPropsTarget=JSON.parse(JSON.stringify(dataTablesProp))
+// dataTablesPropSubmitted["ordering"] = false
+dataTablesPropSubmitted = Object.assign(submitPropsTarget,submitPropsSource)
+
+$(document).on('turbolinks:load',function(){
+    dataTables.submitted = $('#int-index-submitted').DataTable(dataTablesProp);
+    dataTables.accepted = $('#int-index-accepted').DataTable(dataTablesProp);
+    dataTables.pending = $('#int-index-pending').DataTable(dataTablesProp);
+    dataTables.submitted_datacurator = $('#int-index-submitted_datacurator').DataTable(dataTablesPropSubmitted);
+});
+
+
+
+
+
+</script>

@@ -1,0 +1,40 @@
+
+
+    <div class="panel-body">
+      <table class="col-md-12 table table-responsive interaction_properties ">
+        <tbody >
+          <tr >
+            <td colspan="1" class="no_top_border"><strong>V<sub>3D</sub>/&#8491;<sup>3</sup>: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.volume_3d %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border" ><strong>TPSA: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.tpsa %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>XLogP: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.x_log_p %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>Charge: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.charge %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>H-Donors: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.h_bond_donor_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>H-Acceptors: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.h_bond_acceptor_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>E/Z-Bonds: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.bond_stereo_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="1" class="no_top_border"><strong>R/S-Atoms: </strong></td>
+            <td colspan="1" class="no_top_border"><%= object.atom_stereo_count %> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

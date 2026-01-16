@@ -1,0 +1,347 @@
+<div id="modal_question_guide">
+  <div class="container-fluid">
+    <div class="row">
+      <h2>How can we help you?</h2>
+    </div>
+    <div class="row ordered-list-div">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="explanations">Choose</span> This is a comprehensive overview please <strong>explain</strong> what each part means. <br>
+          </li>
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="guidance">Choose</span> I currently do not really know what to do next, please give me some <strong>guidance</strong>. </li>
+        </ul>
+      </div>
+      <div class="col-md-12">
+        <span class="btn btn-md btn-default" id="close_show_guide">Close Guide</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="backdrop"></div>
+
+<div id="backdrop_top" class="backdrop"></div>
+<div id="backdrop_left" class="backdrop"></div>
+<div id="backdrop_bottom" class="backdrop"></div>
+<div id="backdrop_interactions_top" class="backdrop"></div>
+<div id="backdrop_interactions_left" class="backdrop"></div>
+<div id="backdrop_interactions_bottom" class="backdrop"></div>
+<div id="backdrop_publishing_top" class="backdrop"></div>
+<div id="backdrop_publishing_left" class="backdrop"></div>
+<div id="backdrop_publishing_bottom" class="backdrop"></div>
+<script type="text/javascript">
+
+
+  function dataset_panel_explanations(work_state) {
+    sharable_link_exp();
+    $("button[name=next]").click(function() {
+      doi_exp("#sharable_link_show");
+      $("button[name=next]").click(function() {
+        title_exp("#doi_show", work_state);
+        $("button[name=next]").click(function() {
+          creator_exp("#title_show", work_state);
+          $("button[name=next]").click(function() {
+            contributors_exp("#creators_show", work_state);
+            $("button[name=next]").click(function() {
+              meta_data_exp("#contributors_show", work_state);
+              $("button[name=next]").click(function() {
+                $("#meta_data_show").popover("destroy");
+                $("#meta_data_show").removeClass("guide-panel-active");
+                defaultPopoverTop.title = "";
+                defaultPopoverTop.content = "<p>Go to the Interactions Panel</p>";
+                defaultPopoverTop.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><div class="popover-content guide-popover-content"></div></div>'
+                $("#continue_guide_meta_data_show").popover(defaultPopoverTop).popover("show");
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+  
+  function continue_to_interactions(work_state) {
+     $("#continue_guide_meta_data_show").click(function() {
+          $(this).popover('destroy');
+          $(".guide-panel-active").popover('destroy');
+          $(".guide-panel-active").removeClass("guide-panel-active");
+          $(this).fadeOut(200);
+          $('#close_guide_meta_data_show').fadeOut(200);
+          $('#backdrop_top').fadeOut(200);
+          $('#backdrop_bottom').fadeOut(200);
+           $('.info-guide').fadeOut(200);
+          show_guide_interactions(work_state)
+        });
+  }  
+
+  function continue_to_publishing(work_state) {
+     $("#continue_guide_interactions_show").click(function() {
+          $(this).popover('destroy');
+          $(".guide-panel-active").popover('destroy');
+          $(".guide-panel-active").removeClass("guide-panel-active");
+          $(this).fadeOut(200);
+          $('#close_guide_interactions_show').fadeOut(200);
+          $('#backdrop_interactions_top').fadeOut(200);
+          $('#backdrop_interactions_bottom').fadeOut(200);
+          $('.info-guide').fadeOut(200);
+          show_guide_publishing(work_state)
+        });
+  }
+
+  function close_guide(params) {
+    $('.close-guide').click(function() {
+        $(".continue-guide").popover('destroy');
+        $(".continue-guide").fadeOut(200);
+        $(this).fadeOut(200);
+        $('.backdrop').fadeOut(200);
+        $('.info-guide').fadeOut(200);
+        $(".guide-panel-active").popover('destroy');
+        $(".guide-panel-active").removeClass("guide-panel-active");
+      });
+      
+  }
+
+  function dataset_overview(work_state='explanation') {
+        $('#dataset_guide_info').text('This is the dataset panel displaying all the meta data of your dataset.')
+        $('#dataset_guide_info').fadeIn(200);
+        switch (work_state) {
+          case 'explanation':
+            dataset_panel_explanations(work_state)
+            break;
+          case 'prepresentdraft':
+            defaultPopoverTopBare.title = "<strong>Edit your Meta Data</strong>";
+            defaultPopoverTopBare.content = "<p>You should provide a decent title (identical to your scholarly article) and 1-3 creators (authors of the paper) for the dataset. If you have done this, please continue to the next step.</p>";
+            $("#meta_data_show").popover(defaultPopoverTopBare).popover("show");
+            $("#meta_data_show").addClass("guide-panel-active");
+            break;
+          case 'prepresentregistered':
+            defaultPopoverTopBare.title = "<strong>Edit your Meta Data</strong>";
+            defaultPopoverTopBare.content = "<p>Great work so far! You added content, included meta data and registered your dataset and included it in your paper. We assume, that now your paper was accepted and published. Congrats! Please edit now the meta data and add the DOI of your paper there.</p>";
+            $("#meta_data_show").popover(defaultPopoverTopBare).popover("show");
+            $("#meta_data_show").addClass("guide-panel-active");
+            break;
+          default:
+            break;
+        }
+      };
+  
+  
+  function close_modal() {
+    $('#modal_step_1').fadeOut(200, function() {
+          $('#backdrop').fadeOut(100);
+        });
+  }
+  
+  function show_guide_meta_data(work_state="explanation") {
+    applyBackdrop('#dataset_panel_metadata')
+    $('#close_guide_meta_data_show').fadeIn(200);
+    $('#continue_guide_meta_data_show').fadeIn(200);
+    dataset_overview(work_state)
+    $('#backdrop_bottom').fadeIn(200, function() {
+      close_guide();
+      continue_to_interactions(work_state);
+      // popoverStepI()
+      
+    });
+    event.stopPropagation? event.stopPropagation() : event.cancelBubble = true;
+  }
+
+
+
+  function show_guide_interactions(work_state="explanation") {
+    console.log(work_state)
+    applyInteractionsBackdrop('#dataset_panel_interactions')
+    $('#close_guide_interactions_show').fadeIn(200);
+    $('#dataset_interactions_guide_info').text('This panel shows all interactions that belong to this dataset. You can directly add interactions from here.');
+    $('#dataset_interactions_guide_info').fadeIn(200);
+    $('#backdrop_interactions_bottom').fadeIn(200, function() {
+          close_guide();
+          continue_to_publishing(work_state);
+    });
+    switch (work_state) {
+      case "explanation":
+        $('#continue_guide_interactions_show').fadeIn(200);
+        break;
+      case "preabsentdraft":
+        defaultPopoverTopBare.title = "<strong>Create/Add Interactions</strong>";
+        defaultPopoverTopBare.content = "<p>You are in the progress of acquiring your data and preparing a manuscript for publication. Please add some interactions to your drafted dataset.</p>";
+        $("#included_interactions_footer").popover(defaultPopoverTopBare).popover("show");
+        $("#included_interactions_footer").addClass("guide-panel-active");
+        break;
+      case "prepresentdraft":
+        defaultPopoverTopBare.title = "<strong>Interactions</strong>";
+        defaultPopoverTopBare.content = "<p>You have added already interactions, great! Please check them and continue to the next panel.</p>";
+        $("#included_interactions_footer").popover(defaultPopoverTopBare).popover("show");
+        $("#included_interactions_footer").addClass("guide-panel-active");
+        $('#continue_guide_interactions_show').fadeIn(200);
+        break;
+      default:
+        break;
+    }
+  };
+
+  function show_guide_publishing(work_state="explanation") {
+    applyPublishingBackdrop('#dataset_panel_publishing')
+    $('#close_guide_publishing_show').fadeIn(200);
+    $('#further_assistance_guide').fadeIn(200);
+    $('#backdrop_publishing_bottom').fadeIn(200, function() {
+      close_guide();
+      // continue_to_interactions();
+    });
+    switch (work_state) {
+      case "explanation":
+        break;
+      case "prepresentdraft":
+        defaultPopoverTopBare.title = "<strong>Register Dataset</strong>";
+        defaultPopoverTopBare.content = "<p>You provided meta data and experimental data. You may register your data and cite your dataset inside your manuscript you are about to submit.</p>";
+        $("#register_dataset").popover(defaultPopoverTopBare).popover("show");
+        $("#register_dataset").addClass("guide-panel-active");
+        break;
+      case "postpresentdraft":
+        defaultPopoverTopBare.title = "<strong>Register Dataset</strong>";
+        defaultPopoverTopBare.content = "<p>You provided meta data and experimental data. You may register your dataset.</p>";
+        $("#register_dataset").popover(defaultPopoverTopBare).popover("show");
+        $("#register_dataset").addClass("guide-panel-active");
+        break;
+      case "postpresentregistered":
+        defaultPopoverTopBare.title = "<strong>Publish Dataset</strong>";
+        defaultPopoverTopBare.content = "<p>You did a great job! Congrats, you can now publish your dataset, just click.</p>";
+        $("#publish_dataset").popover(defaultPopoverTopBare).popover("show");
+        $("#publish_dataset").addClass("guide-panel-active");
+        break;
+    
+      default:
+        break;
+    }
+  };
+
+ function close_modal() {
+    $('#modal_question_guide').fadeOut(200, function() {
+          $('#backdrop').fadeOut(100);
+        });
+  }
+
+
+  function determineWorkState() {
+    var work;
+    var content;
+    var state;
+    if ($('#literature_info').length) {
+      work="post"
+    } else {
+      work="pre"      
+    };
+    if ($('#register_dataset').length) {
+      state="draft"
+    } else {
+      state="registered"      
+    };
+    
+    if ($('#dataset_panel_interactions table tbody tr').length > 1) {
+      content="present"
+    } else {
+      content="absent"
+    };
+    var work_state = work + content + state;
+    console.log(work_state)
+    return work_state;
+
+  }
+
+  function workStateProgress() {
+    var work_state = determineWorkState();
+    switch (work_state) {
+      case "preabsentdraft":
+        show_guide_interactions(work_state)
+        break;
+      case "prepresentdraft":
+        show_guide_meta_data(work_state)
+        break;
+      case "prepresentregistered":
+        show_guide_meta_data(work_state)
+        break;
+      case "postabsentdraft":
+        show_guide_interactions(work_state)
+        break;
+      case "postpresentdraft":
+        show_guide_publishing(work_state)
+        break;
+      case "postpresentregistered":
+        show_guide_publishing(work_state)
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+  function reason_question() {
+    $('#backdrop').css('height', $(document).height());
+    $('#backdrop').fadeIn(100, function() {
+      $('#modal_question_guide').fadeIn(200);
+    });
+    $('#explanations').click(function() {
+      close_modal()
+      show_guide_meta_data('explanation');
+    });
+    $('#guidance').click(function() {
+      close_modal()
+      workStateProgress()
+    });
+    $('#close_show_guide').click(function() {
+      close_modal()
+    });
+  }
+  
+    $(document).on('ready turbolinks:load', function() {
+      $('#close_guide_meta_data_show').hide();
+      $('#continue_guide_meta_data_show').hide();
+      $("#dataset_show_guide").click(function(){
+        $(".tooltip").hide()
+        $(".popover").hide()
+        
+        // $(".guide-panel-active").removeClass("guide-panel-active")
+        // popoverStepI()
+      });
+  
+  
+      var dataset_new_guide = localStorage.getItem('dataset_new_guide');
+      var tooltipOptions = {
+          container: 'body',
+          placement : 'right',
+          trigger : 'hover',
+          html : true,
+          template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+          title : "This guide will help you generating and publishing datasets."
+      }
+      if (dataset_new_guide === null) {
+      $('#dataset_new_guide').tooltip(tooltipOptions).tooltip('show');
+      localStorage.setItem('dataset_new_guide', 1);
+      } else {
+      $('#dataset_new_guide').tooltip(tooltipOptions);
+      }
+  
+      
+  
+      // $('#dataset_show_guide').click(function() {
+      //   show_guide_meta_data(event);
+      // });
+
+      $('#dataset_show_guide').click(function() {
+        reason_question();
+      });
+  
+      // $('#close_guide').click(function() {
+      //   close_modal()
+      //   $('#dataset_guide_info').fadeOut(200);
+      // });
+  
+  
+  
+  
+  
+  
+  });
+</script>

@@ -1,0 +1,171 @@
+<div id="modal_step_1">
+  <div class="container-fluid">
+    <div class="row">
+      <h2>What are you currently doing?</h2>
+    </div>
+    <div class="row ordered-list-div">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="acquiring">Choose</span> I am <strong>aquiring my data</strong> and did not yet write or publish my scholarly article. <br>
+          </li>
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="submission">Choose</span> I acquired my data and I am about to <strong>submit my scholarly article</strong> and want to include a reference to my data. </li>
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="published">Choose</span> I <strong>already published</strong> my scholarly article in a journal and now want to publish the included data.</li>
+          <li class="list-group-item"><span class="btn btn-md btn-primary" id="curating">Choose</span> I am <strong>reading a scholarly article</strong> from a peer and want to make the included data available on SupraBank. </li>
+        </ul>
+      </div>
+      <div class="col-md-12">
+        <span class="btn btn-md btn-default" id="close_guide">Close Guide</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="backdrop"></div>
+<script type="text/javascript">
+  
+  var defaultTooltipBottom = {
+    container: "body",
+    placement: "bottom",
+    animation: true,
+    trigger: "manual",
+    html: true,
+    template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+    title: ""
+  }
+  
+  var defaultTooltipTop = {
+    container: "body",
+    placement: "top",
+    animation: true,
+    trigger: "manual",
+    html: true,
+    template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+    title: ""
+  }
+
+  var defaultPopover = {
+    container: "body",
+    placement: "top",
+    animation: true,
+    trigger: "manual",
+    html: true,
+    template: '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><button type="button" name="next" class="btn btn-sm btn-black pull-right">NEXT</button></div>',
+    title: "",
+    content: ""
+  }
+  
+  function title_popover_aquiring() {
+    defaultPopover.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><span name="close" class="btn btn-sm btn-black pull-right popover-close-button">Close</span></div>'
+    defaultPopover.title = "<strong>Title</strong>"
+    defaultPopover.content = "<p>The title should be just describtive for you, at the moment, later on you can adjust.</p><p>Afterwards please click on Create Dataset.</p>";
+    $(".dataset_title").popover(defaultPopover).popover("show");
+    $('.popover-close-button').click(function() {
+        $(".popover").hide()
+      })
+  }
+    
+  function title_popover_submission() {
+    defaultPopover.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><span name="close" class="btn btn-sm btn-black pull-right popover-close-button">Close</span></div>'
+    defaultPopover.title = "<strong>Title</strong>"
+    defaultPopover.content = "<p>Please paste here the title of your manuscript you are about to submit.</p><p>Afterwards please click on Create Dataset.</p>";
+    $(".dataset_title").popover(defaultPopover).popover("show");
+    $('.popover-close-button').click(function() {
+        $(".popover").hide()
+      })
+  }
+
+  function doi_popover() {
+    defaultPopover.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><span name="close" class="btn btn-sm btn-black pull-right popover-close-button">Close</span></div>'
+    defaultPopover.title = "<strong>Article DOI</strong>"
+    defaultPopover.content = "<p>Please paste first the DOI of the article (e.g. 10.1039/D0CC03715J) and then retrieve the data with crossref (see right)</p>";
+    $(".dataset_primary_reference").popover(defaultPopover).popover("show");
+    $('.popover-close-button').click(function() {
+        $(".popover").hide()
+      })
+    $("#crossref_response").change(function() {
+       
+       if ($("#crossref_response").val() == "true") {
+         defaultTooltipBottom.title = "Well done, just click here to create the dataset!"
+         $('#create_dataset_top').tooltip(defaultTooltipBottom).tooltip('show')
+       }
+      });
+  }
+
+  function close_modal() {
+    $('#modal_step_1').fadeOut(200, function() {
+          $('#backdrop').fadeOut(100);
+        });
+  }
+  
+  function reason_question() {
+      $('#backdrop').css('height', $(document).height());
+      $('#backdrop').fadeIn(100, function() {
+        $('#modal_step_1').fadeIn(200);
+      });
+      $('#acquiring').click(function() {
+        close_modal()
+        $('#pre_publishing_radio').click()
+        title_popover_aquiring()
+      });
+      $('#submission').click(function() {
+        close_modal()
+        $('#pre_publishing_radio').click()
+        title_popover_submission()
+      });
+      $('#published').click(function() {
+        close_modal()
+        $('#post_publishing_radio').click()
+        doi_popover()
+      });
+      $('#curating').click(function() {
+        close_modal()
+        $('#post_publishing_radio').click()
+        doi_popover()
+      });
+  }
+  
+    $(document).on('ready turbolinks:load', function() {
+      $("#dataset_new_guide").click(function(){
+        $(".tooltip").hide()
+        $(".popover").hide()
+        // $(".guide-panel-active").removeClass("guide-panel-active")
+        // popoverStepI()
+        localStorage.setItem('dataset_new_guide_used', 1)
+        if (localStorage.getItem('dataset_new_guide_used')) {
+          console.log(typeof localStorage.getItem('dataset_new_guide_used'))
+        }
+      });
+  
+  
+      var dataset_new_guide = localStorage.getItem('dataset_new_guide');
+      var tooltipOptions = {
+          container: 'body',
+          placement : 'right',
+          trigger : 'hover',
+          html : true,
+          template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+          title : "This guide will help you generating and publishing datasets."
+      }
+      if (dataset_new_guide === null) {
+      $('#dataset_new_guide').tooltip(tooltipOptions).tooltip('show');
+      localStorage.setItem('dataset_new_guide', 1);
+      } else {
+      $('#dataset_new_guide').tooltip(tooltipOptions);
+      }
+  
+      
+  
+      $('#dataset_new_guide').click(function() {
+        reason_question()
+      });
+  
+      $('#close_guide').click(function() {
+        close_modal()
+      });
+
+      
+
+     
+      
+  
+  });
+</script>

@@ -1,0 +1,42 @@
+<% if interaction.assay_type == 'Competitive Binding Assay' %>
+  <% if interaction.indicator.present? %>
+    <span class="has-tooltip " data-toggle="tooltip" title="<%= interaction.indicator.present? ? "#{interaction.indicator.display_name}" : "no indicator" %>">
+      <span
+        class="has-js-popover structure_popover_indicator"
+        data-container="body"
+        data-toggle="popover"
+        title="Indicator: <%= interaction.indicator.display_name if interaction.indicator.present? %> <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_indicator&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+        data-content='
+                      <div class="center">
+                        <% if interaction.indicator.present? %>
+                          <%= image_tag interaction.indicator.png_url, class:"popover_molecule_image"%>
+                          <p><%= link_to "Show all Information", molecule_path(interaction.indicator) %></p>
+                        <% end %>
+                      </div>
+                    '>
+        <%= interaction.indicator.preferred_abbreviation.present? ? interaction.indicator.preferred_abbreviation.truncate(15) : truncate(interaction.indicator.display_name, length: 15) %>
+      </span>
+    </span>
+  <% end %>
+  <% elsif interaction.assay_type == "Associative Binding Assay" %>
+    <% if interaction.conjugate.present? %>
+      <span class="has-tooltip " data-toggle="tooltip" title="<%= interaction.conjugate.present? ? "#{interaction.conjugate.display_name}" : "no host" %>">
+        <span
+          class="has-js-popover structure_popover_conjugate"
+          data-container="body"
+          data-toggle="popover"
+          title="Cofactor: <%= interaction.conjugate.display_name if interaction.conjugate.present? %> <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_conjugate&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+          data-content='
+                      <div class="center">
+                        <% if interaction.conjugate.present? %>
+                          <%= image_tag interaction.conjugate.png_url, class:"popover_molecule_image"%>
+                          <p><%= link_to "Show all Information", molecule_path(interaction.conjugate) %></p>
+                        <% end %>
+                      </div>
+                    '>
+          <%= interaction.conjugate.preferred_abbreviation.present? ? interaction.conjugate.preferred_abbreviation.truncate(15) : truncate(interaction.conjugate.display_name, length: 15) %>
+        </span>
+      </span>
+    <% end %>
+  <% else %>
+  <% end %>

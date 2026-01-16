@@ -1,0 +1,57 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">ORCID results</h3>
+    </div>
+      <div class="modal-body">
+
+        <p>
+          Number of Results: <%= @orcid_results.present? ? @orcid_results.count : "" %>
+        </p>
+
+        <table id="example" class="table">
+          <thead>
+            <th>Select</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>ORCID</th>
+          </thead>
+          <tbody>
+            <% if @orcid_results.present? %>
+            <% @orcid_results.each do |result| %>
+            <tr>
+              <td><%= radio_button_tag "selection", result[2], class:"selection" %>
+              </td>
+              <td><%= result[0] %></td>
+              <td><%= result[1]  %></td>
+              <td><%= result[2]  %></td>
+            </tr>
+            <% end %>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="take_selection"><i class="fa fa-search"></i> Take selection</button>
+
+    </div>
+
+  </div>
+
+
+
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('#take_selection').click(function(){
+      var selection = $('input[name="selection"]:checked').val();
+      $('#user_nameIdentifier').val(selection);
+    });
+  });
+</script>

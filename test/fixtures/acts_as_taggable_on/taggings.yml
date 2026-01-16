@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+tagging_one:
+  tag: tag_one
+  taggable: molecule_one (Molecule)
+  taggable_type: Molecule
+  context: tags
+
+tagging_two:
+  tag: tag_two
+  taggable: molecule_one (Molecule)
+  taggable_type: Molecule
+  context: tags

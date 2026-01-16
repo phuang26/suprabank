@@ -1,0 +1,72 @@
+$navbar-supraback-color: #5479b4;
+$radio_button_color: #8BC34A;
+
+/* Als erstes verstecken wir die Standard Form-Elemente */
+input[type="radio"].assay-type,
+input[type="radio"].method,
+input[type="radio"].in_technique,
+input[type="radio"].concentration_variation,
+input[type="radio"].custom_radio {
+    display: none;
+}
+
+
+input[type="checkbox"].custom_checkbox {
+    display: none;
+}
+/*
+Dem Label gebe ich ein Display Block,
+damit dieser über die komplette Breite klickbar ist.
+*/
+label {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 25px;
+}
+
+/* Der span ist unsere neue Checkbox und den stylen wir wie folgt */
+label span {
+    background: #eee;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border: 1px solid #eaeaea;
+
+    /*
+    Die Positionierung kann je nach Einsatzgebiet abweichen.
+    Ich möchte hier sichergehen das die Checkbox oder Radiobutton immer ob am Textanfang steht,
+    falls wir einen mehrzeiligen Text haben, wie es z.B. bei "AGB´s akzeptieren" üblich ist.
+    Die könnt ihr aber auch anders lösen.
+    */
+    position: absolute;
+    top: 3px;
+    left: 0;
+
+    /* Ein Transition Effekt für den Hover - Checked Status. Dadurch wirkt es etwas animiert. */
+    transition: all .3s linear;
+}
+
+/* Den Radiobutton runden wir komplett ab */
+input[type="radio"] + span {
+    top: 1rem;
+    border-radius: 50%;
+}
+
+
+/* Hover-Effekt */
+label:hover span {
+    border: 1px solid #5479b4;
+}
+
+/*
+Mit dem "+" Selektor können wir das direkt nachfolgende Element
+ansprechen, indem Fall unsere Label mit darin enthalten span.
+*/
+input[type="checkbox"]:checked + span,
+input[type="radio"]:checked + span{
+    border: 4px solid $radio_button_color;
+}
+input[type="radio"]:checked + span.embargo{
+    border: 4px solid #c34b4b;
+}

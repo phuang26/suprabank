@@ -1,0 +1,70 @@
+<% if @molecule %>
+    <h1>Interactions of <%=link_to @molecule.display_name, molecule_path(@molecule) %></h1>
+
+    <% if @molecule_interactions.size + @host_interactions.size > 0 %>
+    <div class="">
+
+      <%= render 'interactions/newinteraction', interactions:@interactions, table_id:'molecules' %>
+    <%#= render 'forminteractions' %>
+    </div>
+    <% end %>
+
+  <% if @indicator_interactions.size > 0 %>
+    <br>
+    <hr>
+    <h1> <%= @molecule.preferred_abbreviation.present? ? @molecule.preferred_abbreviation.truncate(20) : @molecule.display_name.truncate(20) %> as Indicator</h1>
+    <div class="">
+      <%= render 'interactions/newinteraction', interactions:@indicator_interactions, table_id:'indicators' %>
+    <%#= render 'forminteractions' %>
+    </div>
+  <% end %>
+
+  <% if @conjugate_interactions.size > 0 %>
+    <br>
+    <hr>
+    <h1> <%= @molecule.preferred_abbreviation.present? ? @molecule.preferred_abbreviation.truncate(20) : @molecule.display_name.truncate(20) %> as Cofactor</h1>
+    <div class="">
+      <%= render 'interactions/newinteraction', interactions:@conjugate_interactions, table_id:'conjugates' %>
+    <%#= render 'forminteractions' %>
+    </div>
+  <% end %>
+<% end %>
+
+
+
+<script type="text/javascript">
+
+var dataTables = {
+  "molecules":NaN,
+  "indicators":NaN,
+  "conjugates":NaN
+}
+
+$(document).on('turbolinks:load',function(){
+    dataTables.molecules = $('#int-index-molecules').DataTable(dataTablesPropDefault);
+    dataTables.indicators = $('#int-index-indicators').DataTable(dataTablesPropDefault);
+    dataTables.conjugates = $('#int-index-conjugates').DataTable(dataTablesPropDefault);
+    dataTables.molecules.on('page.dt', function(){
+              hidePopovers();
+            });
+    dataTables.molecules.on('order.dt', function(){
+              hidePopovers();
+          });
+    dataTables.indicators.on('page.dt', function(){
+              hidePopovers();
+          });
+    dataTables.indicators.on('order.dt', function(){
+              hidePopovers();
+          });
+    dataTables.conjugates.on('page.dt', function(){
+             hidePopovers();
+          });
+    dataTables.conjugates.on('order.dt', function(){
+             hidePopovers();
+          });
+});
+
+
+
+
+</script>

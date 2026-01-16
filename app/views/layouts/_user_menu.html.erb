@@ -1,0 +1,51 @@
+<li class="dropdown">
+  <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-user user"></i>&nbsp;&nbsp;<strong><%= current_user.givenName if current_user.present? %> <%= current_user.familyName if current_user.present?%></strong> <b class="caret"></b></a>
+  <ul class="dropdown-menu" id="menu3">
+    <li><%= link_to user_path(current_user) do %><i class="fas fa-user-alt"></i> Profile <% end %></li>
+    
+    <li role="separator" class="divider"></li>
+    <li><%= link_to interactions_user_path(current_user) do %><i class="fas fa-flask"></i> Interactions<% end %></li>
+    <li>  <%= link_to new_interaction_path do %><i class="fas fa-level-up-alt fa-rotate-90"></i> <span class="label label-success label-normal">Create Interaction</span><% end %></li>
+    <li><%= link_to datasets_user_path(current_user) do %><i class="fas fa-database"></i> Datasets<% end %></li>
+    <li>  <%= link_to new_dataset_path do %><i class="fas fa-level-up-alt fa-rotate-90"></i> <span class="label label-info label-normal">Create Dataset</span><% end %></li>
+    <% if policy(User).editor_or_admin? %>
+      <li><%= link_to molecules_path do %><i class="fas fa-dice-d20"></i> Compounds<% end %></li>
+      <li>  <%= link_to new_molecule_path do %><i class="fas fa-level-up-alt fa-rotate-90"></i> <span class="label label-warning label-normal">Create Compound</span><% end %></li>
+      <li><%= link_to frameworks_path do %><i class="fas fa-grip-horizontal"></i> Frameworks<% end %></li>
+    <% end %>
+    <% if current_user.assignments.present? %>
+      <% if current_user.assignments.first.group.present? %>
+      <% elsif current_user.assignments.first.role == "Group Leader" ||  current_user.assignments.first.role == "Group Member"%>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to 'Group', {controller: "/assignments", action: 'edit', id: current_user.assignments.first} %></li>
+      <% end %>
+    <% end %>
+    <% if policy(current_user).group_presence? %>
+      <li role="separator" class="divider"></li>
+      <li><%= link_to group_path(current_user.assignments.first.group) do %><i class="fas fa-users"></i> Group <% end %></li>
+      <% if false %>
+        <li><%= link_to interactions_group_path(current_user.assignments.first.group) do %>
+          <i class="fas fa-users"></i><i class="fas fa-flask"></i> Interactions <% end %>
+        </li>
+        <li><%= link_to datasets_group_path(current_user.assignments.first.group) do %>
+        <i class="fas fa-users"></i><i class="fas fa-database"></i> Datasets <% end %>
+        </li>
+      <% end %>
+    <% end %>
+    <% if policy(current_user).reviewer? %>
+      <li role="separator" class="divider"></li>
+      <li class="center"><small><u>Curation Area</u></small></li>
+      <li> <%= link_to revisions_user_path(current_user) do %><i class="fas fa-tasks"></i> Curations <% end %> </li>
+    <% end %>
+    <% if policy(current_user).editor_or_admin? %>
+      <li role="separator" class="divider"></li>
+      <li class="center"><small><u>Admin Area</u></small></li>
+      <li>  <%= link_to tag_cloud_molecules_path do %>
+          <i class="fas fa-cloud"></i>  Mol Tag Cloud
+        <% end %>
+       </li>
+    <% end %>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i> Sign out<% end %></li>
+  </ul>
+</li>

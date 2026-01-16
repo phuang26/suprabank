@@ -1,0 +1,47 @@
+#backdrop {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+
+@mixin modal-guide {
+  display: none;
+  position: absolute;
+  right: 20vw;
+  top: 20vh;
+  height: 40vh;
+  width: 60vw;
+  background: #fff;
+  text-align: center;
+  z-index: 11;
+}
+
+
+#modal_step_1 {
+  @include modal-guide
+}
+
+#modal_question_guide {
+  @include modal-guide
+}
+
+.ordered-list-div {
+  text-align: justify;
+}
+
+.backdrop {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}

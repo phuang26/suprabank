@@ -1,0 +1,86 @@
+
+<div class="col-md-6 panel-default">
+
+  <div class="panel-body center determination_specification">
+      <%# <%= image_tag("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/#{@molecule.display_name}/PNG" , size: "150x150")%>
+        <%#= image_tag @interaction.molecule.png_url, size:"150x150"%>
+        <h4 class="center"> <u>Interaction Scheme</u></h4>
+        <div class="col-md-6">
+          <h4>Molecule</h4>
+          <div class="image-wrapper">
+          <span class="has-tooltip" data-toggle="tooltip" title="Show interactions of <%= @interaction.molecule.preferred_abbreviation.present? ? @interaction.molecule.preferred_abbreviation : @interaction.molecule.display_name %>">
+            <%=link_to( image_tag(@interaction.molecule.png_url, class:'interaction-structure-image'), controller: 'molecules', action: 'interactions',  id:@interaction.molecule) %>
+          </span>
+          </div>
+          <div class="molecule_name_wrapper">
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= @interaction.molecule.display_name %>">
+              <span class="has-js-popover molecule-popover" data-toggle="popover" title= "<span class='text-info'><strong>Further Information</strong></span>
+                    <button type='button' id='close' class='close' onclick='$(&quot;#further_information_molecule&quot;).popover(&quot;hide&quot;);' > &times;</button>" id="further_information_molecule"
+                    style=""
+              data-content='
+
+                <%= render 'molecules/locales/interaction_properties_popover', object:@interaction.molecule %>
+                <%= link_to "Show all Information", molecule_path(@interaction.molecule) %>
+
+              ' >
+                <h5 class="molecule_name_locale"><u><%= @interaction.molecule.preferred_abbreviation.truncate(50) %> </u></h5>
+              </span>
+            </span>
+          </div>
+        <p class="text-center">
+          <% if @interaction.lower_molecule_concentration.present? && @interaction.upper_molecule_concentration.present? %>
+          <span> c <% if @interaction.technique === "Isothermal Titration Calorimetry" && @interaction.in_technique.concentration_molecule.present? %>
+                       <% if @interaction.in_technique.injection_number.present? && @interaction.in_technique.injection_volume.present? %> = <% else %>  &approx; <% end %>
+                   <% else %>
+                      =
+                   <% end %>
+                   <%= @interaction.lower_molecule_concentration %> &#8212; <%= @interaction.upper_molecule_concentration %>  &#181;M</span>
+          <% elsif @interaction.lower_molecule_concentration.present? %>
+            <span> c = <%= @interaction.lower_molecule_concentration %> &#181;M</span>
+          <% end %>
+        </p>
+      </div>
+     <div class="col-md-6">
+        <h4>Host</h4>
+        <div class="image-wrapper">
+          <span class="has-tooltip" data-toggle="tooltip" title="Show interactions of <%=  @interaction.host.preferred_abbreviation.present? ? @interaction.host.preferred_abbreviation : @interaction.host.display_name %>">
+            <%=link_to( image_tag(@interaction.host.png_url, class:'interaction-structure-image'), controller: 'molecules', action: 'interactions',  id:@interaction.host) %>
+          </span>
+        </div>
+
+        <div class="molecule_name_wrapper">
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= @interaction.host.display_name %>">
+            <span class="has-js-popover molecule-popover" data-toggle="popover"
+            title= "<span class='text-info'><strong>Further Information</strong></span>
+                  <button type='button' id='close' class='close' onclick='$(&quot;#further_information_host&quot;).popover(&quot;hide&quot;);' > &times;</button>" id="further_information_host"
+                  style=""
+            data-content='
+              <%= render 'molecules/locales/interaction_properties_popover', object:@interaction.host %>
+              <%= link_to "Show all Information", molecule_path(@interaction.host) %>' >
+              <h5 class="molecule_name_locale"><u><%= @interaction.host.preferred_abbreviation.truncate(50) %> </u></h5>
+            </span>
+          </span>
+        </div>
+        <p class="text-center">
+          <% if @interaction.lower_host_concentration.present? && @interaction.upper_host_concentration.present? %>
+          <span> c <% if @interaction.technique === "Isothermal Titration Calorimetry" && @interaction.in_technique.concentration_host.present? %>
+                       <% if @interaction.in_technique.injection_number.present? && @interaction.in_technique.injection_volume.present? %> = <% else %>  &approx; <% end %>
+                   <% else %>
+                      =
+                   <% end %>
+                  <%= @interaction.lower_host_concentration %> &#8212; <%= @interaction.upper_host_concentration %>  &#181;M</span>
+          <% elsif @interaction.lower_host_concentration.present? %>
+            <span> c = <%= @interaction.lower_host_concentration %> &#181;M</span>
+          <% elsif @interaction.host_wt_low.present? %>
+            <span> <%= @interaction.host_wt_low %> 
+            <% if @interaction.host_wt_high.present? %>
+              &#8212; <%= @interaction.host_wt_high %> 
+            <% end %>
+            wt%</span>
+          <% end %>
+        </p>
+      </div>
+  </div>
+
+
+</div>

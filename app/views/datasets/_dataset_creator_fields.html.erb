@@ -1,0 +1,44 @@
+<fieldset>
+
+    <div class="form-group">
+      <div class="row creator_information">
+        <div class="col-md-12">
+
+          <p class="alert alert-info">Start adding the family name of your peer. SupraBank tries to find her/him in its own databases. If not present, you can fill the appropriate fields, SupraBank will assist you.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 ">
+
+          <%= f.label :creator_familyName, "Family name (last name) of the person" , class:"bootstrap-label"%>
+          <%= f.text_field :creator_familyName , :class => 'form-control creator_familyName' %>
+          <%= f.label :creator_givenName, "Given name (first name) of the person", class:"bootstrap-label" %>
+          <%= f.text_field :creator_givenName , :class => 'form-control creator_givenName'%>
+        </div>
+          <%= f.hidden_field :creator_id %>
+        <div class="col-md-6">
+          <%= f.label :creator_nameIdentifier, "ORCID |" , class:"bootstrap-label"%> <a class="nameIdentifier_paragraph" target="_blank" href="https://orcid.org/<%= f.object.creator_nameIdentifier %>"> <%= image_tag "logos/orcid.png", size: "16x16" %> </a> <%= link_to 'Let SupraBank search for the ORCID', orcid_modal_creators_path, { :remote => true, method: :post, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class => "label label-success pull-right modal_request_creator"}  %>
+          <%= f.text_field :creator_nameIdentifier , :class => 'form-control creator_nameIdentifier nameIdentifier' %>
+
+          <%= f.label :creator_affiliation , class:"bootstrap-label"%> | <%= image_tag "logos/ror.png", size: "16x16" %> <a class="affiliationIdentifier_paragraph" target="_blank" href=<%= f.object.creator_affiliationIdentifier %>> <%= f.object.creator_affiliationIdentifier %> </a>
+          <%= f.text_field :creator_affiliation, :class => 'form-control creator_affiliation' %>
+
+          <%= f.hidden_field :creator_affiliationIdentifier, class:"creator_affiliationIdentifier" %>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.hidden_field :_destroy %>
+          <%= link_to 'Remove this Creator', '#', class: 'remove_creator_fields btn btn-danger', :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => ' You will remove this creator!')) } %>
+        </div>
+
+      </div>
+    </div>
+<hr>
+  </fieldset>

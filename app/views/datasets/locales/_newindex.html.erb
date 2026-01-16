@@ -1,0 +1,310 @@
+<!-- <h1 class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Display all molecules</h1> -->
+
+<table class="table col-md-12" id="int-index-<%= table_id %>">
+  <thead>
+    <tr>
+      <th class="col-md-2 no-sort">Info</th>
+      <th class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" data-placement="top" title="Reference of scientific publication.">Ref</span></th>
+      <th class="col-md-1">Molecule</th>
+      <th class="col-md-1">Host</th>
+      <th class="no-sort"></th>
+      <th class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="decadic logarithm of the binding constant">log <em>K</em><sub>a</sub> </span></th>
+      <th class="col-md-1">Medium</th>
+      <th class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Measurement Temperature">T / °C</span></th>
+      <th class="col-md-1  no-sort">Supplement</th>
+      <% if current_user.present? %>
+      <th class="col-md-2">Action</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% interactions.each do |interaction| %>
+      <% if policy(interaction).displayable? %>
+
+        <tr class="dataset-interaction-reference-discrepancy-<%= interaction.dataset_interactions.first.reference_discrepancy? %>">
+          <td class="col-md-2 tight-column">
+            <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Show  #{interaction.assay_type} between #{interaction.molecule.display_name} and #{interaction.host.display_name}" %>">
+              <%= link_to "", {controller: "interactions", action: 'show', id: interaction.id}, class:'fas fa-eye'%>
+            </span>
+            <span> | </span>
+            <span class="has-tooltip" data-toggle="tooltip" title="Citation">
+              <span class="has-js-popover citation_popover" data-toggle="popover" title= "<span class='text-info'><strong>Citation</strong></span>
+    <button type='button' id='close' class='close' onclick='$(&quot;.citation_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>" id="citation_popover"
+    style=""
+              data-content='
+              <div class="">
+                <%= interaction.citation %>
+              </div>
+              <div class="">
+                <%= link_to interaction.doi, "https://doi.org/#{interaction.doi}", target: :_blank, class:"external-link" %>
+              </div>
+              ' >
+              <i class="fas fa-quote-right"></i>
+              </span>
+
+            </span>
+
+              <span> | </span>
+
+<!-- Assay Type  -->
+            <span class="has-tooltip " data-toggle="tooltip" title="<%= AssayType.search_by_names(interaction.assay_type).first.names[0] if interaction.assay_type.present? %>">
+              <% if interaction.assay_type == "Direct Binding Assay" %>
+                <span class="icon-dba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% elsif interaction.assay_type == 'Competitive Binding Assay' %>
+                <span class="icon-cba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% elsif interaction.assay_type == "Associative Binding Assay" %>
+                <span class="icon-aba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+              <% else %>
+              <% end %>
+            </span>
+
+            <span> | </span>
+<!-- Technique -->
+            <span class="has-tooltip " data-toggle="tooltip" title="<%= Technique.search_by_names(interaction.technique).first.names[0] if interaction.technique.present? %>">
+              <span class="icon-<%= Technique.search_by_names(interaction.technique).first.names[1].downcase if interaction.technique.present? %> <%= Technique.search_by_names(interaction.technique).first.names[1] if interaction.technique.present? %>" ></span>
+            </span>
+
+          </td>
+
+          <td class="col-md-1">
+            <% if interaction.doi.present? %>
+
+              <%= link_to interaction.doi, "https://doi.org/#{interaction.doi}", target:"_blank" %>
+            <% end %>
+          </td>
+
+          <td class="col-md-1">
+            <% if interaction.molecule.present? %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= "#{interaction.molecule.display_name}" %>">
+                <span class="has-js-popover structure_popover_molecule" data-toggle="popover" title= "<span class='text-info'><strong>Structure</strong></span>
+                      <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_molecule&quot;).popover(&quot;hide&quot;);' > &times;</button>" id="structure_popover_molecule"
+                      style=""
+                data-content='
+                <div class="center" structure-image-panel">
+                  <input type="checkbox" id="zoomCheck" class="zoomCheck">
+                  <label for="zoomCheck">
+
+                    <%= image_tag interaction.molecule.png_url, class:"popover_molecule_image"%>
+                  </label>
+                    <p><%= link_to "Show all Information", molecule_path(interaction.molecule) %></p>
+                </div>
+                ' >
+                <%= interaction.molecule.preferred_abbreviation.present? ? interaction.molecule.preferred_abbreviation.truncate(15) : truncate(interaction.molecule.display_name, length: 15) %>
+              </span>
+            </span>
+            <% end %>
+          </td>
+
+          <td class="col-md-1">
+            <% if interaction.host.present? %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= interaction.host.present? ? "#{interaction.host.display_name}" : "no host" %>">
+                <span class="has-js-popover structure_popover_host" data-toggle="popover" title= "<span class='text-info'><strong>Structure</strong></span>
+                      <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_host&quot;).popover(&quot;hide&quot;);' > &times;</button>" id="structure_popover_host"
+                      style=""
+                data-content='
+                <div class="center structure-image-panel">
+                  <input type="checkbox" id="zoomCheck" class="zoomCheck">
+                  <label for="zoomCheck">
+                    <% if interaction.host.present? %>
+                    <%= image_tag interaction.host.png_url, class:"popover_molecule_image"%>
+                  </label>
+                  <p><%= link_to "Show all Information", molecule_path(interaction.host) %></p>
+                  <% end %>
+                </div>
+                ' >
+                  <%= interaction.host.preferred_abbreviation.present? ? interaction.host.preferred_abbreviation.truncate(15) :  truncate(interaction.host.display_name, length: 15) %>
+                </span>
+              </span>
+            <% end %>
+          </td>
+
+          <td class="center">
+              <% if interaction.binding_constant.present?  %>
+              <span>
+                  <% case interaction.binding_range
+                          when "greater" %>
+                            >
+                          <% when "less" %>
+                            <
+                  <%  end %>
+              </span>
+            <% end %>
+          </td>
+
+          <td class="col-md-1 center">
+              <% if interaction.logKa.present?  %>
+                <span>
+                <%=  interaction.logKa.round(2) %>
+                </span>
+              <% end %>
+          </td>
+
+
+          <td class="col-md-1">
+            <% if interaction.solvent_system.present?  %>
+              <% if interaction.solvent_system == "Single Solvent"  %>
+
+                <% if interaction.solvents.first.present?  %>
+                <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.solvents.first.display_name}" %>">
+                <%= interaction.solvents.first.display_name %>
+                </span>
+                <% end %>
+
+              <% elsif interaction.solvent_system == "Complex Mixture" %>
+                <span class="has-tooltip" data-toggle="tooltip" title="<%= "#{interaction.solvent_system}" %>">
+                <p>Complex</p>
+                </span>
+
+              <% elsif interaction.solvent_system == "Buffer System" %>
+                <% if interaction.buffer.present? %>
+                  <span class="has-tooltip" data-toggle="tooltip" title="<%= interaction.buffer.name if interaction.buffer.name.present? %>">
+                    <%= interaction.buffer.abbreviation.present? ? interaction.buffer.abbreviation.truncate(8) : interaction.buffer.name.truncate(8) %>
+                  </span>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+
+          <td class="col-md-1">
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= "T =  #{273.15 + interaction.temperature} K" %>">
+            <%= interaction.temperature %>
+          </span>
+          </td>
+
+
+          <td class="col-md-1">
+
+
+                <% if interaction.assay_type == 'Competitive Binding Assay' %>
+                  <% if interaction.indicator.present? %>
+                  <span class="has-tooltip " data-toggle="tooltip" title="<%= interaction.indicator.present? ? "#{interaction.indicator.display_name}" : "no indicator" %>">
+                    <span class="has-js-popover structure_popover_indicator" data-toggle="popover" title="Indicator: <%= interaction.indicator.display_name if interaction.indicator.present? %> <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_indicator&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+                    data-content='
+                      <div class="center">
+                        <% if interaction.indicator.present? %>
+                          <%= image_tag interaction.indicator.png_url, class:"popover_molecule_image"%>
+                          <p><%= link_to "Show all Information", molecule_path(interaction.indicator) %></p>
+                        <% end %>
+                      </div>
+                    ' >
+                      <%= interaction.indicator.preferred_abbreviation.present? ? interaction.indicator.preferred_abbreviation.truncate(15) : truncate(interaction.indicator.display_name, length: 15) %>
+                    </span>
+                  </span>
+                  <% end %>
+                <% elsif interaction.assay_type == "Associative Binding Assay" %>
+                  <% if interaction.conjugate.present? %>
+                  <span class="has-tooltip " data-toggle="tooltip" title="<%= interaction.conjugate.present? ? "#{interaction.conjugate.display_name}" : "no host" %>">
+                    <span class="has-js-popover structure_popover_conjugate" data-toggle="popover" title="Cofactor: <%= interaction.conjugate.display_name if interaction.conjugate.present? %> <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_conjugate&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+                    data-content='
+                      <div class="center">
+                        <% if interaction.conjugate.present? %>
+                          <%= image_tag interaction.conjugate.png_url, class:"popover_molecule_image"%>
+                          <p><%= link_to "Show all Information", molecule_path(interaction.conjugate) %></p>
+                        <% end %>
+                      </div>
+                    ' >
+                      <%= interaction.conjugate.preferred_abbreviation.present? ? interaction.conjugate.preferred_abbreviation.truncate(15) : truncate(interaction.conjugate.display_name, length: 15) %>
+                    </span>
+                  </span>
+                  <% end %>
+                <% else %>
+                <% end %>
+
+
+          </td>
+
+        <% if current_user.present? %>
+          <td class="col-md-2 tight-column">
+            <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Clone this interaciton" %>">
+              <%= link_to "", {controller: "interactions", action: 'duplicate', id: interaction.id}, class:'fas fa-clone', :method=>:post%>
+            </span>
+            <% if policy(interaction).update? %>
+              <span> | </span>
+              <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= interaction.revision.titleize %>">
+                <i class="fa fa-circle
+                <%= if interaction.revision=='revised entry'
+                  'revised'
+                elsif interaction.revision=='needs revision'
+                  'revision'
+                elsif interaction.revision=='pending inspection'
+                  'inspection'
+                end %>"></i>
+              </span>
+              <span> | </span>
+              <span class="has-tooltip" data-toggle="tooltip" title="
+              <% if interaction.published? %>
+                <%= "Interaction with ID #{interaction.id} is published" %>
+              <% else %>
+                <%= "Interaction with ID #{interaction.id} is unpublished" %>
+              <% end %> ">
+                <% if interaction.published? %>
+                  <i class="fa fa-check-circle"></i>
+                <% else %>
+                  <i class="fa fa-times-circle-o"></i>
+                <% end %>
+              </span>
+              <span> | </span>
+              <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Edit this interaciton" %>">
+                <%= link_to "", {controller: "interactions", action: 'edit', id: interaction.id}, class:'fas fa-pencil-square-o'%>
+              </span>
+              <% if policy(@dataset).user_edit?  %>
+                <span> | </span>
+                <%= check_box_tag "interaction_ids[]", interaction.id %>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+        </tr>
+      <% end %>
+      <% end %>
+
+  </tbody>
+</table>
+<script type="text/javascript">
+
+dataTable = $('#int-index-molecules').DataTable({
+  paging: false,
+  "sDom": 'rtf',
+  "bAutoWidth": false,
+  "searching": false,
+  stateSave: true,
+  "order": [],
+  "columnDefs": [{
+    "targets"  : 'no-sort',
+    "orderable": false,
+  },
+  {"width": "2%", "targets": 3}
+  ],
+  "drawCallback": function(){
+
+      $('[data-toggle="popover"]').popover({
+
+          placement : 'bottom',
+
+          trigger : 'click',
+
+          html : true,
+      });
+      $('[data-toggle="tooltip"]').tooltip({
+
+          placement : 'top',
+
+          trigger : 'hover',
+
+          html : true,
+      });
+
+  }
+})
+
+
+window.alert = (function() {
+  var nativeAlert = window.alert;
+  return function(message) {
+      window.alert = nativeAlert;
+      message.indexOf("DataTables warning") === 0 ?
+          console.warn(message) :
+          nativeAlert(message);
+  }
+})();
+</script>

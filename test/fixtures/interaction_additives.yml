@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+additive_one_interaction_seven:
+  additive: additive_one
+  interaction: interaction_seven
+  concentration: 15
+
+additive_two_interaction_seven:
+  additive: additive_two
+  interaction: interaction_seven
+  concentration: 20

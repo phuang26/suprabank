@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-8">
+    <%= bootstrap_flash %>
+  </div>
+  <div class="col-md-3 ">
+  </div>
+</div>
+<% if @molecules.present? %>
+  <%= render 'compounds/frameworks_compound', compounds:@molecules %>
+<% end %>
+  <script>
+    $('#message').html("Nothing found in the list, that you need? <%= escape_javascript( link_to "Create a new Framework", new_framework_molecules_path, class:"btn btn-success btn-lg")  %>").fadeIn(400)
+  </script>

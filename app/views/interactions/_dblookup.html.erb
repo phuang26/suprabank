@@ -1,0 +1,27 @@
+<div class="col-md-12 col-xs-12" id="interactions-lookup" style="margin-bottom: 30px">
+  <%= form_tag dbsearch_interactions_path, remote: true, method: :get, id: "interaction-dblookup-form" do %>
+    <div class="form-group row">
+      <div class="col-md-2">
+        <%= image_tag "preloader/default_trans.gif", size:"32x32", id:'turboloader'%>
+      </div>
+      <div class="col-md-7 col-xs-12">
+        <%= text_field_tag :search_param, params[:search_param], placeholder: "full text search: Molecule, CAS, Author, DOI , K,...", autofocus: true, class: "form-control search-box" %>
+      </div>
+      <div class="col-md-2 col-xs-12">
+        <%= button_tag(type: :submit, name:"searchInteractionButton", class: "btn btn-success btn-lg search_button", onclick: "showLoader('turbo')") do %>
+          <%= image_tag "logo-notext-noshadow-white.svg", class:"svg-logo-button"%> Search
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $('button[name=searchInteractionButton]').on("click", function(){
+    hidePopovers();
+    searchButtons_clicked = searchButtons_clicked + 1;
+    if ($.fn.DataTable.isDataTable('#int-index-molecules' )) {
+      dataTables.molecules.state.clear();
+      searchButtons_clicked = searchButtons_clicked - 1;
+    };
+  });
+</script>

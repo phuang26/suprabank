@@ -1,0 +1,219 @@
+  <%= f.fields_for :dataset_contributors do |contributor| %>
+    <%= render 'dataset_contributor_fields', f: contributor %>
+  <% end %>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to_add_fields "Add another contributor", f, :dataset_contributors, class:"btn btn-info add-cooperator add_contributor" %>
+    <%= image_tag "preloader/38.gif", size:"35x35", class:"pull-right loader", id:"contributor_loader"  %>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).on('click', 'form .remove_contributor_fields', function(event) {
+     $(this).prev('input[type=hidden]').val('1');
+     $(this).closest('fieldset').hide();
+     $('.add_contributor').remove()
+     return event.preventDefault();
+    });
+
+
+
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    function deactivatefieldset(fieldsetSelector) {
+      fieldsetSelector.find('.modal_request_contributor').first().hide();
+      fieldsetSelector.find(".contributor_information").first().find(".alert").text("This contributor is locked to avoid undesired changes, commonly information will be updated automatically. If you want to change, just remove, and add a new one, it's quick.");
+      fieldsetSelector.find(".contributor_information").first().find(".alert").removeClass("alert-info")
+      fieldsetSelector.find(".contributor_information").first().find(".alert").addClass("alert-warning")
+      fieldsetSelector.find('.contributor_affiliation').first().attr("readonly",true);
+      fieldsetSelector.find('.contributor_familyName').first().attr("readonly",true);
+      fieldsetSelector.find('.contributor_givenName').first().attr("readonly",true);
+      fieldsetSelector.find('.contributor_nameIdentifier').first().attr("readonly",true);
+    };
+
+
+
+
+    function lockFirstContributor() {
+      console.log($(".input_fields_wrap_contributor").find("fieldset").first())
+      $(".input_fields_wrap_contributor").find("fieldset").first().find(".remove_contributor_fields").hide()
+      deactivatefieldset($(".input_fields_wrap_contributor").find("fieldset").first())
+      $(".input_fields_wrap_contributor").find("fieldset").first().find(".contributor_information").first().find(".alert").text("The first contributor is you and is therefore blocked. You can either update your ORCID in your own profle, but SupraBank will also try to automatically update this information here.");
+    };
+
+
+
+$(document).on('ready turbolinks:load',function() {
+    lockFirstContributor()
+    var max_fields      = 10; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap_contributor"); //Fields wrapper
+    var add_button      = $(".add_contributor"); //Add button ID
+    var x = 1; //initlal text box count
+    var fieldsets = wrapper.find("fieldset")
+
+    fieldsets.each(function(){deactivatefieldset($(this))})
+
+    var cooperatorSource = function ( request, response ) {
+      $.ajax( {
+        url: "/datasets/query_cooperators",
+        dataType: "json",
+        data: {
+          familyName: request.term
+        },
+        success: function( data ) {
+          response( data );
+        }
+      } );
+    };
+
+    var affiliationSource = function ( request, response ) {
+      $.ajax( {
+        url: "/query_affiliation",
+        dataType: "json",
+        data: {
+          term: request.term
+        },
+        success: function( data ) {
+          response( data );
+        }
+      } );
+    };
+
+    $(add_button).click(async function(e){ //on add input button click
+        //console.log(wrapper.val());
+        //console.log(wrapper.find('input[type=text]:eq(-4)').val("hello"));
+        await sleep(100);
+        var lastLoadedFieldset = wrapper.find("fieldset:eq(-2)")
+        deactivatefieldset(lastLoadedFieldset)
+        //console.log(wrapper.find('input[type=text]:eq(-4)').val("hello 2000"));
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            //$(wrapper).append('<div><input type="text" name="familyName[]" class="col-md-6" placeholder="familyName" /><input type="text" name="givenName[]" class="col-md-6" placeholder="givenName"/><a href="#" class="remove_field">Remove</a></div>');
+
+            $(wrapper).find('input[type=text]:eq(-4)').autocomplete({
+              source: cooperatorSource,
+              focus: function( event, cooperator ) {
+                $( this ).val( cooperator.item[1] );
+                $( this ).nextAll("input").val( cooperator.item[0] );
+                $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").prev().text( cooperator.item[3] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").attr('href',cooperator.item[3] )
+                $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+                return false;
+                },
+              select: function( event, cooperator ) {
+                $( this ).val( cooperator.item[1] );
+                $( this ).nextAll("input").val( cooperator.item[0] );
+                $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-2)").prev().attr('href', "https://orcid.org/" + cooperator.item[2] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").prev().text( cooperator.item[4] )
+                $( this ).parents(".row").first().find("input[type=text]:eq(-1)").attr('href',cooperator.item[4] )
+                $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+                return false;
+                }
+             }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+              return $( "<li></li>" )
+                .append( "<li class=' list-group-item ' >" + item[0] + " " + item[1] + " | ORCID: " + item[2] + " | " + item[3] + " | ROR: " + item[4]  + "</li>" )
+                .appendTo( ul );
+              };
+
+            $(wrapper).find('input[type=text]:last').autocomplete({
+              source: affiliationSource,
+              focus: function( event, affiliation ) {
+                $( this ).val( affiliation.item[0] );
+                $( this ).next().val( affiliation.item[1] );
+                $( this ).prev().text( affiliation.item[1] );
+                $( this ).prev().attr('href', affiliation.item[1] );
+                return false;
+              },
+                select: function( event, affiliation ) {
+                  $( this ).val( affiliation.item[0] );
+                  $( this ).next().val( affiliation.item[1] );
+                  $( this ).prev().text( affiliation.item[1] );
+                  $( this ).prev().attr('href', affiliation.item[1] );
+                  return false;
+                  }
+                })
+                .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                return $( "<li></li>" )
+                  .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+                  .appendTo( ul );
+                };
+
+              };//autocomplete section finished
+
+            $('.modal_request_contributor').click(function(){
+              var href = "/contributors/orcid_modal";
+              var ln = $( this ).parents(".row").first().find("input[type=text]:eq(0)").val();
+              var fn = $( this ).parents(".row").first().find("input[type=text]:eq(1)").val();
+
+              // href = $(this).attr('href');
+              var queryhref = href + "?givenName=" + fn + "&familyName=" + ln;
+              $(this).attr('href', queryhref);
+              // var queryString = '?street=' +  encodeURIComponent($('#form').text());
+              // $('#form').attr('href', href + queryString );
+            });
+
+            var $allLoaders = $('.loader').hide()
+            var $loading = $('#contributor_loader').hide()
+
+            $(document)
+              .ajaxStart(function () {
+                $loading.show();
+              })
+              .ajaxStop(function () {
+                $loading.hide();
+              });
+          $('.remove_contributor_fields').remove()
+          e.preventDefault()
+        });//click section finished
+
+  /* This part adds autocomplete to the first familyName field in the contributors, which is not need cause it is the user itself.
+    $(wrapper).find('input[type=text]:eq(-4)').autocomplete({
+      source: cooperatorSource,
+      focus: function( event, cooperator ) {
+        $( this ).val( cooperator.item[1] );
+        $( this ).nextAll("input").val( cooperator.item[0] );
+        $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+        $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+        $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+        return false;
+        },
+      select: function( event, cooperator ) {
+        $( this ).val( cooperator.item[1] );
+        $( this ).nextAll("input").val( cooperator.item[0] );
+        $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+        $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+        $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+        return false;
+        }
+     }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .append( "<li class=' list-group-item ' >" + item[0] + " " + item[1] + " | ORCID: " + item[2] + " | " + item[3] + " | ROR: " + item[4]  + "</li>" )
+        .appendTo( ul );
+      };
+  */
+
+  });
+
+  //loader
+
+  $(document).ready(function(){
+  $('.loader').hide();
+    });
+
+  // ORCID Modal section
+
+
+
+
+
+</script>

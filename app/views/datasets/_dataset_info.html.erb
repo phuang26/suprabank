@@ -1,0 +1,22 @@
+<%- model_class = Dataset -%>
+<div class="page-header container-fluid">
+  <div class="row">
+    <h1 class="col-xs-12"><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+    <p class="col-xs-12">
+      <strong>Datasets</strong> are SupraBank's way to publish your data in a bundle of interactions (experiments). It is similar to a table in your scientific publication listing all interaction, but it follows MetaData standards, provides machine readability and is persistantly findable via its DOI.
+    </p>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <%= render 'buttons/create_datasets' %>
+    </div>
+    <div class="col-md-4"><button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#refinement" aria-expanded="false" aria-controls="refinement" id="refine_collapse_button">
+        <i class="fas fa-bezier-curve"></i> Refine Datasets
+      </button></div>
+  </div>
+  <div class="row">
+    <p class="col-xs-12">
+      Below you find all datasets published on SupraBank.
+    </p>
+  </div>
+</div>

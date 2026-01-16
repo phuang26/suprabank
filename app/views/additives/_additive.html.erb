@@ -1,0 +1,174 @@
+<div class="table-responsive">
+ <table class="table col-md-12" id="addiIndex">
+   <thead>
+    <tr>
+      <th colspan="1" class="col-md-1 no-sort">Actions </th>
+      <th class="col-md-1">Name</th>
+      <th class="col-md-1">M / g/mol</th>
+      <th class="col-md-1">Interactions</th>
+      <th class="col-md-1">SBID</th>
+      <th class="col-md-1">CID</th>
+      <th class="col-md-1 no-sort">Identifier</th>
+    </tr>
+   </thead>
+
+    <% @additives.each do |entry| %>
+    <% if entry.interactions.published.any? || current_user.present? %>
+    <tr>
+      <td class="col-md-1">
+        <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Show  #{entry.display_name}" %>">
+          <%= link_to "", {controller: "additives", action: 'show', id: entry.id}, class:'far fa-eye'%>
+        </span>
+        <% if policy(entry).update? %>
+          <span> | </span>
+          <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Edit  #{entry.display_name}" %>">
+            <%= link_to "", {controller: "additives", action: 'edit', id: entry.id}, class:'fa fa-pencil'%>
+          </span>
+        <% end %>
+
+      </td>
+
+      <td class="col-md-1">
+        <span class="has-js-popover structure_popover_molecule" data-toggle="ajax-popover" title= "<span class='text-info'><strong><%= "Structure of #{entry.iupac_name}" %></strong></span>
+                     <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_molecule&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+                     style=""
+             data-content='
+             <div class="center structure-image-panel">
+               <input type="checkbox" id="zoomCheck" class="zoomCheck">
+               <label for="zoomCheck">
+                 <%= image_tag entry.png_url, class:"popover_molecule_image"%>
+               </label>
+             </div>
+             ' >
+        <%= truncate(entry.display_name, length: 30) %>
+      </span>
+      </td>
+
+      <td class="col-md-1">
+        <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "M =  #{entry.molecular_weight} g/mol" %>">
+        <%= entry.molecular_weight %>
+      </span>
+      </td>
+
+      <td class="col-md-1">
+            <%= link_to entry.interactions_count, interactions_additive_path(entry), class:'badge dataset_size'%>
+          </td>
+
+        <td class="col-md-1">
+
+            <span>
+                <%= entry.id %>
+            </span>
+        </td>
+
+        <td class="col-md-1">
+          <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "The Compound ID by PubChem is #{entry.cid}" %>">
+          <%= entry.cid %>
+        </span>
+        </td>
+
+
+
+        <td class="col-md-2">
+
+            <span class="has-js-popover pubchem_popover" data-toggle="ajax-popover" data-container="body" title="<span>PubChem</span> <button type='button' id='close_pupchem' class='close' onclick='$(&quot;.pubchem_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+            data-content='
+            <div class="center">
+              <p>CID = <%= entry.cid %></p>
+            </div>
+            ' >
+                PubChem
+            </span>
+            <span> | </span>
+            <span class="has-js-popover inchi_popover" data-toggle="ajax-popover" data-container="body" title="InChI <button type='button' id='close_inchi' class='close' onclick='$(&quot;.inchi_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+            data-content='
+            <div class="inside-js-popover">
+              <p><%= entry.inchistring %></p>
+              <strong>InChI key:</strong>
+              <p><%= entry.inchikey %></p>
+            </div>
+            ' >
+                InChI
+            </span>
+            <span> | </span>
+            <span class="has-js-popover smiles_popover" data-toggle="ajax-popover" data-container="body" title="SMILES <button type='button' id='close_smiles' class='close' onclick='$(&quot;.smiles_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+            data-content='
+            <div class="inside-js-popover">
+              <strong>Canonical SMILES</strong>
+              <p><%= entry.cano_smiles %></p>
+              <strong>Isomeric SMILES</strong>
+              <p><%= entry.iso_smiles %></p>
+            </div>
+            ' >
+                Smiles
+            </span>
+        </td>
+
+
+    </tr>
+    <% end %>
+    <% end %>
+</table>
+</div>
+
+<script type="text/javascript">
+
+  dataTable = $('#addiIndex').DataTable({
+    stateSave: true,
+    "order": [[1, "desc" ]],
+    "columnDefs": [{
+      "targets"    : 'no-sort',
+      "orderable"  : false },
+    ],
+    "drawCallback": function(){
+        $('[data-toggle="ajax-popover"]').popover({
+          container: 'body',
+          placement : 'top',
+          trigger : 'click',
+          html : true,
+        });
+        $('[data-toggle="ajax-tooltip"]').tooltip({
+          placement : 'right',
+          trigger : 'hover',
+          html : true,
+        });
+    }
+  });
+
+
+    dataTable.on('page.dt', function(){
+        $('[data-toggle="ajax-popover"]').popover('hide');
+      });
+
+      dataTable.on('order.dt', function(){
+          $('[data-toggle="ajax-popover"]').popover('hide');
+        });
+
+
+  if ($('button[name=searchAdditiveButton]').hasClass('.clicked')) {
+    $('button[name=searchAdditiveButton]').removeClass('.clicked');
+    dataTable.state.clear().destroy();
+    dataTable = $('#addiIndex').DataTable({
+      stateSave: true,
+      "order": [[1, "desc" ]],
+      "columnDefs": [{
+        "targets"    : 'no-sort',
+        "orderable"  : false },
+      ],
+      "drawCallback": function(){
+          $('[data-toggle="ajax-popover"]').popover({
+            container: 'body',
+            placement : 'top',
+            trigger : 'click',
+            html : true,
+          });
+          $('[data-toggle="ajax-tooltip"]').tooltip({
+            placement : 'right',
+            trigger : 'hover',
+            html : true,
+          });
+      }
+    });
+  };
+
+</script>

@@ -1,0 +1,77 @@
+
+<div class="form-group" id="solvColumnHeadings">
+  <strong class="control-label col-md-2"></strong>
+  <strong class="control-label col-md-3" style="text-align:left;">Solvents</strong>
+  <strong class="control-label col-md-1" style="text-align:left;">Vol%</strong>
+  <strong class="control-label col-md-3 additive-container" style="text-align:left;">Additives</strong>
+  <strong class="control-label col-md-1 additive-container" style="text-align:left;" class="has-tooltip" data-toggle="tooltip" title="Please enter here the concentration in the reaction solution and not the concentrations of stock solutions. The concentrations of stock solution can be given as part of the additives' names as e.g. 1&nbsp;M&nbsp;HCl. Create such an additive first if necessary.">Conc.</strong>
+</div>
+<div class="form-group">
+
+<div class="container col-md-6 solvent-container">
+    <% number=0 %>
+    <%= f.fields_for :interaction_solvents do |builder| %>
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-6 ">
+          <%= builder.text_field :first_solvent_name , :class => 'form-control first_solvent_name interaction-solvent' ,
+          data: {autocomplete_source: query_solvents_path }, placeholder:"#{@interaction.interaction_solvents[number].solvent.present? ?
+            @interaction.interaction_solvents[number].solvent.display_name : 'live search'}" %>
+        </div>
+        <div class="col-md-2">
+          <%= builder.text_field :volume_percent , :class => 'form-control', onchange:"checkValidNumber(this),calculatevolume()"%>
+        </div>
+      </div>
+    <% number=number+1 %>
+    <% end %>
+    <div class="row">
+      <div class="col-md-4">
+        <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Further information about the pH and pD, you can find <em>e.g.</em> here."}), "https://www.sciencedirect.com/science/article/pii/S0162013403004008", target: :_blank %>
+      </div>
+      <strong class="control-label col-md-6" style="text-align:right;" class="has-tooltip" data-toggle="tooltip" title="If a protic deuterated solvent was utilized, this value corresponds to pD, not pH. Click on the question mark left for more information.">pH</strong>
+      <div class="col-md-2">
+        <%= f.text_field :pH, :class => 'form-control', onchange:"checkValidNumber(this)" %>
+      </div>
+      <%= f.error_span(:pH) %>
+      <strong class="control-label col-md-2"></strong>
+    </div>
+</div>
+
+<div class="container col-md-6 additive-container">
+    <% number=0 %>
+    <%= f.fields_for :interaction_additives do |builder| %>
+      <div class="row">
+        <div class="col-md-6 ">
+          <%= builder.text_field :additive_name , :class => 'form-control first_additive_name interaction-additive' , data: {autocomplete_source: query_additives_path }, placeholder:"#{@interaction.interaction_additives[number].additive.present? ? @interaction.interaction_additives[number].additive.display_name : 'live search'}", onchange:"calcTotalConcSolv()" %>
+        <%#= link_to_add_fields 'Add Co-Additive', f, :interaction_additives %>
+        </div>
+        <div class="col-md-2">
+          <%= builder.text_field :concentration , :class => 'form-control', onchange:"checkValidNumber(this),calcTotalConcSolv()"%>
+        </div>
+        <div class="col-md-1 control-label">
+          <strong>mM</strong>
+        </div>
+      </div>
+      <% number=number+1 %>
+    <% end %>
+    <div class="row">
+      <strong class="control-label col-md-6 additive-container" style="text-align:right;">Total Concentration</strong>
+      <div class="col-md-2">
+        <%= f.text_field :ionic_strength, :class => 'form-control', :id => 'ionic_strength', onchange:"checkValidNumber(this),removeCalcClass(),calcTotalConcSolv()" %>
+      </div>
+      <div class="col-md-1 control-label">
+        <strong>mM</strong>
+      </div>
+      <%= f.error_span(:ionic_strength) %>
+    </div>
+  </div>
+
+</div>
+
+<div class="form-group">
+  <div class="col-md-10 col-md-offset-2" id="empty-message-solvent">
+  </div>
+  <div class="col-md-10 col-md-offset-2" id="empty-message-additive">
+  </div>
+</div>

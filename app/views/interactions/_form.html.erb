@@ -1,0 +1,479 @@
+<div id="formLoader" class="fixed-loader">
+  <%= image_tag "preloader/default_trans.png", size:"64x64"%>
+</div>
+<% if  policy(@interaction).revision_pending? %>
+  <%= render 'interactions/revision/revision_summary_panel' %>
+<% end %>
+
+<%= form_for @interaction, :html => { :class => "form-horizontal interaction" } do |f| %>
+  <% if @interaction.errors.any? %>
+    <div  class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@interaction.errors.count, "error") %>
+          prohibited this interaction from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <% @interaction.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <% if  policy(@interaction).revision_pending? %>
+    <%= render 'interactions/new/revision_reply_panel', f: f  %>
+  <% end %>
+
+
+
+  <div class="row col-md-12">
+    <%= render 'interactions/new/assay_type_panel', f: f %>
+    <%= render 'interactions/techniques/technique_selection', f: f %>
+  </div>
+
+  <div class="collapse row col-md-12" id="int_binding_panel">
+    <div class="" id="binding_molecules_panel">
+      <%= render 'interactions/new/molecules_panel', f: f %>
+
+      <div class="dynamic-interaction-panel" id="indicatorpanel">
+        <%= render 'interactions/new/indicator_panel', f: f %>
+      </div>
+      <div class="dynamic-interaction-panel" id="conjugatepanel">
+        <%= render 'interactions/new/conjugate_panel', f: f %>
+      </div>
+
+      <%= render 'interactions/new/stoichiometry_panel', f: f %>
+
+    </div>
+
+    <div class="" id="technique_panel_content">
+    </div>
+
+    <%= render 'interactions/new/binding_panel', f: f %>
+    <%= render 'interactions/new/conditions_panel', f: f%>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-10 col-md-offset-2 error-mes-naN" style="text-align:left;" id="inconsistentTotalConcSolv">
+    </div>
+  </div>
+<div class="" id="technique_panel_content">
+
+</div>
+<div class="row col-md-12">
+  <hr>
+</div>
+<%= render 'interactions/form/options_selection' %>
+
+<div class="transition_panel row collapse col-md-12" id="int_kinetics_panel">
+
+  <%= render 'interactions/new/kinetics_panel', f: f %>
+</div>
+
+<div class="transition_panel row collapse col-md-12" id="int_thermodynamics_panel">
+
+  <%= render 'interactions/new/itc_panel', f: f %>
+</div>
+
+<div class="transition_panel row collapse col-md-12" id="int_comment_panel">
+
+  <%= render 'interactions/new/comment_panel', f: f %>
+</div>
+<hr>
+<% if action_name == "new" %>
+  <div class="transition_panel row collapse col-md-12" id="int_publishing_panel">
+<% else %>
+  <div class="transition_panel  col-md-12" id="int_publishing_panel">
+<% end %>
+<%#= render 'interactions/new/embargo_panel', f: f %>
+<%#= render 'interactions/new/doi_panel', f: f %>
+<%= render 'interactions/new/dataset_panel', f: f %>
+  <div class="transition_panel form-group  col-md-12" id="int_publishing_button">
+    <div class="col-md-2">
+    </div>
+
+    <div class="row col-md-8">
+     <%= f.submit nil, :class => 'btn btn-primary btn-lg select_button_submit'%>
+     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+             request.referrer || root_path, :class => 'btn btn-default btn-lg select_button' %>
+    </div>
+  </div>
+</div>
+
+<% end %>
+<script type="text/javascript">
+  $(document).on('ready turbolinks:load', function(){
+    setAssayPanels();
+    $('.assay-type').on('change', function() {
+      setAssayPanels();
+    });
+  });
+  // functions definitions, this can also be excluced to a .js file in the asset pipeline
+
+function hideITCInfo() {
+  if(!$('#itc_conc_info').hasClass("hidden")){
+    $('#itc_conc_info').addClass("hidden");
+  }
+}
+
+function techniquesSwitch() {
+  var val = $('.in_technique:checked').val();
+  switch (val) {
+    case 'IsothermalTitrationCalorimetry':
+      $('#itc_conc_info').removeClass("hidden");
+      $('#int_thermodynamics_panel').collapse("show");
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/itc_panel') %>");
+      setITCVariation();
+      itcConcentrations();
+      $('#in_technique_itc_instrument').autocomplete({
+      source: $('#in_technique_itc_instrument').data('autocomplete-source'),
+      select: function( event, instrument ) {
+        $( "#in_technique_itc_instrument" ).val( instrument.item[0] );
+        $( "#in_technique_cell_volume" ).val( instrument.item[3] );
+        $( "#in_technique_cell_volume" ).hasClass(".instrumentStandard") || $( "#in_technique_cell_volume" ).addClass(".instrumentStandard");
+        if ($("#in_technique_cell_volume").hasClass(".unvalidNum")) {
+          console.log("remove unvalid Num");
+          $("#in_technique_cell_volume").closest(".form-group").next().remove();
+          $("#in_technique_cell_volume").removeClass(".unvalidNum");
+        };
+        if ($("#in_technique_syringe_volume").hasClass('.toolargeVolume') ) {
+          console.log("remove too large Volume form");
+           $(".toolargeVolumeError").remove();
+           $("#in_technique_syringe_volume").removeClass(".toolargeVolume");
+         };
+        $( "#in_technique_syringe_volume" ).val( instrument.item[4] );
+        calculateConcFromITC('all');
+
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li'>" )
+        .append( "<li class=' list-group-item ' > Name: " + item[0]  + " | Alternative: " + item[1] + " | Brand: " + item[2] + " | Cell Volume: "  + item[3] + " | Syringe Volume: " + item[4] + "</li>" )
+        .appendTo( ul );
+        };
+      break;
+    case 'CircularDichroism':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/cd_panel') %>");
+      hideITCInfo();
+      break;
+    case 'Fluorescence':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/fluorescence_panel') %>");
+      hideITCInfo();
+      break;
+    case 'Absorbance':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/absorbance_panel') %>");
+      hideITCInfo();
+      break;
+    case 'NuclearMagneticResonance':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/nmr_panel') %>")
+      hideITCInfo()
+      break;
+    case 'ElectronParamagneticResonance':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/epr_panel') %>");
+      hideITCInfo();
+      break;
+    case 'SurfaceEnhancedRamanScattering':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/sers_panel') %>");
+      hideITCInfo();
+      break;
+    case 'Extraction':
+      $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/ext_panel') %>");
+      hideITCInfo();
+      break;
+    case 'Potentiometry':
+    $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/techniques/pot_panel') %>");
+      hideITCInfo();
+      break;
+  };
+  $(".has-tooltip").tooltip({
+   container: 'body',
+   placement : 'right',
+   trigger : 'hover',
+   html : true,
+ });
+};
+
+
+// when document is ready load the functions
+  $(document).on('ready turbolinks:load', function(){
+    unwrapErrors(".in_technique")
+    unwrapErrors(".assay-type")
+    submissionSolventCheck();
+    noSolventSelection();
+    addPanelToggles();
+    bindingPanel();
+    datasetPrepopulation();
+    datasetsAutocomplete();
+
+    techniquesSwitch();
+    $('.in_technique').on('change', function() {
+        techniquesSwitch();
+        itcAssayType();
+    });
+
+    itcAssayType();
+    $('.assay-type').on('change', function() {
+      itcAssayType();
+    });
+
+    var $loading = $('#formLoader').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show();
+      })
+      .ajaxComplete(function () {
+        $loading.hide();
+      });
+
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+   });
+
+
+
+
+
+ $(document).on('ready turbolinks:load', function() {
+   $('#interaction_buffer_name').autocomplete({
+   source: $('#interaction_buffer_name').data('autocomplete-source'),
+   select: function( event, ui ) {
+     $( "#interaction_buffer_name" ).val( ui.item[0] );
+     $( "#loaded-buffer" ).html("<div class='col-md-3'> pH = <b> " + ui.item[2] + "</b> </div> <div class='col-md-3'> c<sub>total</sub> = <b> " + ui.item[3] + " </b> mM </div> <div class='col-md-6'> <b>  Modified: <b>" + ui.item[4] + "</b> </div>");
+     $( "#loaded-buffer" ).append("<div class='col-md-12'> <br> </div>");
+     $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'><b> solvent </b> </div> <div class='col-md-3'><b> vol% </b> <br> </div>");
+     $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[5] + "</div>");
+     if (ui.item[6] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[6] + "<br> </div>");
+     } else {
+       $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+     };
+     if (ui.item[9] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[9] + "</div>");
+       if (ui.item[10] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[10] + "<br></div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+     if (ui.item[13] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[13] + " </div>");
+       if (ui.item[14] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[14] + "<br> </div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+     $( "#loaded-buffer" ).append("<div class='col-md-12'> <br> </div>");
+     $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'><b> additive </b> </div> <div class='col-md-3'><b> mM </b> <br> </div>");
+     if (ui.item[7] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[7] + " </div>");
+       if (ui.item[8] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[8] + "<br>  </div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+     if (ui.item[11] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[11] + "</div>");
+       if (ui.item[12] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[12] + "<br> </div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+     if (ui.item[15] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[15] + " </div>");
+       if (ui.item[16] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[16] + "<br> </div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+     if (ui.item[17] != "not given") {
+       $( "#loaded-buffer" ).append("<div class='col-md-9 solvent-container'>"+ ui.item[17] + " </div>");
+       if (ui.item[18] != "not given") {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'>"+ ui.item[18] + "<br> </div>");
+       } else {
+         $( "#loaded-buffer" ).append("<div class='col-md-3'><br></div>");
+       };
+     };
+
+         //  if (ui.item[17] != "not given") {
+   //    $( "#loaded-buffer" ).append("<div class='col-md-12'>Source of additives concentration: <b>"+ ui.item[17] + "</b>" + "</div>");
+  //   };
+     return false;
+   },
+   response: function(event, ui) {
+           // ui.content is the array that's about to be sent to the response callback.
+           if (ui.content.length === 0) {
+               $("#empty-message-buffer").html("<%= escape_javascript(render 'interactions/autocomplete/response_buffers', molecule:"Buffer") %>");
+           } else {
+               $("#empty-message-buffer").empty();
+           }
+   }
+     })
+     .autocomplete( "instance" )._renderItem = function( ul, item ) {
+     return $( "<li class='col-md-12'>" )
+       .append( "<div class='col-md-12'> <b>" + item[0].substring(0, 20) + "</b>; pH = <b>" + item[2] + "</b>; c <sub>Total</sub> = <b> " + item[3] + " </b> mM; Modified: <b>" + item[4] + "</b> <span>"   + "</span></div>" )
+       .appendTo( ul );
+     };
+   });
+
+function molecularAutoComplete(input, weight, type) {
+  $(input).autocomplete({
+  source: $(input).data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( input ).val( ui.item[1] );
+    $( weight ).text( parseFloat(Math.round(ui.item[3]*100)/100).toFixed(0) );
+    $( weight + "_hidden" ).val( ui.item[3] );
+    switch (type) {
+              case "molecule":
+                $("#molecule_molecule_type").val(ui.item[4])
+                if (ui.item[4]=="framework") {
+                  $('#empty-message-molecule').html("<span class='alert alert-warning'>We strongly encourage you to use the framework as a <strong>partner/host</strong>, as such a large entity typically hosts small molecules inside its cavities.</span>")
+                };
+              break;
+              case "cofactor":
+                $("#cofactor_molecule_type").val(ui.item[4])
+              break;
+              case "indicator":
+                $("#indicator_molecule_type").val(ui.item[4])
+              break;
+              case "host":
+                $("#host_molecule_type").val(ui.item[4])
+                if (ui.item[4]=="framework") {
+                  $('#host_suspension').fadeIn(400)
+                };
+              break;
+              default:
+            }
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+            switch (type) {
+              case "molecule":
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:'Molecule') %>");
+              break;
+              case "cofactor":
+              $("#empty-message-cofactor").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:'Cofactor') %>");
+              break;
+              case "indicator":
+              $("#empty-message-indicator").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:'Indicator') %>");
+              break;
+              case "host":
+              $("#empty-message-host").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:'Host') %>");
+              break;
+              case "solvent":
+              $("#empty-message-solvent").html("<%= escape_javascript(render 'interactions/autocomplete/response_solvent', molecule:'solvent') %>");
+              break;
+              case "additive":
+              $("#empty-message-additive").html("<%= escape_javascript(render 'interactions/autocomplete/response_additive', molecule:'additive') %>");
+              break;
+              default:
+
+            }
+          } else {
+            switch (type) {
+              case "molecule":
+              $("#empty-message-molecule").empty();
+              break;
+              case "cofactor":
+              $("#empty-message-cofactor").empty();
+              break;
+              case "indicator":
+              $("#empty-message-indicator").empty();
+              break;
+              case "host":
+              $("#empty-message-host").empty();
+              break;
+              case "solvent":
+              $("#empty-message-solvent").empty();
+              break;
+              case "additive":
+              $("#empty-message-additive").empty();
+              break;
+              default:
+              $("#empty-message-molecule").empty();
+            }
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+      .appendTo( ul );
+    };
+};
+
+
+
+
+ $(document).on('ready turbolinks:load', function() {
+    molecularAutoComplete('#interaction_molecule_name', "#mol_weight_molecule" , "molecule")
+    molecularAutoComplete('#interaction_host_name', "#mol_weight_host" , "host")
+    molecularAutoComplete('#interaction_conjugate_name', "#mol_weight_cofactor" , "cofactor")
+    molecularAutoComplete('#interaction_indicator_name', "#mol_weight_indicator" , "indicator")
+    molecularAutoComplete('#interaction_interaction_solvents_attributes_0_first_solvent_name', "#mol_weight_dummy" , "solvent")
+    molecularAutoComplete('#interaction_interaction_solvents_attributes_1_first_solvent_name', "#mol_weight_dummy" , "solvent")
+    molecularAutoComplete('#interaction_interaction_solvents_attributes_2_first_solvent_name', "#mol_weight_dummy" , "solvent")
+    molecularAutoComplete('#interaction_interaction_additives_attributes_0_additive_name', "#mol_weight_dummy" , "additive")
+    molecularAutoComplete('#interaction_interaction_additives_attributes_1_additive_name', "#mol_weight_dummy" , "additive")
+    molecularAutoComplete('#interaction_interaction_additives_attributes_2_additive_name', "#mol_weight_dummy" , "additive")
+   });
+
+
+   function calcTotalConcSolv() {
+     var tc_orig = parseFloat($("#ionic_strength").val());
+     var cs = [];
+     var addi_names = [];
+     $("#inconsistentTotalConcSolv").empty();
+
+     //aim: check if for every additive, a concentration is given. Otherwise the total concentration shall not be calculated automatically.
+     // step 1: create an array "addi_names" with non-empty additive names and an array "cs" with finite concentrations; step 2: execute calculation only if the array lengths of cs and addi_names is equal
+     for ( let  i=0; i < 3; i++ ){
+       var name_form = document.getElementById('interaction_interaction_additives_attributes_'+i+'_additive_name').value;
+       var c_form = parseFloat(document.getElementById('interaction_interaction_additives_attributes_'+i+'_concentration').value);
+       if (name_form !== "") {
+         addi_names.push(name_form);
+         if (isFinite(c_form)) {
+           cs.push(c_form);
+         };
+       } else {
+         if (isFinite(c_form)) {
+           console.log("here");
+           document.getElementById('interaction_interaction_additives_attributes_'+i+'_concentration').value="";
+           $("#inconsistentTotalConcSolv").html("<%= escape_javascript(render 'interactions/autocomplete/response_missingAdditiveName') %>");
+         };
+       };
+     };
+
+     if(addi_names.length === cs.length) {
+        tc = 0
+        $.each(cs, function(index, value) {
+           tc = tc + value;
+        });
+        if (!isFinite(tc_orig)) {
+            $("#ionic_strength").val(tc);
+            $("#ionic_strength").addClass('.calculatedIS');
+        } else if ($("#ionic_strength").hasClass('.calculatedIS')) {
+            $("#ionic_strength").val(tc);
+        } else if (tc !== tc_orig && tc > 0) {
+            $("#inconsistentTotalConcSolv").html("<%= escape_javascript(render 'interactions/autocomplete/response_inconsistentTotalConc') %>");
+        };
+    } else if ($("#ionic_strength").hasClass('.calculatedIS')) {
+        $("#ionic_strength").val("");
+      };
+   };
+
+
+
+
+</script>

@@ -1,0 +1,34 @@
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <span class="panel-title"><i class="fas fa-sitemap"></i> Framework Properties</span>
+    </div>
+    <div class="panel-body">
+      <table class="col-md-12 table table-responsive interaction_properties ">
+        <tbody >
+            <tr>
+              <td colspan="2" class="no_top_border"><strong>Interactions: </strong></td>
+              <td colspan="2" class="no_top_border">
+                  <% if object.present? %>
+                    <% overall_interactions_size = (Interaction.active.where(molecule:object) +  Interaction.active.where(host:object)).uniq.size + Interaction.active.where(indicator:object).size + Interaction.active.where(conjugate:object).size %>
+                    <%= link_to overall_interactions_size, {controller: "molecules", action: 'interactions', id: object.id}, class:'badge'%>
+                  <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" class="no_top_border">Si/Al Ratio:</td>
+              <td colspan="2" class="no_top_border">
+              <%= @molecule.framework_molecule.si_al_ratio %>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" class="no_top_border">Counter ion:</td>
+              <td colspan="2" class="no_top_border">
+              <%= @molecule.framework_molecule&.additive&.display_name %>
+              </td>
+            </tr>
+          <%= render 'frameworks/locales/table_rows', framework:object.framework %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<div class="page-header">
+  <h1>Search for Additives</h1>
+</div>
+
+<div class="">
+  <%= render 'dblookup' %>
+</div>
+
+<div class="col-md-12">
+  <hr>
+</div>
+
+<div class="col-md-12">
+ <div class="form-group row">
+  <div class="col-md-9">
+  </div>
+  <div class="col-md-3">
+    <% if user_signed_in? %>
+      <%= link_to "Not found? Click me!", pubchem_help_additives_path, remote: true, class:"btn btn-primary btn-lg search_button", style:"margin-right: 20px;"%>
+    <% end %>
+  </div>
+ </div>
+</div>
+
+  <div id="content" class="col-md-12">
+
+  </div>
+
+  <div id="cidsearch" class="col-md-12 dynamic-interaction-panel">
+
+  </div>
+
+  <script type="text/javascript">
+  $('button[name=searchAdditiveButton]').on("click", function(){
+    hidePopovers();
+    if ($.fn.DataTable.isDataTable('#addiIndex' )) {
+      dataTable.state.clear();
+    } else {
+      !($('button[name=searchAdditiveButton]').hasClass('.clicked')) | $('button[name=searchAdditiveButton]').addClass('.clicked');
+    };
+  });
+  </script>

@@ -1,0 +1,17 @@
+<%= fields_for :in_technique do |technique| %>
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u class="technique-panel-label">Potentiometry</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Click for further information in glossary"}),
+    glossary_url(anchor:'pot'), target: :_blank %>
+  </div>
+  <div class="col-md-9">
+   <p> Sorry, input characterizing the potentiometry setup is not yet possible. Anyway, interactions based on potentiometry can be saved, containing all data entered. Please contact us if you need potentiometry specific fields.
+    </p>
+  </div>
+
+</div>
+<% end %>

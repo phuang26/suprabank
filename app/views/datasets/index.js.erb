@@ -1,0 +1,2 @@
+$("#datasets_index_content").html("<%= escape_javascript(render 'ransack_table', datasets:@datasets) %>");
+$('#datasets_index_paginator').html('<%= escape_javascript(paginate(@datasets, btncolor:"primary", :remote => true).to_s) %>');

@@ -1,0 +1,11 @@
+<%= simple_form_for @dataset, :html => { :class => 'form-horizontal' } do |f| %>
+  <p>Your preliminary <strong>DOI</strong> is <em><%= @dataset.identifier %></em>.</p>
+
+  <%= f.input :title, :placeholder =>"Example: Title of your manuscript. This can be changed later!" %>
+  <%= f.input :description,  :placeholder =>"Please provide a short abstract for data description (can be also from the manuscript)" %>
+  <%= f.input :relatedIdentifier, label:'Reference DOI', :placeholder =>"You already have the DOI from your manuscript? Place it here!, If not? Do it later!" %>
+
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                datasets_path, :class => 'btn btn-default' %>
+<% end %>

@@ -1,0 +1,164 @@
+<div class="col-md-6 panel-default">
+  <div class="panel-body ">
+    <h4 class="center"><u>Binding Properties</u></h4>
+    <table class="col-md-12 interaction-show-table">
+      <tbody>
+      <% if @interaction.stoichometry_molecule.present? %>
+        <tr>
+          <td class="col-md-1">
+          <span class="has-tooltip" data-toggle="tooltip" title="Stoichometry">
+            <strong>&#x1D708;</strong>	
+          </span>
+          </td>
+          <td colspan=3>
+            <span>
+              Molecule 
+              <%= ((@interaction.stoichometry_molecule % 1) === 0) ? @interaction.stoichometry_molecule.round : @interaction.stoichometry_molecule %>
+            </span>
+            :
+            <span>
+              <%= ((@interaction.stoichometry_host % 1) === 0) ? @interaction.stoichometry_host.round : @interaction.stoichometry_host %>
+              Host
+            </span>
+          </td>
+        </tr>
+        
+      <% end %>
+        <tr>
+          <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Binding Constant">
+            <strong><em>K</em><sub>a</sub></strong></span>
+            <span class="pull-right"> 
+              <%= case @interaction.binding_range
+                  when 'equal'
+                    "="
+                  when 'greater'
+                    ">"
+                  when 'less'
+                    "<"
+                  end
+                  %>
+              </span>
+          </td>
+          <td class="col-md-1" id="ScientificKa"> <%= @interaction.convert_to_scientific.html_safe %> </td>
+          <% if @interaction.binding_constant_error.present? %>
+            <td class="col-md-2" id="ScientificKaerror">&#177; <%= @interaction.error_to_scientific.html_safe %> </td>
+            <td class="col-md-2"><%= @interaction.binding_constant_unit.gsub(/\W+\d/, '<sup>\0</sup>').html_safe %> </td>
+          <%else %>
+            <td class="col-md-2"><%= @interaction.binding_constant_unit.gsub(/\W+\d/, '<sup>\0</sup>').html_safe %> </td>
+            <td class="col-md-2"></td>
+          <% end %>
+        </tr>
+        <tr>
+          <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Dissociation Constant">
+            <strong><em>K</em><sub>d</sub></strong></span>
+            <span class="pull-right">
+              <%= case @interaction.binding_range
+                  when 'equal'
+                    "="
+                  when 'greater'
+                    ">"
+                  when 'less'
+                    "<"
+                  end
+                  %>
+              </span>
+            </td>
+
+          <% if @interaction.binding_constant_error.present? %>
+             <td class="col-md-1" id="scientificKd"> </td>
+             <td class="col-md-2" id="scientificKderror"> </td>
+             <td class="col-md-2" id="scientificKdunit"> </td>
+             <script> var numkd = '<%= 1/@interaction.binding_constant %>'; var numerror = '<%= @interaction.binding_constant_error/@interaction.binding_constant**2 %>';  var numunit = '<%= @interaction.binding_constant_unit %>'; numtoscientificKd(numkd, numerror, numunit); </script>
+          <% else %>
+             <td class="col-md-1" id="scientificKd"> </td>
+             <td class="col-md-2" id="scientificKdunit"> </td>
+             <td class="col-md-2"></td>
+             <script> var numkd = '<%= 1/@interaction.binding_constant %>'; var numerror = 0;  var numunit = '<%= @interaction.binding_constant_unit %>'; numtoscientificKd(numkd, numerror, numunit); </script>
+           <% end %>
+
+        </tr>
+
+        <tr>
+          <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="decadic logarithm of Binding Constant" ><strong>log<em>K</em><sub>a</sub></strong></span >
+            <span class="pull-right">
+              <%= case @interaction.binding_range
+                  when 'equal'
+                    "="
+                  when 'greater'
+                    ">"
+                  when 'less'
+                    "<"
+                  end
+                  %>
+              </span>
+          </td>
+          <td class="col-md-1"><span><light><%= @interaction.logKa %> </light></span></td>
+          <% if @interaction.logka_error.present? %>
+            <td class="col-md-2"><light>&#177; <span><%= @interaction.logka_error %></span></light> </td>
+            <td class="col-md-2"></td>
+          <% else %>
+            <td class="col-md-2"></td>
+            <td class="col-md-2"></td>
+          <% end %>
+        </tr>
+
+        <tr>
+          <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Temperature"><strong>T</strong></span></td>
+
+          <td class="col-md-1"> <span class="has-tooltip" data-toggle="tooltip" title="<%= (@interaction.temperature + 273.15) %> K "> <%= @interaction.temperature %> </span> °C </td>
+          <td class="col-md-1"><light>&asymp; <span><%= (@interaction.temperature+273.15).round(0) %></span> K</light> </td>
+          <td class="col-md-2"></td>
+        </tr>
+        <tr>
+
+        </tr>
+        <% if @interaction.kin_hg||@interaction.kout_hg %>
+          <%= render 'interactions/locales/kinetics_locale' %>
+        <% end %>
+
+      </tbody>
+    </table>
+
+    <table class="col-md-12 interaction-show-table" style="margin-top:5%;">
+      <thead>
+        <th colspan="2" style="text-align:left;"><span><strong>Energy</strong></span></th>
+        <td colspan="2" style="text-align:left; padding-left: 3%;"><span>kJ mol<sup>-1</sup></span></td>
+        <td colspan="2" style="text-align:left; padding-left: 5%;"><span>kcal mol<sup>-1</sup></span></td>
+
+      </thead>
+      <tbody>
+        <tr>
+        </tr>
+        <tr>
+          <td style="width:8%; text-align:center;"><span  class="has-tooltip" data-toggle="tooltip" title="Gibbs free energy"><strong>&#916;<em>G<em></strong></span></td>
+          <td style="width:6%; text-align:center;"> <span >
+              <%= case @interaction.binding_range
+              when 'equal'
+              "="
+              when 'greater'
+              "<"
+              when 'less'
+              ">"
+              end
+              %>
+            </span>
+          </td>
+          <td style="width:18%; text-align:left; padding-left: 3%;"><span><%= @interaction.deltaG %> </span></td>
+          <td style="width:10%; text-align:left;">
+          <% if @interaction.deltaG_error.present? %>
+            &#177; <span><%= @interaction.deltaG_error%></span>
+          <% end %>
+           </td>
+          <td style="width:16%; text-align:left;" class="energy_td"><span><%= (@interaction.deltaG*0.2390057).round(2) %> </span></td>
+          <td style="width:22%; text-align:left;">
+          <% if @interaction.deltaG_error.present? %>
+            &#177; <span><%= (@interaction.deltaG_error*0.2390057).round(2)%></span>
+          <% end %>
+           </td>
+        </tr>
+
+        <%= render 'interactions/locales/thermodynamics_locale' %>
+      </tbody>
+    </table>
+  </div>
+</div>

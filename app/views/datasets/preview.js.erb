@@ -1,0 +1,2 @@
+$("#dataset_interactions_content").html('<%= escape_javascript(render "datasets/interactions/table_ransack", interactions: @interactions_included) %>');
+$('#dataset_interactions_paginator').html('<%= escape_javascript(paginate(@interactions_included, btncolor:"primary", :remote => true).to_s) %>');

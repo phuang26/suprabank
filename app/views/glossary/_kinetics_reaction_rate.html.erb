@@ -1,0 +1,106 @@
+<h3 id="Kin" class="level2">Kinetics: reaction rate</h3>
+
+<p class="item">
+  The reaction rate
+  <em>v</em>
+  is the speed at which molecules undergo reactions.
+  <a href="#TD_ref">
+    <sup>[4]</sup>
+  </a>
+  <br>
+  The reaction rate
+  <em>v</em>
+  of a host-guest complexation
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r1.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  is defined as
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r2.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  The reaction rate of the complex association obeys a rate law of the general form:
+  <a href="#TD_ref">
+    <sup>[5]</sup>
+  </a>
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r3.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  Herein, k<sub>ass</sub>
+  is the rate constant and the exponents m’ and n’ are called partial orders of reaction and they are not necessarily equal to the stoichiometric coefficients m and n. Instead, they depend on the reaction mechanism and the underlining elementary steps.
+  Hence, the detailed study of the kinetics offers a way to elucidate the molecular reaction pathway.<br>
+  The rate of dissociation is analogously
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r4.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  Hence, the reaction rate is:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r5.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  Such rate laws for reversible reactions as host-guest complexation can typically only be solved numerically by software packages such as
+  <a href="#SimFit_tools">kineticSimFit</a>. In order to find an analytical solution especially for systems involving more than two partners (competitive assays), physical meaningful approximations are necessary.<a href="#TD_ref">
+    <sup>[6-8]</sup>
+  </a>
+</p>
+  <h4 id="kinetics_pfo" class="level3">Pseudo-first order</h4>
+  <p class="item">
+    A common way to simplify a reversible bimolecular reaction is the so-called pesudo-first order approach, in which a second order system can be approximated as a (pseudo)first-order sytem. One reaction partner A, being either guest or host, is added in a huge excess of the other reaction partner B, being either host or guest. Thus, the concentration of B is approximately constant. In this case, nearly only
+    association occurs and the reaction can be observed under pseudo first-order conditions as
+    <em>e.g.</em>
+    for the reaction
+    <%= image_tag "glossary/f_r6.png"%>:
+  </p>
+
+<figure>
+  <%= image_tag "glossary/f_r7.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  with
+  <%= image_tag "glossary/f_r8.png"%>
+  and
+  <%= image_tag "glossary/f_r9.png"%>. This gives:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r10.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  with
+  <%= image_tag "glossary/f_r11.png"%>. Thus:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_r12.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  As the pseudo first-order conditions accelerate the overall rate of reaction, mostly spectroscopic methods are used in such studies. However, it was shown that ITC titration experiments give similar exponential injection signals even under
+  stoichiometric conditions and, thus, can be used for a analogous pseudo-first order determination of the rate constants.<a href="#TD_ref">
+    <sup>[9]</sup>
+  </a>
+  For instance, the software package
+  <a href="#SimFit_tools">kineticSimFit</a>
+  can be used for such analyses.
+</p>
+<!-- #reviewed 4.2.2021 -->

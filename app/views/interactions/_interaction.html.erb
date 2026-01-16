@@ -1,0 +1,219 @@
+
+<div class="form-group  ">
+  <!-- <h1 class="has-tooltip" data-toggle="ajax-tooltip" data-placement="left" title="Tooltip on left">Display all molecules</h1> -->
+  <table class="table col-md-12">
+    <thead>
+      <tr>
+        <th class="col-md-2">Info</th>
+        <th class="col-md-1">Molecule</th>
+        <th class="col-md-1">Partner</th>
+        <th class="col-md-1" style="text-align:center;">log K<sub>a</sub> / M <sup>-1</sup></th>
+        <th class="col-md-1">Solvent</th>
+        <th class="col-md-1">T / °C</th>
+        <th class="col-md-1">Additives</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @interactions.each do |interaction| %>
+        <% unless interaction.is_clone %>
+          <tr>
+            <td class="col-md-2">
+
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="Citation">
+                <span class="has-popover" data-toggle="ajax-popover" title= "Citation"
+                data-content='
+                <div class="">
+                  <%= interaction.citation %>
+                </div>
+                <div class="">
+                  <%= link_to interaction.doi, "https://doi.org/#{interaction.doi}", target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %>
+                </div>
+                ' >
+                    <i class="fas fa-quote-right"></i>
+                </span>
+
+              </span>
+
+                <span> | </span>
+
+              <span class="has-tooltip col-4" data-toggle="ajax-tooltip" title="<%= Technique.search_by_names(interaction.technique).first.names[0] if interaction.technique.present? %>">
+                <button type="button" name="button" class="btn btn-xs btn-default technique-icon <%= Technique.search_by_names(interaction.technique).first.names[1] if interaction.technique.present? %> " >
+                  <strong><%= interaction.technique.present? ? Technique.search_by_names(interaction.technique).first.names[2] : "&nbsp;&nbsp;&nbsp;".html_safe %>
+                  </strong>
+                </button>
+              </span>
+              <span> | </span>
+
+              <span class="has-tooltip col-4" data-toggle="ajax-tooltip" title="<%= AssayType.search_by_names(interaction.assay_type).first.names[0] if interaction.assay_type.present? %>">
+                <% if interaction.assay_type == "Direct Binding Assay" %>
+                  <button type="button" name="button" class="btn btn-xs btn-default technique-icon <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %> " >
+                    <strong><%= interaction.assay_type.present? ? AssayType.search_by_names(interaction.assay_type).first.names[1] : "&nbsp;&nbsp;&nbsp;".html_safe %>
+                    </strong>
+                  </button>
+                <% elsif interaction.assay_type == 'Competitive Binding Assay' %>
+                  <span class="has-popover" data-toggle="ajax-popover" title="Indicator: <%= interaction.indicator.display_name if interaction.indicator.present? %>"
+                  data-content='
+                    <div class="">
+                      <% if interaction.indicator.present? %>
+                        <%= image_tag interaction.indicator.png_url, size: "200x200"%>
+                      <% end %>
+                    </div>
+                  ' >
+                    <button type="button" name="button" class="btn btn-xs btn-default technique-icon <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %> " >
+                      <strong><%= interaction.assay_type.present? ? AssayType.search_by_names(interaction.assay_type).first.names[1] : "&nbsp;&nbsp;&nbsp;".html_safe %>
+                      </strong>
+                    </button>
+                  </span>
+                <% elsif interaction.assay_type == "Associative Binding Assay" %>
+                  <span class="has-popover" data-toggle="ajax-popover" title="Cofactor: <%= interaction.conjugate.display_name if interaction.conjugate.present? %>"
+                  data-content='
+                    <div class="">
+                      <% if interaction.conjugate.present? %>
+                        <%= image_tag interaction.conjugate.png_url, size: "200x200"%>
+                      <% end %>
+                    </div>
+                  ' >
+                    <button type="button" name="button" class="btn btn-xs btn-default technique-icon <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %> " >
+                      <strong><%= interaction.assay_type.present? ? AssayType.search_by_names(interaction.assay_type).first.names[1] : "&nbsp;&nbsp;&nbsp;".html_safe %>
+                      </strong>
+                    </button>
+                  </span>
+                <% else %>
+                <% end %>
+              </span>
+
+              <span> | </span>
+<% if false %>
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= interaction.assay_type  %>">
+                <span class="has-popover" data-toggle="ajax-popover" title="Structure"
+                data-content='
+                <div class="">
+                  <% if interaction.host.present? %>
+                    <%= image_tag interaction.host.png_url, size: "200x200"%>
+                  <% end %>
+                </div>
+                ' >
+                    <i class="fa fa-futbol-o"></i>
+                </span>
+              </span>
+              <span> | </span>
+<% end %>
+              <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Show  #{interaction.assay_type} between #{interaction.molecule.display_name} and #{interaction.host.display_name}" %>">
+                <%= link_to "", {controller: "interactions", action: 'show', id: interaction.id}, class:'far fa-eye'%>
+              </span>
+              <span> | </span>
+
+              <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Clone this interaciton" %>">
+                <%= link_to "", {controller: "interactions", action: 'duplicate', id: interaction.id}, class:'fas fa-clone'%>
+              </span>
+
+            </td>
+
+            <td class="col-md-1">
+              <% if interaction.molecule.present? %>
+                <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.molecule.display_name}" %>">
+                  <span class="has-popover" data-toggle="ajax-popover" title="Structure"
+                  data-content='
+                  <div class="">
+                      <%= image_tag interaction.molecule.png_url, size: "200x200"%>
+                  </div>
+                  ' >
+                  <%= interaction.molecule.preferred_abbreviation.present? ?interaction.molecule.preferred_abbreviation : truncate(interaction.molecule.display_name, length: 30) %>
+                </span>
+              <% end %>
+            </span>
+            </td>
+
+            <td class="col-md-1">
+              <% if interaction.molecule.present? %>
+                <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= interaction.host.present? ? "#{interaction.host.display_name}" : "no host" %>">
+                  <span class="has-popover" data-toggle="ajax-popover" title="Structure"
+                  data-content='
+                    <div class="">
+                      <% if interaction.host.present? %>
+                        <%= image_tag interaction.host.png_url, size: "200x200"%>
+                      <% end %>
+                    </div>
+                  ' >
+                    <%= interaction.host.preferred_abbreviation.present? ?interaction.host.preferred_abbreviation :  truncate(interaction.host.display_name, length: 30) %>
+                  </span>
+                </span>
+              <% end %>
+            </td>
+
+            <td class="col-md-1">
+              <% if interaction.binding_constant.present?  %>
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Ka =  #{"%.2e" % interaction.binding_constant} (&plusmn; #{interaction.binding_constant_error.present? ? "%.2e" % interaction.binding_constant_error : "0"})".html_safe %>">
+                <span>        <%=  interaction.logKa %>
+                  <% if interaction.logka_error.present? %>
+                  (&plusmn <%= interaction.logka_error %> )
+                  <% end %>
+                         </span>
+              <% end %>
+            </span>
+            </td>
+
+            <td class="col-md-1">
+              <% if interaction.solvents.first.present?  %>
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.solvents.first.display_name}" %>">
+              <%= interaction.solvents.first.display_name %>
+            </span>
+            </td>
+
+              <% end %>
+            <td class="col-md-1">
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "T =  #{273.15 + interaction.temperature} K" %>">
+              <%= interaction.temperature %>
+            </span>
+            </td>
+
+            <td class="col-md-2">
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "ISBid = #{interaction.id}"  %>">
+                <span class="has-popover" data-toggle="ajaxpopover" title="Structure"
+                data-content='
+                <div class="">
+                  <% if interaction.molecule.present? %>
+                    <%= image_tag interaction.molecule.png_url, size: "200x200"%>
+                  <% end %>
+                </div>
+                ' >
+                    <i class="fa fa-info-circle"></i>
+                </span>
+
+              </span>
+              <span> | </span>
+                <span class="has-popover" data-toggle="ajax-popover" title="InChI"
+                data-content='
+                <div class="inside-js-popover">
+                  <p><%= interaction.host.present? ? interaction.host.inchistring : "no host"%></p>
+                  <strong>InChI key:</strong>
+                  <p><%= interaction.host.present? ? interaction.host.inchikey : "no host"%></p>
+                </div>
+                ' >
+                    Salts
+                </span>
+                <span> | </span>
+                <span class="has-popover" data-toggle="ajax-popover" title="InChI"
+                data-content='
+                <div class="inside-js-popover">
+                  <strong>Canonical SMILES</strong>
+                  <p><%= interaction.host.present? ? interaction.host.cano_smiles : "no host" %></p>
+                  <strong>Isomeric SMILES</strong>
+                  <p><%= interaction.host.present? ? interaction.host.iso_smiles : "no host" %></p>
+                </div>
+                ' >
+                    Co-Solvents
+                </span>
+            </td>
+            <% if false %>
+              <td class="col-md-1">
+                <%= link_to interaction.host.interactions.active.size, {controller: "molecules", action: 'interactions', id: interaction.host.id}, class:'badge'%>
+              </td>
+            <% end %>
+
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

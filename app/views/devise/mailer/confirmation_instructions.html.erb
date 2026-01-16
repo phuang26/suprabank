@@ -1,0 +1,15 @@
+<% if @resource.givenName.present? %>
+  <p>Welcome <strong><%= @resource.givenName %> <%= @resource.familyName %></strong> to the <strong>SupraBank</strong> </p>
+<% else %>
+  <p>Welcome <%= @email %> to the SupraBank - A repository for supramolecular interactions! </p>
+<% end %>
+
+
+
+<p>Please confirm your account through the link below:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token, host:ENV['ENVHOST'], port:ENV['ENVPORT'] ) %></p>
+
+---
+<p><strong>SupraBank</strong> - <em>A scientific resource for supramolecular interactions!</em> </p>
+<p class="footer-text"> contact@suprabank.org</p>

@@ -1,0 +1,843 @@
+$navbar-default-bg: rgba(#30313c, 0.79);
+$navbar-supraback-color: #5479b4;
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  padding-top: 50px;
+  margin-bottom: 60px;
+}
+
+.ul-names {
+  display: inline;
+}
+
+ul.token-input-list-facebook
+{
+   width:100%;
+   font-size: 14px;
+   color: lightgrey;
+   border-color: lightgrey;
+   border-radius: .3em;
+}
+
+.li-names {
+  width: 33%;
+}
+
+.user-name {
+  padding-top: 15px;
+}
+
+.user {
+  color: black;
+}
+
+.user:hover {
+text-decoration: none;
+}
+
+// .composition-popover {
+//   max-width: 100px !important;
+// }
+
+.fa-caret-square-o-down  {
+  color: white;
+}
+
+
+#logo:hover {
+	color: $navbar-supraback-color;
+}
+
+
+.center {
+text-align: center;
+}
+
+#sign_up {
+  color: white;
+}
+
+
+
+
+
+.btn-sign-up {
+  background-color: green;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-right: 20px;
+}
+
+.panel-body {
+  background-color: inherit;
+  font-weight: bold;
+}
+
+.panel-title {
+  font-weight: bold;
+}
+
+.has-popover:hover {
+  cursor: alias;
+}
+
+.has-js-popover:hover {
+  //cursor: alias;
+  cursor: alias;
+}
+
+.inside-js-popover {
+  word-break: break-word;
+}
+
+.articles-actions {
+  border-top: 1px solid lightgrey;
+  padding-top: 5px;
+}
+
+.table .action-head {
+  text-align: center;
+}
+
+
+.molecule-properties {
+  list-style: none;
+  word-break: break-word;
+  font-weight: normal;
+  padding-left: 0;
+}
+
+a:hover {
+	color: $navbar-supraback-color !important;
+	background-color: transparent !important;
+}
+
+a.badge {
+  color: white !important;
+}
+
+a.badge:hover {
+  color: white !important;
+  background-color: $navbar-supraback-color !important;
+}
+
+.hz-links{
+  display: inline-flex !important;
+}
+
+
+.ITC {
+  color: black;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.FL {
+  color: olivedrab;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.ABS {
+  color: darkviolet;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.NMR {
+  color: chocolate;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.CBA {
+  color: darkgreen;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.DBA {
+  color: orangered;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.ABA {
+  color: dodgerblue;
+  font-weight: bolder !important;
+  font-size: smaller !important;
+}
+
+.dynamic-interaction-panel {
+  display: none;
+}
+
+#interaction_interaction_solvents_attributes_1_first_solvent_name.edit_single_solvent  {
+  display: none;
+}
+
+#interaction_interaction_solvents_attributes_2_first_solvent_name.edit_single_solvent  {
+  display: none;
+}
+
+.error-mes-naN{
+  color: red;
+}
+
+.another-row {
+  margin-top: 5px;
+}
+
+.another-solvent-row {
+  margin-top: 5px;
+}
+
+.not-allowed:hover{
+  cursor: not-allowed;
+}
+
+label.unit {
+  text-align: left !important;
+}
+
+.control-label.unit {
+  text-align: left !important;
+}
+
+.dropdown-toggle {
+  margin-right: 10px;
+}
+
+.popover {
+  max-width: 700px;
+
+  }
+.negative_value:read-only {
+  color: red !important;
+}
+
+.negative_value:-moz-read-only {
+  color: red !important;
+}
+
+.welcome-logo {
+  width:100%;
+  height:100%;
+}
+
+.info-box{
+float:right;
+display:block;
+}
+
+.jumbotron {
+  // background-image: asset-url('logo-production.png');
+  //height: 1500px;
+  height: 100%;
+  padding-top: 5px;
+}
+
+.people-properties {
+  padding-left: 0px;
+  list-style: none;
+  word-break: break-word;
+  font-weight: normal;
+}
+
+.people-photo {
+  width: 150px;
+}
+
+
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: relative;
+    top: 0;
+    visibility: hidden;
+    margin-top: -1px;
+}
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
+    margin-top: 0;
+}
+
+.navbar .sub-menu:before {
+    border-bottom: 7px solid transparent;
+    border-left: none;
+    border-right: 7px solid rgba(0, 0, 0, 0.2);
+    border-top: 7px solid transparent;
+    left: -7px;
+    top: 10px;
+}
+.navbar .sub-menu:after {
+    border-top: 6px solid transparent;
+    border-left: none;
+    border-right: 6px solid #fff;
+    border-bottom: 6px solid transparent;
+    left: 10px;
+    top: 11px;
+    left: -6px;
+}
+
+.fa-cog {
+  color: $navbar-supraback-color;
+}
+
+.field_with_errors {
+  background-color: #f2dede !important;
+  display: contents !important;
+}
+
+.control-label {
+  background-color: inherit;
+}
+
+.help-block {
+  display: none;
+}
+
+.molecule-structure {
+  text-align:center;
+}
+
+.structure-image {
+  max-width: 300px;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.interaction-structure-image {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.image-wrapper {
+  height: 150px;
+}
+
+.image-funding {
+  height: 100px;
+  max-width: 100%;
+}
+
+.funding-logos {
+  text-align: center;
+}
+
+.group_badge:hover {
+  cursor: default !important;
+}
+
+.well {
+  //background-color: #f0f6ff;
+  background-color: white;
+}
+
+.well.overview {
+  // background-color: #f5f5f5;
+  background-color: white;
+}
+
+.panelPubChem{
+  background-color: #f0f6ff !important;
+}
+
+.panelMoleShow{
+  display: inline-block;
+  width: 100px;
+}
+
+
+.well.simulation-locale {
+  background-color: white;
+}
+
+.instant-image {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.group-show-img {
+  max-width: 40px;
+  max-height: 40px;
+}
+
+a.external-link{
+  color: $navbar-supraback-color
+}
+
+a.external-link:visited{
+  color: $navbar-supraback-color
+}
+
+.popover_molecule_image {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+a.autocomplete-empty-response_message {
+  color: red;
+}
+a.autocomplete-empty-response_message:visited {
+  color: red;
+}
+
+
+input[class=zoomCheck] {
+display: none;
+}
+
+.structure-image-panel img {
+margin: 0px;
+transition: transform 0.25s ease;
+cursor: zoom-in;
+}
+
+.previewDiv{
+  height: 180px;
+}
+
+.preview{
+height: 100%;
+width: 100%;
+object-fit: contain;
+margin: 0px;
+}
+
+input[class=zoomCheck]:checked ~ label > img {
+transform: scale(2);
+z-index: 100;
+cursor: zoom-out;
+background-color: white;
+}
+
+.icon-custom_icons_aba:before {
+  content: "\e900";
+}
+
+.include_button {
+  background-color: #f5f5f5;
+  width: 100%;
+}
+
+.alignLabel{
+  margin-top: 9px;
+}
+
+.search_button {
+  width: 100%;
+}
+
+.search_button_white {
+  color: white !important;
+}
+
+.search_button_fulltext {
+  width: 310px;
+  margin-left: 15px;
+}
+
+.login_button{
+  width: 260px;
+}
+
+.highlight {
+  background-color: skyblue;
+  font-weight: bold
+}
+
+.transition_panel {
+  transition-duration: 0.5s
+}
+
+
+h4.molecule_name_locale {
+  font-size: 14px
+}
+
+.molecule_name_wrapper {
+  word-break: break-all;
+}
+
+
+.locale_comment {
+  font-weight: normal;
+  word-break: break-all;
+  padding-left: 23px;
+
+}
+
+.signs {
+  width: 1%;
+  float: left;
+  padding-left: 0px;
+}
+
+
+.select_range {
+  border: 1px solid #aaa;
+  box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+  border-radius: .3em;
+  margin: 0;
+}
+
+.error_message {
+  color: red;
+}
+
+.error_frame {
+  border-color: red;
+}
+
+.new_button {
+width: 100%;
+margin-left: 0px;
+color: white  !important;
+}
+
+.select_button {
+width: 140px;
+margin-left: 25px;
+}
+
+.select_button_first {
+width: 140px;
+margin-left: 10px;
+}
+
+.select_button_submit {
+width: 310px;
+margin-left: 10px;
+}
+
+
+.neon {
+  animation: neon 2s ease infinite;
+  -moz-animation: neon 2s ease infinite;
+  -webkit-animation: neon 2s ease infinite;
+}
+
+@keyframes neon {
+60% {opacity: 0;}
+}
+
+
+.tored {
+  color: red;
+}
+
+
+.energy_td {
+  // border-left: thin lightgrey solid;
+  padding-left: 5%;
+}
+
+tr.noBorder td{
+  border-bottom: 0;
+}
+
+div.cc_dialog.simple{
+  max-width: 100%;
+  width: 100%;
+
+}
+
+.alignBottom {
+    padding-top: 1.9em;
+    width: 100%;
+}
+
+.mw-label {
+  padding-top: 0.5em;
+}
+
+.smiles-query-td-smiles {
+  line-break: anywhere;
+}
+
+.responsiveMenuButton {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .responsiveMenuButton { display: inline-block;}
+}
+//
+// .onlyXXLscreens {
+//   display: none;
+// }
+//
+@media (min-width: 1600px) {
+ .widerscreens {width: 75%}
+// .largescreens { width: 80%;}
+//   .onlyXXLscreens {
+//     width: 20%;
+//     display: block; }
+ .normalWidthOnLargeScreens {
+     width: 100%;
+    }
+}
+
+
+
+.aboutUsLogo {
+  width: 400px;
+}
+
+@media (max-width: 440px) {
+  .aboutUsLogoSmall { width: 100%;}
+}
+
+
+.css1 { font-size: 1.0em; }
+.css2 { font-size: 1.2em; }
+.css3 { font-size: 1.4em; }
+.css4 { font-size: 1.6em; }
+
+
+.alert-information {
+  color: white;
+  background-color: orange;
+  border-color: #bce8f1;
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.fixed-loader {
+  position: fixed;
+  left: 10%;
+  top: 35%;
+}
+
+
+.middle {
+  vertical-align: middle;
+  vertical-align: -moz-middle-with-baseline;
+}
+
+
+.guide-tooltip {
+  pointer-events: none;
+}
+
+a.label.label-link:visited {
+  color: white;
+}
+
+label.bootstrap-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+  padding-left: 0;
+}
+
+
+.btn-black {
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
+
+
+.tooltip-inner.guide-tooltip {
+  background-color: #5479b4;
+}
+
+.guide-panel-active {
+  border: double 6px #5479b4;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+
+hr.guide-popover-hr {
+  margin: 0;
+}
+
+.guide-popover-content {
+  padding-bottom: 0;
+  padding-top: 10px;
+}
+
+.guide-popover-title {
+  text-align: center;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background: none;
+  border-bottom: none;
+}
+
+.guide-popover {
+  background-color: #5479b4;
+  color: #fff;
+}
+
+.guide-popover.fade.in {
+  // opacity: 0.9;
+}
+
+.popover.top > .arrow.guide-arrow-top:after{
+  /*stuff here*/
+  border-top-color: #5479b4;
+
+}
+
+.image-container {
+  justify-content: center;
+  display: flex;
+  max-height: 200px;
+}
+
+.download-text {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+
+.citation-text {
+  text-align: left;
+}
+
+.privacy-content ol {
+  padding-left: 0px;
+}
+
+.privacy-content p {
+  text-align: justify;
+}
+
+
+.terms-of-service-content ol {
+  padding-left: 0px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.search {
+  background-color:transparent;
+  float: left;
+}
+
+.spacer-div {
+  height: 20vh;
+  background-color:transparent;
+  float: left;
+}
+
+.background-wrapper {
+  // background-image: url("/assets/design/network-2_test.jpg");
+  float: left;
+  width: 100%;
+}
+
+
+.background-wrapper:after {
+  content: "";
+  background: url("/assets/design/welcome-background.svg");
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+
+.suprabank-welcome-logo {
+  max-height: 20vh;
+  max-width: 100%;
+}
+
+.suprabank-logo-div {
+  text-align: center;
+}
+
+.fas.fa-trash {
+  cursor: pointer;
+}
+
+.svg-logo-button {
+  height: 1.8rem;
+  width: auto;
+  padding-right: 9px;
+}
+
+.search-box {
+  font-size: 15px;
+  height: 45px;
+}
+
+.btn-orange {
+  color: white;
+  background-color: #E48E13;
+  border-color: #B26F0F;
+}
+
+.label.label-info.label-normal {
+  font-weight: normal;
+}
+
+
+table.dataTable thead .sorting::after {
+  right: none;
+  left: 7em;
+}
+
+table.dataTable thead .sorting_asc::after{
+  right: none;
+  left: 7em;
+}
+
+table.dataTable thead .sorting_desc::after{
+  right: none;
+  left: 7em;
+}
+
+a.label:visited {
+  color: inherit;
+}
+
+.modal-dialog.modal-50 {
+  width: 50%;
+}

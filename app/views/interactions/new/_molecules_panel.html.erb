@@ -1,0 +1,231 @@
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-2" style="text-align:left;"  id="binding_label"><u>Binding Partners</u></strong>
+  <div class="col-md-7">
+  </div>
+  <div class="col-md-3" >
+    <div class="col-md-1">
+      <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Please select if the concentration of more than one component is varied, e.g. molecule and partner. For more information about typical assay setups, click here."}),glossary_url(anchor:'assay_type'), target: :_blank %>
+    </div>
+    <div class="col-md-10" >
+      <label>Multiple Species varied.<%= check_box_tag :multiple_variation, true, false, class:"middle custom_checkbox" %><span></span></label>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-5"></div>
+  <div class="col-md-1">
+    <span class="has-tooltip" data-toggle="tooltip" title="Molecular weight of loaded compound in g/mol.">
+      <strong class="control-label  " style="text-align:left;">MW</strong>
+    </span>
+  </div>
+  <div class="col-md-5">
+    <span class="has-tooltip" data-toggle="tooltip" title="">
+      <strong class="control-label " style="text-align:left;">Concentration</strong>
+      <strong class="label label-info hidden" id="itc_conc_info">Please check ITC panel for facile filling.</strong>
+    </span>
+  </div>
+  <div class="col-md-1">
+    <span class="has-tooltip" data-toggle="tooltip" title="For ITC, you may enter the concentration using the ITC sections. Otherwise, please choose the varied concentration option for the substance in the syringe. For the substance in the cell, only one concentration shall be entered.">
+      <strong class="control-label " style="text-align:left;">varied?</strong>
+    </span>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Before you can add a molecule, you need to preload it to the SupraBank's
+      molecules database <em>via</em> PubChem or create a custom molecule entry."}), molecules_path, target: :_blank %>
+  </div>
+  <div class="col-md-1">
+    <%= f.label :molecule_name,"Molecule", :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :molecule_name, :class => 'form-control' , placeholder: "#{@interaction.molecule.present? ? @interaction.molecule.display_name : 'e.g. guest, substrate, ligand'}", data: {autocomplete_source: query_molecules_path } %>
+  </div>
+  <%= f.hidden_field_tag :molecule_molecule_type %>
+  <label class="pull-left col-md-1 mw-label" id="mol_weight_molecule"></label>
+  <%= hidden_field_tag "mol_weight_molecule_hidden" %>
+  <%=f.error_span(:molecule_name) %>
+  <div class="col-md-4" id="molecule_fixed">
+    <%= f.text_field :lower_molecule_concentration, :class => 'form-control', placeholder:"[start]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('molecule')" %>
+  </div>
+  <div class="col-md-2 dynamic-interaction-panel" id="molecule_varied" >
+    <%= f.text_field :upper_molecule_concentration, :class => 'form-control', placeholder:"[end]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('molecule')" %>
+  </div>
+  <label class="control-label col-md-1 unit">&#181;M</label>
+  <div class="radio col-md-1">
+    <label class="single_variation_selection_label"><%= radio_button_tag "single_variation_selection", 'molecule', false, class: "single_variation_selection custom_radio" %><span></span></label>
+    <label class="multiple_variation_checkbox_label"><%= check_box_tag "multiple_variation_selection", "molecule", false, {class: "multiple_variation_checkbox custom_checkbox" }  %><span></span></label>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-10 col-md-offset-2" id="empty-message-molecule">
+  </div>
+</div>
+<div class="form-group ">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Partner needs to be
+      preloaded to the SupraBank's molecules database."}), molecules_path, target: :_blank %>
+  </div>
+  <div class="col-md-1">
+    <%= f.label :host_name, "Partner", :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :host_name, :class => 'form-control' , placeholder: "#{@interaction.host.present? ? @interaction.host.display_name : 'e.g. host or protein'} ", data: {autocomplete_source: query_molecules_path }  , onblur: "checkMW()"%>
+  </div>
+  <%= f.hidden_field_tag :host_molecule_type %>
+  <%=f.error_span(:host_name) %>
+  <label class="pull-left col-md-1 mw-label" id="mol_weight_host"></label>
+  <%= hidden_field_tag "mol_weight_host_hidden" %>
+  <div class="col-md-2" id="host_fixed">
+    <%= f.text_field :lower_host_concentration, :class => 'form-control',  placeholder:"[start]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('host')" %>
+  </div>
+  <div class="col-md-2" id="host_varied">
+    <%= f.text_field :upper_host_concentration, :class => 'form-control', placeholder:"[end]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('host')" %>
+  </div>
+  <label class="control-label col-md-1 unit">&#181;M</label>
+  <div class="radio col-md-1">
+    <label class="single_variation_selection_label"><%= radio_button_tag "single_variation_selection", 'host', false, class: "single_variation_selection custom_radio" %><span></span></label>
+    <label class="multiple_variation_checkbox_label"><%= check_box_tag "multiple_variation_selection", "host", false, {class: "multiple_variation_checkbox custom_checkbox" }  %><span></span></label>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-10 col-md-offset-2" id="empty-message-host">
+  </div>
+</div>
+<div class="form-group" style="display: none">
+  <div>
+    <%= f.hidden_field :variation %>
+  </div>
+</div>
+<div class="form-group row" id="host_suspension">
+  <div class="col-md-1"></div>
+  <div class="col-md-2">
+    <label class="control-label form-label has-tooltip" data-toggle="tooltip" title="Often a framework results in a suspension, here you can check this and further specify.">Suspension?</label>
+  </div>
+  <div class="col-md-2">
+    <label class="radio-inline control-label" ><%= f.radio_button :host_suspension, true, class:"host-suspension" %><span></span> Yes </label>
+    <label class="radio-inline control-label" ><%= f.radio_button :host_suspension, false, class:"host-suspension" %><span></span> No </label>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="form-group" id="host_wt_panel">
+  <div class="col-md-1">
+    <%= render(:partial => 'interactions/info/question_guide', :locals => {:text => "Often the concentration of the cofactor is determined in weight percent (wt%) in relation to the solvent, when frameworks are used.".html_safe}) %>
+  </div>
+  <div class="col-md-2">
+    <%= f.label :host_wt_low, "Partner/Solvent wt%", :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= f.text_field :host_wt_low, :class => 'form-control',  placeholder:"[start]  wt%".html_safe %>
+  </div>
+  <div id="host_wt_high_panel">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <%= f.text_field :host_wt_high, :class => 'form-control',  placeholder:"[end]  wt%".html_safe %>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-9 col-md-offset-1" id="mw_info">
+    <p> Please note: The molecule, <em>e.g.</em> guest, substrate, or ligand, shall have a lower molecular mass compared to the partner, <em>e.g.</em> host or protein. Typically, the binding partner encapsulates the smaller molecule.</p>
+  </div>
+</div>
+<script type="text/javascript">
+
+  function showHostWTHigh() {
+    if (($('.single_variation_selection:checked').val() == 'host') ) {
+      $('#host_wt_high_panel').show();
+    }  else {
+      $('#host_wt_high_panel').hide();
+    }
+  }
+
+  function showHostWT() {
+    if (($('.host-suspension:checked').val() == 'true')) {
+      $('#host_wt_panel').fadeIn(400);
+    }  else {
+      $('#host_wt_panel').fadeOut(400);
+    }
+  }
+  
+
+  function showHostCofactorWT() {
+    if (($('.host-suspension:checked').val() == 'true') && $('#interaction_assay_type_associative_binding_assay:checked').val()) {
+      $('#host_cofactor_wt_panel').fadeIn(400);
+    }  else {
+      $('#host_cofactor_wt_panel').fadeOut(400);
+    }
+  }
+
+  function showHostIndicatorWT() {
+    if (($('.host-suspension:checked').val() == 'true') && $('#interaction_assay_type_competitive_binding_assay:checked').val()) {
+      $('#host_indicator_wt_panel').fadeIn(400);
+    }  else {
+      $('#host_indicator_wt_panel').fadeOut(400);
+    }
+  }
+  
+  function checkHostSuspension() {
+    if ($("#host_molecule_type").val() == 'framework') {
+      $('#host_suspension').show()
+    }
+  }
+  
+  function moleculePrePopulate() {
+    $( "#molecule_molecule_type" ).val("<%= @interaction&.molecule&.molecule_type %>");
+    $( "#host_molecule_type" ).val("<%= @interaction&.host&.molecule_type %>");
+    $( "#indicator_molecule_type" ).val("<%= @interaction&.indicator&.molecule_type %>");
+    $( "#cofactor_molecule_type" ).val("<%= @interaction&.conjugate&.molecule_type %>");
+  }
+  
+    $(document).on('ready turbolinks:load', function(){
+      showHostWT();
+      showHostWTHigh();
+      moleculePrePopulate()
+      showHostCofactorWT();
+      showHostIndicatorWT()
+      checkHostSuspension();
+      checkInitialVariation();
+      $('.host-suspension').change(function() {
+        showHostCofactorWT();
+        showHostIndicatorWT()
+        showHostWT();
+        showHostWTHigh();
+      });
+      $('.single_variation_selection').change(function() {
+        showHostWTHigh();
+      });
+      $('#interaction_assay_type_associative_binding_assay').click( function() {
+        showHostCofactorWT()
+      });
+      $('#interaction_assay_type_competitive_binding_assay').click( function() {
+        showHostIndicatorWT()
+      });
+
+      $("#multiple_variation").change(function() {
+        $(this).prop("checked") ? transferToMultiple() : transferToSingle();
+      });
+  
+      $(".single_variation_selection").each(function() {
+        $(this).change(function() {
+  
+          singleVariation($(this).val());
+        })
+      });
+  
+      $(".multiple_variation_checkbox").each(function() {
+        $(this).change(function() {
+          var variation = $(".multiple_variation_checkbox:checked").map(function() {
+            return $(this).val()
+          }).get();
+          if (variation.length === 0) {
+            $("#interaction_variation").val("molecule");
+            transferToSingle();
+          } else {
+          multipleVariation(variation);
+          };
+        });
+      });
+    })
+</script>

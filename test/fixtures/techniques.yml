@@ -1,0 +1,32 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+ names: ["Absorbance", "ABS", "A"]
+
+two:
+ names: ["Isothermal Titration Calorimetry", "ITC", "I"]
+
+three:
+ names: ["Fluorescence", "FL", "F", "Fluorescence Titration"]
+
+four:
+ names: ["Nuclear Magnetic Resonance", "NMR", "N"]
+
+five:
+ names: ["Circular Dichroism", "CD", "C"]
+
+six:
+ names: ["Surface Enhanced Raman Scattering", "SERS", "S"]
+
+seven:
+ names: ["Extraction", "EXT", "E"]
+
+eight:
+ names: ["Potentiometry", "POT", "P"]
+ 
+nine:
+ names: ["Electron Paramagnetic Resonance", "EPR", "L"]

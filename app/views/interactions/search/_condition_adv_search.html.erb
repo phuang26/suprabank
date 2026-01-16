@@ -1,0 +1,40 @@
+<div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+       <%= label_tag 'solventAdvSearch',"Solvent".html_safe,  class: "alignLabel" %>
+    </div>
+    <div class="col-md-9">
+      <%= text_field_tag :solvent_param, params[:solvent_param], placeholder: "solvent", autofocus: true, class: "form-control search-box  searchfield" , data: {autocomplete_source: query_solvents_path} %>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+       <%= label_tag 'bufferAdvSearch',"Buffer".html_safe,  class: "alignLabel" %>
+    </div>
+    <div class="col-md-9">
+      <%= text_field_tag :buffer_param, params[:buffer_param], placeholder: "buffer", autofocus: true, class: "form-control search-box searchfield" %>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+       <%= label_tag 'pHAdvSearch',"pH".html_safe,  class: "alignLabel" %>
+    </div>
+    <div class="col-md-5">
+      <%= text_field_tag :pH_param, params[:pH_param], placeholder: "from".html_safe, autofocus: true, class: "form-control search-box searchfield" %>
+    </div>
+
+   <div class="col-md-4">
+     <%= text_field_tag :pH_to_param, params[:pH_to_param], placeholder: "to", autofocus: true, class: "form-control search-box searchfield" %>
+   </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+       <%= label_tag 'tempAdvSearch',"Temperature".html_safe,  class: "alignLabel" %>
+    </div>
+    <div class="col-md-5">
+      <%= text_field_tag :temperature_param, params[:temperature_param], placeholder: "in °C: &nbsp;&nbsp;from".html_safe, autofocus: true, class: "form-control search-box searchfield" %>
+    </div>
+
+   <div class="col-md-4">
+     <%= text_field_tag :temperature_to_param, params[:temperature_to_param], placeholder: "to", autofocus: true, class: "form-control search-box searchfield" %>
+   </div>
+</div>

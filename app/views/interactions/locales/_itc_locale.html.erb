@@ -1,0 +1,163 @@
+<% if @interaction.in_technique.instrument.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">Instrument:</td>
+    <td class="col-md-1"></td>
+    <td class="col-md-4"><%= @interaction.in_technique.instrument %> </td>
+  </tr>
+<% end %>
+
+<% if @interaction.in_technique.cell_volume.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">V<sub>Cell</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.cell_volume %> &#120583;L </td>
+  </tr>
+<% end %>
+<% if @interaction.in_technique.syringe_volume.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">V<sub>Syringe</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.syringe_volume %> &#120583;L </td>
+  </tr>
+<% end %>
+
+
+<tr>
+<% if @interaction.in_technique.concentration_molecule.present? %>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">c<sub>molecule</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-1"><%= @interaction.in_technique.concentration_molecule %> &#120583;M
+      <% if @interaction.in_technique.molecule_cell %>
+        &nbsp;&nbsp; cell
+      <% else %>
+       &nbsp;&nbsp;  syringe
+     <% end %></td>
+<% else %>
+         <td class='no_top_border col-md-3'></td>
+         <td class="col-md-1">Molecule:
+         <td class="col-md-1">
+         <td class="col-md-1">
+           <% if @interaction.in_technique.molecule_cell %>
+             cell
+           <% else %>
+            syringe
+          <% end %>
+        </td>
+<% end %>
+</tr>
+
+<tr>
+<% if @interaction.in_technique.concentration_host.present? %>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">c<sub>partner</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-1"><%= @interaction.in_technique.concentration_host %> &#120583;M
+      <% if @interaction.in_technique.host_cell %>
+       &nbsp;&nbsp;  cell
+      <% else %>
+      &nbsp;&nbsp;  syringe
+     <% end %>
+     </td>
+<% else %>
+         <td class='no_top_border col-md-3'></td>
+         <td class="col-md-1">Partner:
+         <td class="col-md-1">
+         <td class="col-md-1">
+           <% if @interaction.in_technique.host_cell %>
+            cell
+           <% else %>
+            syringe
+          <% end %>
+          </td>
+<% end %>
+</tr>
+
+<% if @interaction.assay_type == "Associative Binding Assay" %>
+  <tr>
+   <% if @interaction.in_technique.concentration_conjugate.present? %>
+     <td class='no_top_border col-md-3'></td>
+     <td class="col-md-1">c<sub>cofactor</sub></td>
+     <td class="col-md-1">=</td>
+     <td class="col-md-1"><%= @interaction.in_technique.concentration_conjugate %> &#120583;M
+       <% if @interaction.in_technique.conjugate_cell %>
+         &nbsp;&nbsp; cell
+       <% else %>
+         &nbsp;&nbsp; syringe
+      <% end %>
+      </td>
+<% else %>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">Cofactor:
+    <td class="col-md-1">
+    <td class="col-md-1">
+    <% if @interaction.in_technique.conjugate_cell %>
+        cell
+       <% else %>
+        syringe
+    <% end %>
+    </td>
+ <% end %>
+ </tr>
+<% end %>
+
+<% if @interaction.assay_type == "Competitive Binding Assay" %>
+  <tr>
+   <% if @interaction.in_technique.concentration_indicator.present? %>
+     <td class='no_top_border col-md-3'></td>
+     <td class="col-md-1">c<sub>indicator</sub></td>
+     <td class="col-md-1">=</td>
+     <td class="col-md-1"><%= @interaction.in_technique.concentration_indicator %> &#120583;M
+       <% if @interaction.in_technique.indicator_cell %>
+         &nbsp;&nbsp; cell
+       <% else %>
+         &nbsp;&nbsp; syringe
+      <% end %>
+      </td>
+<% else %>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">Indicator:
+    <td class="col-md-1">
+    <td class="col-md-1">
+    <% if @interaction.in_technique.indicator_cell %>
+          cell
+       <% else %>
+          syringe
+    <% end %>
+    </td>
+ <% end %>
+ </tr>
+<% end %>
+
+
+<% if @interaction.in_technique.injection_number.present? %>
+  <tr>
+    <td  class='no_top_border col-md-3'></td>
+    <td class="col-md-1">
+      N<sub>injection</sub></td>
+      <td class="col-md-1">=</td>
+      <td class="col-md-2"><%= @interaction.in_technique.injection_number.to_int %></td>
+  </tr>
+<% end %>
+
+
+<% if @interaction.in_technique.injection_volume.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">V<sub>injection</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.injection_volume %> &#120583;L </td>
+  </tr>
+<% end %>
+
+<% if @interaction.in_technique.initial_injection_volume.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">V<sub>init</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.initial_injection_volume %> &#120583;L </td>
+  </tr>
+<% end %>

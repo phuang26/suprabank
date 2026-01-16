@@ -1,0 +1,37 @@
+
+      <div class="table-responsive">
+        <table class="table determination_specification">
+          <tbody>
+            <tr>
+              <td class="no_top_border col-md-2"><strong >Solvent System</strong></td>
+              <td class="no_top_border col-md-2"><%= @interaction.solvent_system %> </td>
+              <% if @interaction.buffer.present? %>
+                <%  if @interaction.solvent_system == 'Buffer System' %>
+                  <td class="no_top_border col-md-2">
+                    <span class="has-tooltip" data-toggle="tooltip" title="<%= @interaction.buffer.name if @interaction.buffer.name.present? %>">
+                      <%= @interaction.buffer.abbreviation.present? ? @interaction.buffer.abbreviation : @interaction.buffer.name.truncate(18) %>
+                    </span>
+                  </td>
+                <% end %>
+              <% end %>
+            </tr>
+
+            <%= case @interaction.solvent_system
+            when 'Single Solvent'
+            render 'interactions/locales/single_solvent_locale'
+            when 'Complex Mixture'
+            render 'interactions/locales/complex_solvent_locale'
+            when 'Buffer System'
+            render 'interactions/locales/complex_solvent_locale'
+            end
+            %>
+            <% if @interaction.host_suspension %>
+            <tr>
+              <td class="no_top_border col-md-2"><strong >Suspension</strong></td>
+              <td class="no_top_border col-md-2"> The parnter/host is present as a suspension. </td>
+            </tr>
+              
+            <% end %>
+          </tbody>
+        </table>
+      </div>

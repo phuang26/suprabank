@@ -1,0 +1,13 @@
+<div class="col-md-6 panel-body">
+  <% if @interaction.comment.present? %>
+  <dl class="">
+    <dt>
+    <strong style="padding-left: 23px;"> Comment </strong>
+    </dt>
+    <dd class="locale_comment">
+      <%= @interaction.comment %>
+    </dd>
+  </dl>
+
+  <% end %>
+</div>

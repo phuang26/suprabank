@@ -1,0 +1,40 @@
+<%- model_class = Dataset -%>
+<% content_for :head do %>
+<meta name="publisher" content="<%= @dataset.publisher %>" />
+<meta name="resourceTypeGeneral" content="<%= @dataset.resourceTypeGeneral %>" />
+<meta name="language" content="<%= @dataset.language %>" />
+<meta name="format" content="<%= @dataset.format %>" />
+
+<meta name="identifier" content="https://doi.org/<%= @dataset.identifier %>" />
+<meta name="alternateIdentifier" content="<%= @dataset.alternateIdentifier %>" />
+<meta name="title" content="<%= @dataset.title %>" />
+<meta name="date" content="<%= @dataset.available_at %>" />
+<meta name="keywords" content="supramolecular chemistry, chemistry, host:guest, binding, physical chemistry" />
+<meta name="description" content="<%= @dataset.description %>" />
+<% for dscreator in @dataset.dataset_creators do %>
+<meta name="creator" content="<%= dscreator&.creator&.creatorName %>" />
+<% end %>
+<% for dscontributor in @dataset.dataset_contributors do %>
+<meta name="contributor" content="<%= dscontributor.contributor.contributorName %>" />
+<% end %>
+<!--BEGIN: Dublin Core description-->
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
+<meta name="DC.publisher" content="<%= @dataset.publisher %>" />
+<meta name="DC.type" content="Dataset" />
+<meta name="DC.language" content="en" scheme="DCTERMS.RFC3066" />
+<meta name="DCTERMS.license" scheme="DCTERMS.URI" content="<%= @dataset.rightsURI %>" />
+<meta name="DC.format" content="<%= @dataset.format %>" />
+<meta name="DC.<%= model_class.human_attribute_name(:identifier) %>" content="https://doi.org/<%= @dataset.identifier %>" scheme="DCTERMS.URI" />
+<meta name="DC.title" content="<%= @dataset.title %>" />
+<meta name="DC.date" content="<%= @dataset.available_at %>" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.description" content="<%= @dataset.description %>" />
+<% for dscreator in @dataset.dataset_creators do %>
+<meta name="DC.creator" content="<%= dscreator&.creator&.familyName %>, <%= dscreator&.creator&.givenName %>" />
+<% end %>
+<% for dscontributor in @dataset.dataset_contributors do %>
+<meta name="DC.contributor" content="<%= dscontributor.contributor.contributorName %>" />
+<% end %>
+<!-- https://doi.org/10.1594/PANGAEA.833670 -->
+
+<% end %>

@@ -1,0 +1,16 @@
+<table class="table text-center" style="width: 50%">
+  <caption><h3>Overview of pending interactions</h3></caption>
+  <thead>
+    <tr>
+      <th style="text-align: center; ">Revision requested</th>
+      <th style="text-align: center; ">Accepted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @interactions.pending.size %></td>
+      <td><%= @interactions.accepted.size %></td>
+    </tr>
+  </tbody>
+</table>
+<p>Please follow this link to curate and update your entries: <strong><%= link_to "Your interactions", interactions_url(@user), style:"color: cadetblue !important;" %></strong></p>

@@ -1,0 +1,10 @@
+<% if interaction.binding_constant.present?  %>
+  <span>
+    <% case interaction.binding_range
+            when "greater" %>
+    >
+    <% when "less" %>
+    <
+    <%  end %>
+</span>
+    <% end %>

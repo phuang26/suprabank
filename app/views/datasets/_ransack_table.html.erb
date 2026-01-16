@@ -1,0 +1,133 @@
+<%- model_class = Dataset -%>
+<div class="collapse" id="refinement">
+  <%= search_form_for @q do |f| %>
+    <div class="row">
+      <div class="col-md-3 col-xs-12">
+        <label class="bootstrap-label" for="q_title_cont">Title <i class="fas fa-trash"></i> </label> 
+        <%= f.search_field :title_cont, class:"form-control refinement-input" %>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <label class="bootstrap-label" for="q_identifier_cont">SupraBank DOI <i class="fas fa-trash"></i> </label> 
+        <%= f.search_field :identifier_cont, class:"form-control refinement-input" %>
+      </div>
+      <div class="col-md-3 col-xs-12"></div>
+      <div class="col-md-3 col-xs-12">
+        <%= button_tag(type: :submit, class: "btn btn-success btn-lg refinement-button", name: :commit) do %>
+          <i class="fa fa-filter"></i> Refine
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-xs-12">
+        <label class="bootstrap-label" for="q_primary_reference_cont">Article DOI <i class="fas fa-trash"></i> </label> 
+        <%= f.search_field :primary_reference_cont, class:"form-control refinement-input" %>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <label class="bootstrap-label" for="q_creators_creatorName_cont">Author <i class="fas fa-trash"></i> </label> 
+        <%= f.search_field :creators_creatorName_cont, class:"form-control refinement-input" %>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <label class="bootstrap-label" for="q_interactions_molecule_display_name_or_interactions_host_display_name_eq">Compound <i class="fas fa-trash"></i> </label> 
+        <%= f.search_field :interactions_molecule_display_name_or_interactions_host_display_name_eq, class:"form-control refinement-input", data: {autocomplete_source: query_molecules_path } %>
+      </div>
+      <div class="col-md-3 col-xs-12"></div>
+      <div class="col-md-3 col-xs-12">
+        <span class="btn btn-md btn-info btn-lg refinement-button" id="reset_refinement"><i class="fas fa-trash-alt"></i> Reset All</span>
+      </div>
+    </div>
+  <% end %>
+  <hr>
+</div>
+<%= page_entries_info @datasets %>
+<div class="table-responsive">
+  <table class="table table-hover" id="datasets_table">
+    <thead>
+      <tr>
+        <th class="col-md-1">Info</th>
+        <th class="col-md-2" >DOI <%= sort_link(@q, :identifier, "")%></th>
+        <th class="col-md-4" >Title <%= sort_link(@q, :title, "")%></th>
+        <th class="col-md-1" >Size <%= sort_link(@q, :size_count, "")%></th>
+        <th class="col-md-1" >License</th>
+        <th class="col-md-2" >Created <%= sort_link(@q, :created_at, "")%></th>
+        <% if false%>
+          <th class="col-md-1" ><%= model_class.human_attribute_name(:subjects) %></th>
+          <th class="col-md-1" ><%=t '.actions', :default => t("helpers.actions") %></th>
+          <th class="col-md-1" >Reference</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @datasets.each do |dataset| %>
+        <tr>
+          <td><%= link_to "", dataset_path(dataset.id), class:"fas fa-eye", target:"_blank" %>
+           <span> | </span>
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="Citation">
+                <span class="has-js-popover citation_popover" data-toggle="ajax-popover" title= "<span class='text-info'><strong>Citation</strong></span>
+                  <button type='button' id='close' class='close' onclick='$(&quot;.citation_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+                data-content='<%= dataset.citation %>'>
+                    <i class="fas fa-quote-right"></i>
+                </span>
+
+              </span>
+          
+          
+          
+          </td>
+          <td><span class="label label-supra has-tooltip" id="dataset_doi" onclick="copyToClipboard('#dataset_doi')" data-toggle="tooltip" data-placement="top" title="Click to copy"><%= dataset.identifier %></span></td>
+          <td class="title"><%= dataset.title %></td>
+          <% if false %>
+            <td><%= dataset.subjects %></td>
+            <td><%= dataset.related_identifiers.first.present? ? dataset.related_identifiers.first.relatedIdentifier : "" %></td>
+            <td>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+            edit_dataset_path(dataset), :class => 'btn btn-default btn-xs' %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+            dataset_path(dataset),
+            :method => :delete,
+            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+            :class => 'btn btn-xs btn-danger' %>
+            </td>
+          <% end %>
+          <td><span class="badge dataset_size"> <%= dataset.size_count %> </span> </td>
+          <td>
+            <%= link_to (image_tag "logos/cc.svg", size:"20x20"), dataset.rightsURI, target: :_blank %>
+            <% if dataset.rightsIdentifier == "cc-by-sa-4.0"%>
+              <%= image_tag "logos/cc-by-4.0.svg", size:"20x20" %>
+            <% end %>
+            <%= image_tag "logos/#{dataset.rightsIdentifier}.svg", size:"20x20" %>
+          </td>
+          <td><%= dataset.created_at.strftime("%d. %b %Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="">
+</div>
+
+<script>
+
+  $(document).on('ready turbolinks:load', function(){
+    $("#reset_refinement").click(function() {
+      $('.refinement-input').val("")
+    });
+    $('.fas.fa-trash').click(function() {
+      $(this).parent('label').next('input').val("")
+    });
+  });
+
+$(document).on('ready turbolinks:load', function(){
+  selector = '#q_interactions_molecule_display_name_or_interactions_host_display_name_eq';
+  $(selector).autocomplete({
+  source: $( selector ).data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( selector ).val( ui.item[1] );
+    return false;
+  }
+  }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+      .appendTo( ul );
+    };
+  });
+</script>

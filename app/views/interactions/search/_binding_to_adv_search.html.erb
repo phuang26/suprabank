@@ -1,0 +1,22 @@
+  <div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+      <%= label_tag 'kaAdvSearch',"<i>K</i><sub>a</sub>".html_safe, class: "alignLabel" %>
+    </div>
+    <div class="col-md-4">
+     <%= text_field_tag :binding_param, params[:binding_param], placeholder: "from", autofocus: true, class: "form-control search-box searchfield", id: 'ka' , onchange:"calculatetolog()" %>
+   </div>
+   <div class="col-md-4">
+     <%= text_field_tag :binding_to_param, params[:binding_to_param], placeholder: "to", autofocus: true, class: "form-control search-box  searchfield", id: 'ka_upper' , onchange:"calculatetolog_upper()" %>
+   </div>
+ </div>
+ <div class="form-group row">
+   <div class="col-md-3" style="text-align:left;">
+     <%= label_tag 'logKaAdvSearch',"log <i>K</i><sub>a</sub>".html_safe,  class: "alignLabel" %>
+   </div>
+   <div class="col-md-4">
+     <%= text_field_tag :logka,nil, placeholder: "from", autofocus: true, class: "form-control search-box searchfield" , id:'logka', onchange:"calculatetodec()"%>
+   </div>
+  <div class="col-md-4">
+    <%= text_field_tag :logka_upper, nil, placeholder: "to", autofocus: true, class: "form-control search-box searchfield", id:'logka_upper', onchange:"calculatetodec_upper()" %>
+  </div>
+</div>

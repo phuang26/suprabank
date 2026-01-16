@@ -1,0 +1,112 @@
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12" style="text-align:left;"><u>Thermodynamic Parameters</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-4">
+    <b>kJ mol<sup>-1</sup></b>
+  </div>
+  <div class="col-md-4">
+    <b>kcal mol<sup>-1</sup></b>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "&#916;<em>H</em>: enthalpy change, -T&#916;<em>S</em>: temperature and change in entropy term. Click for further information in glossary"}), glossary_url(anchor:'itc'), target: :_blank %>
+  </div>
+  <div class="col-md-1">
+  <%= f.label :itc_deltaH,"&#916;<em>H</em>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= f.text_field :itc_deltaH, :class => 'form-control' , placeholder:"enthalpy", onchange: "checkValidNumberbelow(this),fromdHkJ(),deltaGConsisticyCheck()" %>
+  </div>
+  <%=f.error_span(:itc_deltaH) %>
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2 solvent-container" >
+    <%= f.text_field :itc_deltaH_error, :class => 'form-control ', placeholder:"error", onchange: "checkValidNumber(this),fromdHkJerror()" %>
+  </div>
+
+
+  <div class="col-md-2">
+    <%= text_field_tag "itc_deltaH_kcal",'', :class => 'form-control' , placeholder:"enthalpy", onchange: "checkValidNumberbelow(this),fromdHkcal(),deltaGConsisticyCheck()" %>
+  </div>
+
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2">
+    <%= text_field_tag "itc_deltaH_kcal_error",'', :class => 'form-control ', placeholder:"error", onchange: "checkValidNumber(this),fromdHkcalerror()" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1">
+  <%= f.label :itc_deltaST,"-T&#916;<em>S</em>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= f.text_field :itc_deltaST, :class => 'form-control', placeholder:"entropy term", id:"deltaST", onchange: "checkValidNumberbelow(this),fromdTSkJ(),deltaGConsisticyCheck()" %>
+  </div>
+  <%=f.error_span(:itc_deltaST) %>
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2 solvent-container">
+    <%= f.text_field :itc_deltaST_error, :class => 'form-control', placeholder:"error", onchange: "checkValidNumber(this),fromdTSkJerror()" %>
+  </div>
+
+  <%= f.error_span(:itc_deltaST_error) %>
+
+  <div class="col-md-2">
+    <%= text_field_tag "itc_deltaSTcal",'', :class => 'form-control', placeholder:"entropy term", onchange: "checkValidNumberbelow(this),fromdTSkcal()" %>
+  </div>
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2">
+    <%= text_field_tag "itc_deltaSTcal_error",'', :class => 'form-control', placeholder:"error", onchange: "checkValidNumber(this),fromdTSkcalerror()" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-4">
+    <b>J mol<sup>-1</sup> K<sup>-1</sup></b>
+  </div>
+  <div class="col-md-4">
+    <b>cal mol<sup>-1</sup> K<sup>-1</sup></b>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1">
+  <%= label_tag 'itc_pureS',"&#916;<em>S</em>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= text_field_tag 'itc_pureS','', :class => 'form-control', placeholder: 'entropy', id: 'itc_pureS' , onchange: "checkValidNumberbelow(this),frompureSkJ()" %>
+  </div>
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2 solvent-container">
+    <%= text_field_tag "itc_pureS_error",'', :class => 'form-control', placeholder:"error", onchange: "checkValidNumber(this),frompureSkJerror()" %>
+  </div>
+
+  <div class="col-md-2">
+    <%= text_field_tag 'itc_pureScal','', :class => 'form-control', placeholder: 'entropy', id: 'itc_pureScal', onchange: "checkValidNumberbelow(this),frompureSkcal()" %>
+  </div>
+  <label class="signs"> &#177; </label>
+  <div class="col-md-2">
+    <%= text_field_tag "itc_pureScal_error",'', :class => 'form-control', placeholder:"error", onchange: "checkValidNumber(this),frompureSkcalerror()" %>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <div class="col-md-2">
+
+  </div>
+  <div class="col-md-8">
+    <p id="error_message_thermodynamics" class="error_message"></p>
+
+  </div>
+</div>

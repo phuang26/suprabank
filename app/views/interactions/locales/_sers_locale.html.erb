@@ -1,0 +1,21 @@
+<% if @interaction.in_technique.nu_obs.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">&nu;<sub>obs</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.nu_obs %> cm<sup>-1</sup></td>
+    <td class="col-md-2"></td>
+  </tr>
+<% end %>
+
+
+<% if @interaction.in_technique.free_to_bound.present? %>
+  <tr>
+    <td  class='no_top_border col-md-3'></td>
+    <td class="col-md-1">
+      <sup>&nu;<sub>bound</sub></sup>&frasl;<sub>&nu;<sub>free</sub></sub></td>
+      <td class="col-md-1">=</td>
+      <td class="col-md-2"><%= @interaction.in_technique.free_to_bound %></td>
+      <td class="col-md-2"></td>
+  </tr>
+<% end %>

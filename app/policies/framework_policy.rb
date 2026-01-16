@@ -1,0 +1,3 @@
+class FrameworkPolicy < ApplicationPolicy
+
+end

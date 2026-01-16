@@ -1,0 +1,160 @@
+$supraback-color: #5479b4;
+
+.glossary_page h3,p,h4,figure {
+  scroll-margin-top: 60px;
+}
+
+.glossary_page h3,h4 {
+  margin-top: 30px;
+}
+
+.glossary_page .toc {
+  font-size: 16px;
+  list-style-type: none;
+}
+
+.glossary_page .toc_item {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.glossary_page .item {
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.glossary_page .bibliography {
+  list-style-type: decimal;
+
+}
+
+.glossary_page .bibliographic_item {
+  text-indent: 5em hanging;
+  color: $supraback-color;
+  padding-left: 25px;
+}
+
+.glossary_page .bibliographic_item:first-letter {
+  margin-left: -25px;
+}
+
+.glossary_page .list {
+  font-size: 14px;
+}
+
+.glossary_page a:link {
+  color: $supraback-color;
+}
+
+.glossary_page .level2 {
+  padding-left: 30px;
+  color: $supraback-color;
+  font-variant: small-caps;
+  text-transform: capitalize;
+}
+
+.glossary_page .level1 {
+  font-variant: small-caps;
+  text-transform: capitalize;
+}
+
+.glossary_page .level3 {
+  font-variant: small-caps;
+  text-transform: capitalize;
+  padding-left: 30px;
+  color: $supraback-color;
+}
+
+.glossary_page .figure.publishing-workflow {
+  max-height: 100%;
+}
+
+.glossary_page .figure {
+  max-width: 600px;
+  max-height: 300px;
+  padding: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid $supraback-color;
+  border-radius: 10px;
+  //border-radius: 0px 40px 40px 80px;
+}
+
+.glossary_page .eq {
+  max-width: 600px;
+  max-height: 300px;
+  padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  //border-radius: 0px 40px 40px 80px;
+}
+
+.glossary_page table {
+  font-size: 14px;
+  padding: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid $supraback-color;
+  border-radius: 10px;
+}
+
+.glossary_page ol li.publishing-step {
+  color: $supraback-color;
+  font-variant: small-caps;
+}
+
+.glossary_page td {
+  font-size: 14px;
+  padding-top: 20px;
+  border-bottom: solid;
+  border-color: lightgrey;
+  border-width: thin;
+}
+
+.glossary_page th {
+  border-bottom: solid;
+  border-color: lightgrey;
+  border-width: medium;
+}
+
+.glossary_page .tablefoot{
+  border: none;
+}
+
+.glossary_page .colone {
+  width: 70px;
+}
+
+.glossary_page .coltwo {
+  width: 180px;
+  text-align: center;
+}
+
+.glossary_page .colthree {
+  width:70px;
+}
+
+.glossary_page .colfour {
+  width: 600px;
+}
+
+.glossary_page .gloss_caption {
+  font-size: 14px;
+  color: $supraback-color;
+  line-height: 1.4;
+  padding: 10px;
+}
+
+.mining-example {
+  max-width: 100%;
+}
+
+.glossary_page img.figure {
+  max-width: 100%;
+}

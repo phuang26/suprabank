@@ -1,0 +1,143 @@
+<div class="table-responsive">
+ <table class="table" id="buffer-table">
+   <thead>
+     <tr>
+      <th class="col-md-1 no-sort">Info</th>
+      <th class="col-md-1">Abbreviation</th>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-1">pH</th>
+
+      <th class="col-md-1"><span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Total concentration" %>">C / mM</span></th>
+      <th>Interactions</th>
+      <th class="col-md-1">Updated</th>
+
+    </tr>
+  </thead>
+  <% @buffers.each do |buffer| %>
+  <% if buffer.interactions.published.any? || current_user.present? %>
+      <tr>
+        <td class="col-md-1">
+          <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Show detailed information about this buffer" %>">
+          <%= link_to "", {controller: "buffers", action: 'show', id: buffer.id}, class:'far fa-eye'%>
+          </span>
+          <span> | </span>
+          <span class="has-tooltip" data-toggle="tooltip" title="Composition">
+            <span class="has-js-popover composition-popover" data-toggle="popover" data-container="body" title= "Composition <button type='button' id='close' class='close' onclick='$(&quot;.composition-popover&quot;).popover(&quot;hide&quot;);' > &times;</button>" data-content='
+            <div class="container col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+
+                  <%= render 'buffers/locales/additive_locale_popover', object:buffer %>
+                </div>
+                <div class="col-md-6">
+
+                  <%= render 'buffers/locales/solvent_popover', object:buffer %>
+                </div>
+              </div>
+            </div>
+
+            ' >
+            <i class="fa fa-cubes" aria-hidden="true"></i>
+          </span>
+        </span>
+          <% if policy(buffer).update? %>
+            <span> | </span>
+            <span class="has-tooltip" id="has-tooltip" data-toggle="tooltip" title="<%= "Edit  buffer number #{buffer.id}" %>">
+              <%= link_to "", {controller: "buffers", action: 'edit', id: buffer.id}, class:'fa fa-pencil'%>
+            </span>
+          <% end %>
+
+
+          </td>
+        <td class="col-md-1"><%= buffer.abbreviation %></td>
+        <td class="col-md-2"><%= buffer.name %></td>
+
+        <td class="col-md-1" ><%= buffer.pH %></td>
+        <td class="col-md-1" ><%= buffer.conc %></td>
+<td class="col-md-1">
+            <%= link_to buffer.interactions_count, interactions_buffer_path(buffer), class:'badge dataset_size'%>
+          </td>
+        <td class="col-md-1" ><span style="display:none;">"<%= buffer.updated_at.strftime("%Y%m%d%H%M%s") %>"</span>
+          <span  class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "created at  #{buffer.created_at.strftime("%d %b %Y")} " %>"> <%= buffer.updated_at.strftime("%d %b %Y") %> </span> </td>
+
+      </tr>
+    <% end %>
+    <% end %>
+</table>
+
+</div>
+
+
+<script type="text/javascript">
+  dataTable = $('#buffer-table').DataTable({
+    "bAutoWidth": false,
+    stateSave: true,
+    "order": [],
+    "columnDefs": [{
+      "targets"  : 'no-sort',
+      "orderable": false,
+      }],
+    "drawCallback": function(){
+
+        $('[data-toggle="popover"]').popover({
+            container: 'body',
+            placement : 'top',
+            trigger : 'click',
+            html : true,
+        });
+        $('[data-toggle="tooltip"]').tooltip({
+            placement : 'right',
+            trigger : 'hover',
+            html : true,
+        });
+        $('[data-toggle="ajax-tooltip"]').tooltip({
+            placement : 'left',
+            trigger : 'hover',
+            html : true,
+        });
+    }
+  });
+
+
+    dataTable.on('page.dt', function(){
+        $('[data-toggle="popover"]').popover('hide');
+      });
+
+      dataTable.on('order.dt', function(){
+          $('[data-toggle="popover"]').popover('hide');
+        });
+
+
+  if ($('button[name=searchBufferButton]').hasClass('.clicked')) {
+    $('button[name=searchBufferButton]').removeClass('.clicked');
+    dataTable.state.clear().destroy();
+    dataTable = $('#buffer-table').DataTable({
+      "bAutoWidth": false,
+      stateSave: true,
+      "order": [],
+      "columnDefs": [{
+        "targets"  : 'no-sort',
+        "orderable": false,
+        }],
+      "drawCallback": function(){
+
+          $('[data-toggle="popover"]').popover({
+              container: 'body',
+              placement : 'top',
+              trigger : 'click',
+              html : true,
+          });
+          $('[data-toggle="tooltip"]').tooltip({
+              placement : 'right',
+              trigger : 'hover',
+              html : true,
+          });
+          $('[data-toggle="ajax-tooltip"]').tooltip({
+              placement : 'left',
+              trigger : 'hover',
+              html : true,
+          });
+      }
+    });
+  };
+</script>

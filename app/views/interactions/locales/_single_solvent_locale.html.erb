@@ -1,0 +1,29 @@
+  <tr>
+    <td  class="no_top_border col-md-1"><strong >Solvent</strong></td>
+    <td class="col-md-2">
+      <span class="has-tooltip" data-toggle="tooltip" title="<%= @interaction.solvents.second ? "Please view the co-solvents below" : "This is the only solvent"  %>">
+        <span class="has-js-popover" data-toggle="popover" title="Structure"
+        data-content='
+        <div class="">
+          <% if @interaction.solvents.first %>
+            <%= image_tag @interaction.solvents.first.png_url, size: "250x250"%>
+          <% end %>
+        </div>
+        ' >
+          <%= truncate(@interaction.solvents.first.display_name, length: 30) if @interaction.solvents.first %>
+        </span>
+      </span>
+    </td>
+  </tr>
+<% if @interaction.pH.present? %>
+  <tr>
+    <td  class="no_top_border col-md-1"><strong >pH</strong></td>
+    <td class="col-md-2"><%= @interaction.pH %> </td>
+  </tr>
+<% end %>
+<% if @interaction.solubility.present? %>
+  <tr>
+    <td class="col-md-1 no_top_border"><strong>Solubility</strong></td>
+    <td class="col-md-1"><span><%= @interaction.solubility %> </span> mM</td>
+  </tr>
+<% end %>

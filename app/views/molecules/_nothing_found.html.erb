@@ -1,0 +1,14 @@
+<% if params[:action] == 'pubchem_request' %>
+<div class="container-flex">
+  <div class="row">
+    <div class="col-sm-9">
+      <%= bootstrap_flash %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= link_to "Create a custom Molecule", new_molecule_molecules_path, class:"btn btn-success btn-lg"  %>
+    </div>
+  </div>
+</div>
+<% end %>

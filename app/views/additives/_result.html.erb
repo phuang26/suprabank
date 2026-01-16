@@ -1,0 +1,27 @@
+<% if params[:action] == 'pubchem_request' ||  params[:action] == 'cid_request'%>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @additive  %>
+  <div class="container col-md-12 overview">
+    <h4><%= @additive.display_name %> | SBID = <%= @additive.id %> | <%= link_to (image_tag("logos/pubchem_logo.svg", size: "150x38")), @additive.pubchem_link, target: :_blank %>
+    </h4>
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <%= render 'molecules/locales/structure', object:@additive %>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <%= render 'molecules/locales/molecular_properties', object:@additive %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <%= render 'molecules/locales/molecular_identifiers', object:@additive %>
+      </div>
+    </div>
+<% end %>

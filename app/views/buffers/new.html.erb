@@ -1,0 +1,8 @@
+<%- model_class = Buffer -%>
+<div class="page-header  normalWidthOnLargeScreens">
+  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
+  <p><br></p>
+</div>
+<div class="row col-md-12 normalWidthOnLargeScreens">
+<%= render :partial => 'form' %>
+</div>

@@ -1,0 +1,26 @@
+<% if @buffer %>
+<h1>Interactions of <%= @buffer.name %></h1>
+<div class="">
+  <%#= render 'interactions_new' %>
+  <%= render "interactions/newinteraction", interactions:@buffer.interactions.active, table_id:'molecules' %>
+<%#= render 'forminteractions' %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  var dataTablesProp = Object.assign(dataTablesPropDefault);
+
+  var dataTables = {
+    "molecules":NaN
+  };
+
+  $(document).on('turbolinks:load',function(){
+      dataTables.molecules = $('#int-index-molecules').DataTable(dataTablesPropDefault);
+  });
+
+  $(document).on('page.dt', function(){
+         hidePopovers();
+       });
+
+
+</script>

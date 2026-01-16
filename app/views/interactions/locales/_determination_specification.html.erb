@@ -1,0 +1,39 @@
+      <table class="col-md-12 table table-responsive determination_specification">
+        <tbody>
+          <tr>
+            <td  class="no_top_border col-md-3"><strong>Detection Method:</strong></td>
+            <td  colspan="3" class="no_top_border col-md-5"><%= @interaction.method %> </td>
+
+          </tr>
+          <tr>
+            <td class="col-md-3"><strong>Assay Type:</strong></td>
+            <td  colspan="3" class="col-md-5"><%= @interaction.assay_type %> </td>
+
+          </tr>
+          <tr>
+          <tr>
+            <td class="col-md-3"><strong>Technique:</strong></td>
+            <td  colspan="3" class="col-md-5"><%= @interaction.technique %> </td>
+
+          </tr>
+          <%= case @interaction.technique
+          when 'Fluorescence'
+            render 'interactions/locales/fluorescence_locale'
+          when 'Absorbance'
+            render 'interactions/locales/absorbance_locale'
+          when 'Circular Dichroism'
+            render 'interactions/locales/dichroism_locale'
+          when 'Nuclear Magnetic Resonance'
+            render 'interactions/locales/nmr_locale'
+          when 'Surface Enhanced Raman Scattering'
+            render 'interactions/locales/sers_locale'
+          when 'Electron Paramagnetic Resonance'
+            render 'interactions/locales/epr_locale'
+          when 'Isothermal Titration Calorimetry'
+           render 'interactions/locales/itc_locale'
+          end
+          %>
+
+
+        </tbody>
+      </table>

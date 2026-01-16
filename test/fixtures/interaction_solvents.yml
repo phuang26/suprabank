@@ -1,0 +1,32 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+solvent_one_interaction_three:
+ solvent: solvent_one
+ interaction: interaction_three
+ volume_percent: 70%
+
+solvent_two_interaction_three:
+ solvent: solvent_two
+ interaction: interaction_three
+ volume_percent: 30%
+
+solvent_one_interaction_five:
+ solvent: solvent_one
+ interaction: interaction_five
+
+solvent_one_interaction_seven:
+  solvent: solvent_one
+  interaction: interaction_seven
+  volume_percent: 70%
+
+solvent_two_interaction_seven:
+  solvent: solvent_two
+  interaction: interaction_seven
+  volume_percent: 30%
+
+<% 21.upto(300) do |i| %>
+interaction_solvent_<%= i %>:
+ interaction_id: <%= i %>
+ solvent_id: <%= Faker::Number.between(from: 1, to: 4) %>
+ volume_percent: 100%
+<% end %>

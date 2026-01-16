@@ -1,0 +1,27 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% 1.upto(10) do |i| %>
+fluorescence_<%= i %>:
+ id: <%= i %>
+ lambda_ex: <%= Faker::Number.number(digits: 3) %>
+ lambda_em: <%= Faker::Number.number(digits: 3) %>
+ free_to_bound: <%= Faker::Number.number(digits: 1) %>
+ instrument: <%= Faker::ElectricalComponents.active %>
+<% end %>
+
+fluorescence_305:
+  id: 11
+  lambda_ex: 222
+  lambda_em: 333
+  free_to_bound: 4
+  instrument: Test_Instrument
+#
+# create_table "fluorescences", force: :cascade do |t|
+#   t.float    "lambda_ex"
+#   t.float    "lambda_em"
+#   t.float    "free_to_bound"
+#   t.text     "instrument"
+#   t.datetime "created_at",    null: false
+#   t.datetime "updated_at",    null: false
+# end

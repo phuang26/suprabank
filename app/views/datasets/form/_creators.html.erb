@@ -1,0 +1,233 @@
+<%= f.fields_for :dataset_creators do |creator| %>
+  <%= render 'dataset_creator_fields', f: creator %>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+
+    <%= link_to_add_fields "Add another creator", f, :dataset_creators, class:"btn btn-info add-cooperator add_creator" %>
+    <%= image_tag "preloader/38.gif", size:"35x35", class:"pull-right loader", id:"creator_loader" %>
+  </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+  $(document).on('click', 'form .add_fields', function(event) {
+   var regexp, time;
+   time = new Date().getTime();
+   regexp = new RegExp($(this).data('id'), 'g');
+   $(this).before($(this).data('fields').replace(regexp, time));
+   return event.preventDefault();
+  });
+
+  $(document).on('click', 'form .remove_creator_fields', function(event) {
+   $(this).prev('input[type=hidden]').val('1');
+   $(this).closest('fieldset').hide();
+   $('.add_creator').remove()
+   return event.preventDefault();
+  });
+
+
+
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+
+
+
+
+  function blockFields(fieldsets) {
+    fieldsets.each(function() {
+      $(this).find('.modal_request_creator').first().hide();
+      $(this).find(".creator_information").first().find(".alert").text("This creator is locked to avoid undesired changes, commonly information will be updated automatically. If you want to change, just remove, and add a new one, it's quick.");
+      $(this).find(".creator_information").first().find(".alert").removeClass("alert-info")
+      $(this).find(".creator_information").first().find(".alert").addClass("alert-warning")
+      $(this).find('.creator_affiliation').first().attr("readonly",true);
+      $(this).find('.creator_familyName').first().attr("readonly",true);
+      $(this).find('.creator_givenName').first().attr("readonly",true);
+      $(this).find('.creator_nameIdentifier').first().attr("readonly",true);
+    })
+  }
+
+
+
+$(document).on('ready turbolinks:load',function() {
+  var max_fields      = 20; //maximum input boxes allowed
+  var wrapper         = $(".input_fields_wrap_creator"); //Fields wrapper
+  var add_button      = $(".add_creator"); //Add button ID
+  var x = 1; //initlal text box count
+  var fieldsets = wrapper.find("fieldset")
+  blockFields(fieldsets)
+  var cooperatorSource = function ( request, response ) {
+    $.ajax( {
+      url: "/datasets/query_cooperators",
+      dataType: "json",
+      data: {
+        familyName: request.term
+      },
+      success: function( data ) {
+        response( data );
+      }
+    } );
+  };
+
+  var affiliationSource = function ( request, response ) {
+    $.ajax( {
+      url: "/query_affiliation",
+      dataType: "json",
+      data: {
+        term: request.term
+      },
+      success: function( data ) {
+        response( data );
+      }
+    } );
+  };
+
+  $(add_button).click(async function(e){ //on add input button click
+      //console.log(wrapper.val());
+      //console.log(wrapper.find('input[type=text]:eq(-4)').val("hello"));
+      
+      await sleep(100);
+      var lastLoadedFieldset = wrapper.find("fieldset:eq(-2)")
+      console.log(lastLoadedFieldset)
+      blockFields(lastLoadedFieldset)
+      //console.log(wrapper.find('input[type=text]:eq(-4)').val("hello 2000"));
+      if(x < max_fields){ //max input box allowed
+          x++; //text box increment
+          //$(wrapper).append('<div><input type="text" name="familyName[]" class="col-md-6" placeholder="familyName" /><input type="text" name="givenName[]" class="col-md-6" placeholder="givenName"/><a href="#" class="remove_field">Remove</a></div>');
+
+          $(wrapper).find('input[type=text]:eq(-4)').autocomplete({
+            source: cooperatorSource,
+            focus: function( event, cooperator ) {
+              $( this ).val( cooperator.item[1] );
+              $( this ).nextAll("input").val( cooperator.item[0] );
+              $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").prev().text( cooperator.item[3] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").attr('href',cooperator.item[3] )
+              $( this ).parents(".row").first().find("input[type=hidden]:last.creator_affiliationIdentifier").val( cooperator.item[4] ) //ror id hidden field
+              return false;
+              },
+            select: function( event, cooperator ) {
+              $( this ).val( cooperator.item[1] );
+              $( this ).nextAll("input").val( cooperator.item[0] );
+              $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-2)").prev().attr('href', "https://orcid.org/" + cooperator.item[2] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").prev().text( cooperator.item[4] )
+              $( this ).parents(".row").first().find("input[type=text]:eq(-1)").attr('href',cooperator.item[4] )
+              $( this ).parents(".row").first().find("input[type=hidden]:last.creator_affiliationIdentifier").val( cooperator.item[4] ) //ror id hidden field
+              return false;
+              }
+           }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+            return $( "<li></li>" )
+              .append( "<li class=' list-group-item ' >" + item[0] + " " + item[1] + " | ORCID: " + item[2] + " | " + item[3] + " | ROR: " + item[4]  + "</li>" )
+              .appendTo( ul );
+            };
+
+          $(wrapper).find('input[type=text]:last').autocomplete({
+            source: affiliationSource,
+            focus: function( event, affiliation ) {
+              $( this ).val( affiliation.item[0] );
+              $( this ).next().val( affiliation.item[1] );
+              $( this ).prev().text( affiliation.item[1] );
+              $( this ).prev().attr('href', affiliation.item[1] );
+              return false;
+            },
+              select: function( event, affiliation ) {
+                $( this ).val( affiliation.item[0] );
+                $( this ).next().val( affiliation.item[1] );
+                $( this ).prev().text( affiliation.item[1] );
+                $( this ).prev().attr('href', affiliation.item[1] );
+                return false;
+                }
+              })
+              .autocomplete( "instance" )._renderItem = function( ul, item ) {
+              return $( "<li></li>" )
+                .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+                .appendTo( ul );
+              };
+
+            };//autocomplete section finished
+
+          $('.modal_request_creator').click(function(){
+            var href = "/creators/orcid_modal";
+            var ln = $( this ).parents(".row").first().find("input[type=text]:eq(0)").val();
+            var fn = $( this ).parents(".row").first().find("input[type=text]:eq(1)").val();
+
+            // href = $(this).attr('href');
+            var queryhref = href + "?givenName=" + fn + "&familyName=" + ln;
+            $(this).attr('href', queryhref);
+            // var queryString = '?street=' +  encodeURIComponent($('#form').text());
+            // $('#form').attr('href', href + queryString );
+          });
+
+          var $allLoaders = $('.loader').hide()
+          var $loading = $('#creator_loader').hide()
+
+          $(document)
+            .ajaxStart(function () {
+              $loading.show();
+            })
+            .ajaxStop(function () {
+              $loading.hide();
+            });
+          $('.remove_creator_fields').remove()
+        e.preventDefault()
+      });//click section finished
+
+/* This part adds autocomplete to the first familyName field in the creators, which is not need cause it is the user itself.
+  $(wrapper).find('input[type=text]:eq(-4)').autocomplete({
+    source: cooperatorSource,
+    focus: function( event, cooperator ) {
+      $( this ).val( cooperator.item[1] );
+      $( this ).nextAll("input").val( cooperator.item[0] );
+      $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+      $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+      $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+      return false;
+      },
+    select: function( event, cooperator ) {
+      $( this ).val( cooperator.item[1] );
+      $( this ).nextAll("input").val( cooperator.item[0] );
+      $( this ).parents(".row").first().find("input[type=text]:eq(-2)").val( cooperator.item[2] )
+      $( this ).parents(".row").first().find("input[type=text]:eq(-1)").val( cooperator.item[3] )
+      $( this ).parents(".row").first().find("input[type=hidden]:last").val( cooperator.item[4] ) //ror id hidden field
+      return false;
+      }
+   }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li></li>" )
+      .append( "<li class=' list-group-item ' >" + item[0] + " " + item[1] + " | ORCID: " + item[2] + " | " + item[3] + " | ROR: " + item[4]  + "</li>" )
+      .appendTo( ul );
+    };
+*/
+
+});
+
+//loader
+
+$(document).ready(function(){
+$('.loader').hide();
+  });
+
+// ORCID Modal section
+
+$(document).ready(function() {
+
+});
+
+
+
+
+
+
+
+
+</script>

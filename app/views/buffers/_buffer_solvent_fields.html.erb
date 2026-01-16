@@ -1,0 +1,14 @@
+<div class="solvent_fields">
+
+  <div class="col-md-4 " style="text-align:right;">
+    <strong class="control-label col-md-2 " >Solvent</strong>
+  </div>
+  <div class="col-md-5">
+    <%= f.text_field :solvent_name , :class => 'form-control first_solvent_name interaction-solvent' ,placeholder:"live search", data: {autocomplete_source: query_solvents_path }%>
+    <%# builder.text_field :, :id => 'first_solvent_name', :class => 'form-control' , placeholder:  "#{@interaction.solvents.first.present? ? @interaction.solvents.first.display_name : 'Solvent'}", data: {autocomplete_source: query_solvents_path }%>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :volume_percent , :class => 'form-control'%>
+
+  </div>
+</div>

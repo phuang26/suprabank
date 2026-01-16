@@ -1,0 +1,5 @@
+<%= render 'show' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              frameworks_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_framework_path(@framework), :class => 'btn btn-default' %>

@@ -1,0 +1,26 @@
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u>Absorbance</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Enter the wavelength observed or the ratio of absorbance of bound species to free species. Click for further information in glossary"}), glossary_url(anchor:'abs'), target: :_blank %>
+  </div>
+  <div class="col-md-1">
+  <%= f.label :lambda_ex,"&#120524;<sub>obs</sub>".html_safe, :class => 'control-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= f.text_field :lambda_ex, :class => 'form-control', placeholder: "wavelength", onchange: "checkValidNumber(this)" %>
+  </div>
+  <div class="control-label col-md-1 unit" style="text-align: left;">
+    <strong>nm</strong>
+  </div>
+  <%=f.error_span(:lambda_ex) %>
+
+  <%= f.label :free_to_bound_FL,"<sup>A<sub>bound</sub></sup>&frasl;<sub>A<sub>free</sub></sub>".html_safe, :class => 'control-label col-md-1' %>
+  <div class="col-md-4">
+    <%= f.text_field :free_to_bound_FL, :class => 'form-control', placeholder: "e.g. 1.8", onchange: "checkValidNumber(this)" %>
+  </div>
+  <%=f.error_span(:free_to_bound_FL) %>
+
+</div>

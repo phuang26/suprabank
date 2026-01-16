@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="well col-md-12 overview">
+    <div class="container-fluid col-md-12">
+      <div class="row">
+        <% if @interaction.assay_type == "Direct Binding Assay" %>
+          <%= render 'interactions/locales/bimolecular_reaction' %>
+        <% else %>
+          <%= render 'interactions/locales/ida_or_aba' %>
+        <% end %>
+        <%= render 'interactions/locales/binding_properties' %>
+      </div>
+
+      <div class="row">
+        <%#= render 'interactions/locales/determination_specification' %>
+        <%#= render 'interactions/locales/solvation_properties' %>
+
+        <%= render 'interactions/locales/comment_locale' %>
+      </div>
+      <div class="row">
+        <%= render 'interactions/locales/further_information'  %>
+      </div>
+
+      <% unless controller_name == 'datasets' && action_name == 'preview_modal' %>
+        <div class="row">
+          <div class="col-md-12 panel-body">
+            <%#= link_to 'Back', 'javascript:history.back()', class:"btn btn-default"  %>
+            <% if policy(@interaction).update? %>
+              <% if @interaction.published && @interaction.dataset&.curated? %>
+              <% elsif (@interaction.revision == "accepted" && policy(@interaction).show_buttons?) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_interaction_path(@interaction), :class => 'btn btn-default', :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+                <span>Attention! Editing your interaction will restart the submission process in oder to fullfill the SupraBank compliance check.</span>
+              <% elsif (@interaction.revision == "created" && policy(@interaction).show_buttons?) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_interaction_path(@interaction), :class => 'btn btn-default' %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                          interaction_path(@interaction),
+                          :method => 'delete',
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-danger' %>
+              <% elsif (@interaction.revision == "pending" && policy(@interaction).show_buttons?) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_interaction_path(@interaction), :class => 'btn btn-default' %>
+              <% elsif (@interaction.revision == "submitted" && policy(@interaction).show_buttons?) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_interaction_path(@interaction), :class => 'btn btn-default' %>
+                <span>Your latest changes are submitted for review. A reviewer is soon taking care, rather wait for his input before doing changes.</span>
+              <% end %>
+               <% if @dataset.present? && policy(@dataset).self_revision_interaction?%>
+                <%= form_tag self_acceptance_interaction_path, method: :put do %>
+                  <%= submit_tag "I revised everything and do not need to edit anything.", :class => 'btn btn-warning', data:{:confirm => "Are you sure? You carefully checked everything?"}%>
+                <% end %>
+              <% end %>
+            <% end %>
+            </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

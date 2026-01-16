@@ -1,0 +1,42 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+#excerpt of schema
+
+# create_table "creators", force: :cascade do |t|
+#   t.text     "creatorName"
+#   t.text     "nameType"
+#   t.text     "givenName"
+#   t.text     "familyName"
+#   t.text     "nameIdentifier"
+#   t.text     "nameIdentifierScheme",        default: "ORCID"
+#   t.text     "schemeURI",                   default: "https://orcid.org"
+#   t.text     "affiliation"
+#   t.text     "affiliationIdentifier"
+#   t.text     "affiliationIdentifierScheme", default: "ROR"
+#   t.text     "SchemeURI",                   default: "https://ror.org/"
+#   t.datetime "created_at",                                                null: false
+#   t.datetime "updated_at",                                                null: false
+# end
+
+one:
+ givenName: <%= Faker::Name.first_name %>
+ familyName: <%= Faker::Name.last_name %>
+ affiliation: <%= Faker::University.name %>
+# column: value
+#
+
+<% 1.upto(10) do |i| %>
+fix_<%= i %>:
+  id: <%= i %>
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  affiliation: <%= Faker::University.name %>
+<% end %>
+
+
+two: {}
+#  column: value

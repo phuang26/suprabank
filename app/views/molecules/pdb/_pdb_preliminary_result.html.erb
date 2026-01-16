@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9">
+      <%= bootstrap_flash %>
+    </div>
+  </div>
+</div>
+
+<% if @molecule  %>
+<hr>
+    <div class="container col-md-12" id="preliminary_result">
+          <div class="container col-md-12">
+            <div class="row">
+              <h4>We found the following molecule on
+                <%= link_to (image_tag("logos/rcsb_logo.png", size: "138x38")), @molecule.pdb_link, target: :_blank %>
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>PDB-ID:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_id %> </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Descriptor:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_descriptor %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Classification:</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.pdb_keywords %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border" ><strong>Total Structure Weight</strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.total_structure_weight %> kDa </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border"><strong>Atom Count: </strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.atom_count %> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no_top_border"><strong>Residue Count: </strong></td>
+                      <td colspan="2" class="no_top_border"><%= @molecule.residue_count %> </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <div class="col-md-6">
+                <%= image_tag  "#{@molecule.preferred_abbreviation.gsub(/public/,"")}/protein.png", size: "200x200"%>
+              </div>
+
+            </div>
+            <div class="row decision-buttons">
+              <p><b>Please verify if this is your desired compound.</b></p>
+              <%= hidden_field_tag @molecule.id %>
+              <button type="button" name="button" class="btn btn-primary " id="reject_button">No (will reject this molecule)</button>
+              <%= link_to "Yes (will retrieve full record)", pdb_full_record_molecules_path(:pdb_id => @molecule.pdb_id), remote: true, class:"btn btn-warning", style:"margin-right: 20px;"%>
+            </div>
+          </div>
+        </div>
+
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $('#reject_button').click(function(){
+      $('#preliminary_result').hide()
+    });
+  });
+
+
+</script>

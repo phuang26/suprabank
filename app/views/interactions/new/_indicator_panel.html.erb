@@ -1,0 +1,44 @@
+  <hr>
+<div class="form-group" >
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Indicator, <em>e.g.</em> a dye, is a molecule, which is prebound to the host
+and displaced later by the molecule. It needs to be preloaded to the SupraBank's molecules database (click here)."}), molecules_path, target: :_blank %>
+  </div>
+  <div class="col-md-1">
+    <%= f.label :indicator_name, "Indicator", :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :indicator_name, :class => 'form-control' , placeholder:  "#{@interaction.indicator.present? ? @interaction.indicator.display_name : 'live search'}", data: {autocomplete_source: query_molecules_path }%>
+  </div>
+  <%= f.hidden_field_tag :indicator_molecule_type %>
+  <label class="pull-left col-md-1 mw-label" id="mol_weight_indicator"></label>
+  <%= hidden_field_tag "mol_weight_indicator_hidden" %>
+  <%=f.error_span(:indicator_name) %>
+  <div class="col-md-4" id="indicator_fixed">
+    <%= f.text_field :lower_indicator_concentration, :class => 'form-control',  placeholder:"[start]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('indicator')" %>
+  </div>
+  <div class="col-md-2 dynamic-interaction-panel" id="indicator_varied">
+    <%= f.text_field :upper_indicator_concentration, :class => 'form-control', placeholder:"[end]  &#181;mol/L".html_safe, onchange: "checkValidNumber(this),checkConcRelation(),removeCalculatedClassITC(this),calculateConcFromITC('indicator')" %>
+  </div>
+  <label class="control-label col-md-1 unit">&#181;M</label>
+  <div class="radio col-md-1">
+    <label class="single_variation_selection_label"><%= radio_button_tag "single_variation_selection", 'indicator', false, class: "single_variation_selection custom_radio" %><span></span></label>
+    <label class="multiple_variation_checkbox_label"><%= check_box_tag "multiple_variation_selection", "indicator", false, {class: "multiple_variation_checkbox custom_checkbox" }  %><span></span></label>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-md-10 col-md-offset-2" id="empty-message-indicator">
+  </div>
+</div>
+<div class="form-group" id="host_indicator_wt_panel">
+  <div class="col-md-1">
+    <%= render(:partial => 'interactions/info/question_guide', :locals => {:text => "Often the concentration of the preloaded indicator is determined in weight percent (wt%) in relation to the framework (partner), when frameworks are used.".html_safe}) %>
+  </div>
+  <div class="col-md-2">
+    <%= f.label :host_indicator_wt, "Indicator/Partner wt%", :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= f.text_field :host_indicator_wt, :class => 'form-control' %>
+  </div>
+</div>
+

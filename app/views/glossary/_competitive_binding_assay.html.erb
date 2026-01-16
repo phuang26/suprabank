@@ -1,0 +1,71 @@
+<h3 id="competitive_binding_assay" class="level2">Competitive-binding assay (CBA)</h3>
+<p class="item">
+  The competitive-binding assay (CBA) is based on the competition between two different guest molecules for a host molecule. In the simplest case, the guest molecule with the higher binding affinity for the host displaces the guest molecule with the
+  lower binding affinity, assuming that the concentration of both guests are similar (see
+  <a href="#f4">Figure 4</a>). However, as supramolecular binding phenomena are usually reversible and adhere to the mass law, a strongly binding guest can be also displaced from a host by a weaker binding guest if the latter is added in a large
+  stoichiometric excess. CBA are mainly used to overcome signal monitoring difficulties,
+  <em>e.g.</em>
+  with spectroscopically silent host and guests, or, when the binding of the host and guest of interest is too strong under the selected experimental conditions, preventing the direct binding affinity determination by DBA or ABA.
+</p>
+<p id="f4" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/CBA.png", class:"figure", width:"570px"%>
+  <figcaption class="gloss_caption">
+    Fig. 4: Schematic representation of CBA.
+  </figcaption>
+</figure>
+<p class="item">
+  The most utilized CBA in supramolecular chemistry is the
+  <b>indicator displacement assay</b>
+  (IDA), which is commonly used for the determination of the binding affinity of a spectroscopically silent guest molecule to a spectroscopically silent host molecule.<a href="#AT_ref">
+    <sup>[6,7]</sup>
+  </a>
+  In this way, the difficulty with monitoring spectroscopically silent host-guest complex formation can be solved elegantly by utilizing a spectroscopically active indicator dye as an auxiliary (guest B). The indicator should possess a
+  sufficiently high affinity for the host and should show distinctly different photophysical properties (<em>e.g.</em>
+  absorbance or absorbance wavelength, emission intensity or emission wavelength, or excited state lifetime) in its free and bound form. The competitive displacement of the host-bound indicator B upon addition of guest A leads to an increase in
+  concentration of free indicator B, causing a characteristic signal change that is utilized for fitting the binding affinity of the spectroscopically silent host-guest complex. The reverse set-up,
+  <em>i.e.</em>
+  host-guest complex formation followed by the competitive displacement of the guest A through stepwise addition of indicator B is an alternative, recently disclosed method for determining host-guest binding affinities. It has been termed
+  <b>guest-displacement assay</b>
+  (GDA).<a href="#AT_ref">
+    <sup>[8]</sup>
+  </a>
+  A software package
+  <a href="#SimFit_tools">thermoSimFit</a>
+  for planning of IDA and GDA experiments, and for fitting of the obtained experimental data can be obtained free of charge.
+</p>
+<p class="item">
+  Besides optical spectroscopy, also
+  <a href="#nmr">NMR</a>-based signal monitoring can be applied in CBA. This can be particularly useful if the indicator utilized has special properties,
+  <em>e.g.</em>
+  has atoms having chemical shifts far distinct from other potentially overlapping signals of the host and guest. NMR-monitored CBA with, for instance
+  <sup>1</sup>H or
+  <sup>19</sup>F NMR active indicators, is also useful if the guest,
+  <em>e.g.</em>
+  noble gases, do not show any useful NMR signals. Also, gases cannot be easily titrated to a solution and, hence, the gas molecules are preloaded to the host and, subsequently, replaced by another guest in order to monitor the reaction pathway. CBA is
+  also often applied to NMR-based host-guest complex formation monitoring if the suspected host-guest affinity is unsuitably strong and thus out of the range that can be obtained by NMR-based DBA,
+  <em>e.g.</em> <em>K</em><sub>a</sub>&nbsp>>&nbsp10<sup>3</sup>&nbspM<sup>−1</sup>
+  for NMR experiments conducted at the mM concentration range.
+</p>
+<p class="item">
+  Another common competitive binding assay is the competitive
+  <a href="#itc">isothermal titration calorimetry</a>
+  (ITC) that is set-up if the guest A, the molecule of interest, has a binding affinity too high to be determined in a direct manner by ITC (<em>i.e.</em>
+  <em>K</em><sub>a</sub>&nbsp>&nbsp10<sup>9</sup>&nbspM<sup>-1</sup>). Therefore, the host is preloaded with another guest B, a competitor that has a binding affinity towards the host by a factor of ~ 10<sup>3</sup>
+  M<sup>-1</sup>
+  lower than that of guest A. Then, this guest A is titrated to the mixture containing the host preloaded with guest B. The binding curve (titration curve) is flattened due to the additional free energy cost for competitor replacement, as the guest
+  first has to replace the already prebound competitor before binding to the host. Through the software packages provided by the ITC manufacturers, the binding constant of guest A can be calculated from the experimental data either relatively to the
+  binding constant of guest B or absolutely in the case that the binding constant of guest B is known.<a href="#AT_ref">
+    <sup>[4,5]</sup>
+  </a>
+</p>
+<p class="item">
+  <b>Note</b>: In SupraBank, it can be specified for IDA-derived binding parameters at which concentration the host and indicator were utilized, and in which concentration range the guest was added. Likewise for GDA, the concentration of host and guest
+  can be reported, and the concentration range of the indicator that is added stepwise can be provided. Supramolecular systems are inherently complex and may show unexpected behaviour such as aggregation phenomena or formation of higher,
+  <em>e.g.</em>
+  heteroternary, complexes. Because a CBA system is inherently more complex than the binary mixture of host and guest used for DBA, we strongly advice the SupraBank users to carefully report on the concentration (ranges) of host, guest and indicator
+  (=competitive binding guest) such that unnoticed complications and their implications for the reported binding parameters can be identified at a later stage of data re-use.<br>
+  Furthermore for NMR-based CBA, both the “reporting” nuclei and the chemical shift that was used as the observable can be specified in SupraBank.
+</p>
+<!-- #reviewed 29.1.2021 -->

@@ -1,0 +1,25 @@
+
+    <%= f.fields_for :dataset_creators do |creator| %>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 ">
+          <%= creator.label :creator_givenName, "First Name of the person" %>
+          <%= creator.text_field :creator_givenName , :class => 'form-control' %>
+        </div>
+        <div class="col-md-6 ">
+          <%= creator.label :creator_familyName, "Last Name of the person" %>
+          <%= creator.text_field :creator_familyName , :class => 'form-control' %>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+  <% end %>
+
+<script type="text/javascript">
+
+</script>

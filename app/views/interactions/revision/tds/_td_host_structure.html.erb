@@ -1,0 +1,19 @@
+<% if interaction.host.present? %>
+<span style="display: none"> <%= interaction.host.preferred_abbreviation.present? ? interaction.host.preferred_abbreviation.truncate(15) : truncate(interaction.host.display_name, length: 15)%> </span>
+<span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= truncate(interaction.host.display_name, length: 30) %>">
+  <span class="has-js-popover structure_popover_host"  data-container="body" data-toggle="ajax-popover" title= "<span class='text-info'><strong> Name </strong></span>
+        <button type='button' id='close' class='close' onclick='$(&quot;.structure_popover_host&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+        style=""
+  data-content='
+        <div class="center structure-image-panel">
+        <input type="checkbox" id="zoomCheck" class="zoomCheck">
+        <label for="zoomCheck">
+        <%= "#{interaction.host.display_name}" %>
+        </label>
+              <p><%= link_to "Show all information", molecule_path(interaction.host), target:"_blank" %></p>
+      </div>
+      ' >
+          <%= image_tag interaction.host.png_url, class: 'interaction-structure-image'%>
+  </span>
+</span>
+<% end %>

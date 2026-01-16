@@ -1,0 +1,59 @@
+<%- model_class = Interaction -%>
+<div class="page-header container-fluid">
+  <h1>
+    <%=t '.title', :default => model_class.model_name.human.titleize %>
+    <% if policy(@interaction).destroy? %>
+      |
+      <%= link_to "All interactions by this user", {controller: "/users", action: 'interactions', id: @interaction.user}, class:"btn btn-default" %>
+    <% end %>
+  </h1>
+  <% if policy(@interaction).destroy? %>
+    created by <%= @interaction.user.full_name %> on <%= @interaction.created_at.strftime("%d %b %Y") %>, updated on <%= @interaction.updated_at.strftime("%d %b %Y") %>
+  <% end %>
+  <% if @interaction.dataset.present? %>
+    
+    <%= link_to @interaction.dataset&.label, glossary_url(anchor:'curation'), target: :_blank,class:"label #{@interaction.dataset&.label}" %>
+  <% end %>
+  <% if policy(@interaction).update? %>
+    <% if @interaction.revision == "published" %>
+      <button class="btn btn-xs btn-success" disabled>Published</button>
+    <% elsif @interaction.revision == "created" %>
+      <button class="btn btn-xs btn-danger" disabled>Embargoed</button>
+    <% elsif @interaction.revision == "accepted" %>
+      <button class="btn btn-xs btn-info" disabled>Accepted</button>
+      <% if  policy(@interaction).reviewer_view? %>
+        <%= link_to "Accidently accepted? Click me.", {controller: "interactions", action: 'accident', id: @interaction.id}, class:'btn btn-xs btn-primary', :method=>:put%>
+      <% end %>
+    <% elsif @interaction.revision == "pending" %>
+      <button class="btn btn-xs btn-warning" disabled>Revision requested</button>
+      <% if  policy(@interaction).reviewer_view? %>
+        <%= link_to "Accidently revision requested? Click me.", {controller: "interactions", action: 'accident', id: @interaction.id}, class:'btn btn-xs btn-primary', :method=>:put%>
+      <% end %>
+    <% elsif @interaction.revision == "submitted" %>
+      <button class="btn btn-xs btn-primary" disabled>Submitted</button>
+    <% end %>
+    <% if @interaction.datasets.present? %>
+      <%= link_to dataset_path(@interaction.datasets.first) do %>
+        <i class="fas fa-server dataset-membership has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Belongs to the dataset: <%= @interaction.datasets.first.identifier %>. Click to view."></i>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if policy(@interaction).admin? %>
+    <button class="btn btn-xs btn-danger" type="button" data-toggle="collapse" data-target="#adminPowers" aria-expanded="false" aria-controls="adminPowers">
+      <i class="fab fa-superpowers"></i>
+    </button>
+  <% end %>
+  <div class="collapse" id="adminPowers">
+    <% if policy(@interaction).destroy? %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+      interaction_path(@interaction),
+      :method => 'delete',
+      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      :class => 'btn btn-xs btn-danger' %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+      edit_interaction_path(@interaction), :class => 'btn btn-xs btn-default', :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+    <% end %>
+  </div>
+</div>
+<%= render 'show' %>
+<%= render 'interactions/simulations/simulation' %>

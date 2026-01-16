@@ -1,0 +1,47 @@
+<%- model_class = Dataset -%>
+<div class="page-header">
+  <h1>Add Interactions to Dataset</h1>
+  <h5>Title: <em><%= @dataset.title %> </em></h5>
+  <h5>Dataset DOI: <strong> <%= @dataset.identifier %> </strong></h5>
+  <h5>Literature DOI: <strong> <%= @dataset.dataset_related_identifiers.first.relatedIdentifier %> </strong></h5>
+</div>
+
+  <%= render "add_interactions" %>
+
+
+<!--
+<script type="text/javascript">
+var referenceDOI = "<%= @dataset.dataset_related_identifiers.first.relatedIdentifier %>"
+
+  $( document ).ajaxComplete(function(){
+    $("input[type=checkbox]").on('click', function(){
+      if ($(this).is(':checked')) {
+        var selectionDOI = $(this).parents("tr").find("td[name=DOI]").text().trim()
+        if (selectionDOI == referenceDOI) {
+          $(this).parents("table").find("tr").removeClass("alert alert-danger");
+          $(this).parents("tr").addClass("alert alert-success");
+
+          $("#add_interactions_footer_info").text("DOIs match!")
+          $("#add_interactions_footer_info").removeClass("text-danger")
+          $("#add_interactions_footer_info").addClass("text-success")
+        } else {
+          $(this).parents("table").find("tr").removeClass("alert alert-danger");
+          $(this).parents("table").find("tr").removeClass("alert alert-success");
+          $(this).parents("tr").addClass("alert alert-danger");
+
+          $("#add_interactions_footer_info").text("DOI mismatch, you cannot load this into your dataset")
+          $("#add_interactions_footer_info").removeClass("text-success")
+          $("#add_interactions_footer_info").addClass("text-danger")
+        }
+      }
+
+      else if ($(this).not(':checked')) {
+        $(this).parents("table").find("tr").removeClass("alert alert-danger");
+        $("#add_interactions_footer_info").removeClass("text-danger")
+        $("#add_interactions_footer_info").text("")
+      }
+    });
+  });
+
+</script>
+ -->

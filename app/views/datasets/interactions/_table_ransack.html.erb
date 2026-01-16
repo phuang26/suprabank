@@ -1,0 +1,168 @@
+<span class="text-success"><%= page_entries_info interactions %></span>
+<div class="table-responsive">
+<table class="table" id="int-index-published" data-turbolinks='false'>
+    <thead>
+      <tr>
+        <th class="col-md-1 no-sort tight-column">Info</th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tableMolName-published" type="button" data-toggle="tooltip" title="Show structures" onclick="viewMolStructure('published')">
+              <%= image_tag "struc.svg", size:"17x17" %>
+           </button>
+         </th>
+        <th class="col-md-2 no-sort"><span> Molecule <%= sort_link(@qincluded, :molecule_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tableMolStruc-published" type="button" data-toggle="tooltip" title="Show names" onclick="viewMolNames('published')">
+               <i class="fa fa-list" aria-hidden="true"></i>
+          </button>
+        </th>
+        <th class="col-md-2 no-sort" ><span> Molecule <%= sort_link(@qincluded, :molecule_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tablePartName-published" type="button" data-toggle="tooltip" title="Show structures" onclick="viewPartStructure('published')">
+             <%= image_tag "struc.svg", size:"17x17" %>
+           </button>
+         </th>
+        <th class="col-md-2 no-sort"><span>Partner <%= sort_link(@qincluded, :host_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tablePartStruc-published" type="button" data-toggle="tooltip" title="Show names" onclick="viewPartNames('published')">
+               <i class="fa fa-list" aria-hidden="true"></i>
+          </button>
+        </th>
+        <th class="col-md-2 no-sort" ><span>Partner <%= sort_link(@qincluded, :host_preferred_abbreviation, "")%></span></th>
+        <th class="no-sort"></th>
+      <% if false %>
+        <th class="col-md-2 no-sort"><span class="has-tooltip" data-toggle="tooltip" title="binding affinity"> K<sub>a</sub> </span></th>
+      <% end %>
+        <th class="col-md-1 no-sort"><span class="has-tooltip" data-toggle="tooltip" title="Decadic logarithm of the binding affinity">log K<sub>a</sub> <%= sort_link(@qincluded, :binding_constant, "")%> </span></th>
+        <th class="col-md-1 no-sort">Conditions</th>
+        <th class="col-md-2 no-sort">Supplement</th>
+        <% if policy(@dataset).editable?  && (controller_name == 'datasets' && action_name == 'show') %>
+        <th class="col-md-2 no-sort">Removal</th>
+        <% end %>
+
+      </tr>
+    </thead>
+    <tbody>
+
+      <% interactions.each do |interaction| %>
+        <% if policy(interaction).displayable? %>
+
+          <tr>
+            <td class="col-md-2 tight-column">
+              <% if controller_name == 'datasets' && action_name == 'preview' %>
+                <%= render "datasets/interactions/td_info_preview", interaction:interaction %>
+              <% elsif controller_name == 'datasets' && action_name == 'show' %>
+                <%= render "datasets/interactions/td_info", interaction:interaction %>
+              <% end %>
+            </td>
+  <!-- Molecule structure button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2">
+              <%= render "interactions/interaction_table/td_molecule_name", interaction:interaction %>
+            </td>
+  <!-- Molecule name button -->
+
+            <td class="" >
+            </td>
+
+            <td class="col-md-2" style="height: 160px">
+              <%= render "interactions/interaction_table/td_molecule_structure", interaction:interaction %>
+            </td>
+  <!-- Host structure button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2">
+              <%= render "interactions/interaction_table/td_host_name", interaction:interaction %>
+            </td>
+  <!-- Host name button -->
+            <td class="" >
+            </td>
+
+            <td class="col-md-2" style="height: 160px">
+              <%= render "interactions/interaction_table/td_host_structure", interaction:interaction %>
+            </td>
+
+
+            <td class="center">
+              <%= render "interactions/interaction_table/td_ka_range", interaction:interaction %>
+            </td>
+        <% if false %>
+            <td class="col-md-1" >
+              <span class="scientificKa"><%= interaction.convert_to_scientific.html_safe %></span>
+            </td>
+        <% end %>
+            <td class="col-md-1 center">
+                <%= render "interactions/interaction_table/td_logka", interaction:interaction %>
+            </td>
+
+            <td class="col-md-1">
+              <% if interaction.solvent_system.present?  %>
+                <% if interaction.solvent_system == "Single Solvent"  %>
+
+                  <% if interaction.solvents.first.present?  %>
+                  <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.solvents.first.display_name}, " %> <%= "pH =  #{interaction.pH}, " if interaction.pH.present? %> <%= "T = #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" %>">
+                  <%= interaction.solvents.first.display_name %>
+                  </span>
+                  <% end %>
+
+              <% elsif interaction.solvent_system == "Complex Mixture" %>
+                  <span class="has-tooltip" data-toggle="ajax-tooltip" title="<% number = 1 %><% for intsol in interaction.interaction_solvents.order(:id) do %> <% if intsol.solvent.present? %><% if intsol.solvent %><%= intsol.solvent.display_name + ", " if intsol.solvent.display_name.present? %> <% end %><% end %><% number = number+1 %><% end %>  <% number = 1 %><% for intaddi in interaction.interaction_additives.order(:id) do %> <% if intaddi.additive.present? %><% if intaddi.additive %><%= intaddi.additive.display_name + ", " if intaddi.additive.display_name.present? %> <% end %><% end %><% number = number+1 %><% end %> <%= "pH =  #{interaction.pH}, " if interaction.pH.present? %> <%= "T =  #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" if interaction.temperature.present? %>">
+                  complex
+                  </span>
+
+              <% elsif interaction.solvent_system == "Buffer System" %>
+                  <% if interaction.buffer.present? %>
+                    <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= interaction.buffer.name if interaction.buffer.name.present? %>, <%= "T =  #{interaction.temperature} °C / #{273.15 + interaction.temperature} K" %>">
+                      buffer
+                    </span>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </td>
+
+
+            <td class="col-md-1">
+              <%= render "interactions/interaction_table/td_supplement", interaction:interaction %>
+            </td>
+            <% if policy(@dataset).editable? && (controller_name == 'datasets' && action_name == 'show') %>
+            <td>
+              <span class="has-tooltip" data-toggle="ajax-tooltip" title="Select for removal">
+                <%= check_box_tag "interaction_ids[]", interaction.id %>
+              </span>
+            </td>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+
+    </tbody>
+  </table>
+  </div>
+
+  <div class="container col-md-12" id="furtherDetailedResults" style="margin-bottom: 30px;">
+    <br>
+  </div>
+
+<script type="text/javascript">
+
+
+  // Shorthand for $( document ).ready()
+  $(document).on('ready turbolinks:load',function(){
+    $(":checkbox").click(function (){
+      removalAbility();
+    });
+  
+  })
+
+  window.alert = (function() {
+    var nativeAlert = window.alert;
+    return function(message) {
+        window.alert = nativeAlert;
+        message.indexOf("DataTables warning") === 0 ?
+            console.warn(message) :
+            nativeAlert(message);
+    }
+  })();
+</script>

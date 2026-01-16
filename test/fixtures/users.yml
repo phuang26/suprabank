@@ -1,0 +1,82 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+user_one:
+  givenName: normal
+  familyName: User
+  email: normaluser@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 0
+
+admin:
+  givenName: Admin
+  familyName: User
+  id: 2
+  email: adminuser@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 2
+
+reviewer:
+  id: 1
+  givenName: SupraBank
+  familyName: DataCurator
+  email: contact@suprabank.org
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 2
+  moderator: true
+
+
+editor:
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  id: 3
+  email: editoruser@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 3
+
+group_admin:
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  email: groupadminuser@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 1
+
+group_admin_one:
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  email: user5@test.eu
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 1
+#two: {}
+#  some independent users
+<% 11.upto(20) do |i| %>
+user_<%= i %>:
+  id: <%= i %>
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  email: supra_<%= i %>@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 0
+<% end %>
+
+#  some grouped users
+<% 21.upto(30) do |i| %>
+user_<%= i %>:
+  id: <%= i %>
+  givenName: <%= Faker::Name.first_name %>
+  familyName: <%= Faker::Name.last_name %>
+  email: supra_<%= i %>@mailinator.com
+  encrypted_password: <%= User.new.send(:password_digest, '123456') %>
+  confirmed_at: <%= Time.now %>
+  user_role: 0
+<% end %>

@@ -1,0 +1,66 @@
+
+<div class="form-group" style="margin-top: 40px">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+    <span class="has-js-popover" id="allCell" data-toggle="popover" data-container="body" title= "<span class='text-info'><strong>Please note</strong></span>
+        <button type='button' id='close' class='close' onclick='$(&quot;#allCell&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+        style=""
+  data-content="SupraBank doesn't allow to assign all species to the cell. Thus, the molecule is automatically set to 'syringe'. You may change this by selecting 'syringe' for other species and setting the molecule to 'cell' afterwards.">
+    </span>
+    <span class="has-js-popover" id="allSyringe" data-toggle="popover" data-container="body" title= "<span class='text-info'><strong>Please note</strong></span>
+        <button type='button' id='close' class='close' onclick='$(&quot;#allSyringe&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+        style=""
+        data-content="Are you sure that all species are in syringe?">
+    </span>
+    <label for="" class="control-label form-label">Molecule:</label>
+  </div>
+
+  <div class="col-md-3 itc_position_radio">
+      <label class="radio-inline control-label" >
+        <%= technique.radio_button :molecule_cell, true , class:"molecule_cell custom_radio itc_radio", onchange: "calculateConcFromITC('molecule')", data: {species: "molecule"}%><span></span>
+        Cell
+      </label>
+      <label class="radio-inline control-label" >
+        <%= technique.radio_button :molecule_cell, false, class:"molecule_cell custom_radio itc_radio", onchange: "calculateConcFromITC('molecule')", data: {species: "molecule"}%><span></span>
+        Syringe
+      </label>
+  </div>
+  <div class="col-md-1 unit control-label ">
+    <%= technique.label :concentration_molecule, "C<sub>molecule</sub>".html_safe , class:"form-label"%>
+  </div>
+
+  <div class="col-md-4" >
+    <%= technique.text_field :concentration_molecule, :class => 'form-control' , placeholder:"concentration molecule e.g. guest", onchange: "checkValidNumber(this), calculateConcFromITC('molecule')" %>
+  </div>
+
+  <label class="control-label col-md-1 unit"> &#120583;M </label>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+    <label for="" class="control-label form-label">Partner: </label>
+  </div>
+
+  <div class="col-md-3 itc_position_radio">
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :host_cell, true, class:"host_cell custom_radio itc_radio", onchange: "calculateConcFromITC('host')", data: {species: "host"}%><span></span>
+        Cell
+      </label>
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :host_cell, false, class:"host_cell custom_radio itc_radio", onchange: "calculateConcFromITC('host')", data: {species: "host"}%><span></span>
+        Syringe
+      </label>
+  </div>
+  <div class="col-md-1 unit control-label">
+    <%= technique.label :concentration_host,"C<sub>partner</sub>".html_safe, class:"form-label" %>
+  </div>
+
+  <div class="col-md-4" >
+    <%= technique.text_field :concentration_host, :class => 'form-control' , placeholder:"concentration partner e.g. host", onchange: "checkValidNumber(this), calculateConcFromITC('host')" %>
+  </div>
+
+  <label class="control-label col-md-1 unit"> &#120583;M </label>
+</div>

@@ -1,0 +1,67 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+molecule_one:
+  display_name: ethanol
+  preferred_abbreviation: ethanol
+  cid: 702
+  user: user_one
+  inchikey: LFQSCWFLJHTTHZ-UHFFFAOYSA-N
+  inchistring: InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3
+  molecular_weight: 46.07
+  volume_3d: 41.5
+  tpsa: 20.2
+  complexity: 2.0
+  sum_formular: C2H6O
+  names: ['ethyl alcohol']
+  iupac_name: ethanol
+  cas: 64-17-5
+  conformer_count_3d: 1.0
+  bond_stereo_count: 0.002
+  atom_stereo_count: 0.001
+  h_bond_donor_count: 1.01
+  h_bond_acceptor_count: 1.02
+  x_log_p: -0.1
+  charge: 0.0
+  cano_smiles: CCO
+  iso_smiles: CCO
+  preferred_abbreviation: ethanol
+  cheng_xlogp3: -0.12
+  ertl_tpsa: 20.4
+
+molecule_two:
+  display_name: butanol
+  preferred_abbreviation: butanol
+  cid: 263
+  iso_smiles: CCCCO
+  molecular_weight: 74.12
+  user: user_one
+
+molecule_three:
+  display_name: cethanol
+  preferred_abbreviation: cethanol
+  cid: 255
+  iso_smiles: CCO
+  user: user_one
+
+molecule_four:
+  id: 4
+  display_name: dethanol
+  preferred_abbreviation: dethanol
+  cid: -2
+  iso_smiles: CCO
+  user: user_one
+
+
+<% 21.upto(30) do |i| %>
+interaction_<%= i %>:
+ id: <%= i %>
+ display_name: <%= Faker::Science.element %>
+ preferred_abbreviation: <%= Faker::Science.element %>
+ cid: <%= i %>
+ iso_smiles: CCO
+ molecule_type: compound
+<% end %>

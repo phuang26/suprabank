@@ -1,0 +1,24 @@
+<% if @solvent %>
+<h1>Interactions of <%= @solvent.display_name %></h1>
+<div class="">
+  <%#= render 'interactions_new' %>
+  <%= render "interactions/newinteraction", interactions:@solvent.interactions.active, table_id:'molecules' %>
+<%#= render 'forminteractions' %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+
+  var dataTables = {
+    "molecules":NaN
+  };
+
+  $(document).on('turbolinks:load',function(){
+      dataTables.molecules = $('#int-index-molecules').DataTable(dataTablesPropDefault);
+  });
+
+  $(document).on('page.dt', function(){
+         hidePopovers();
+       });
+
+</script>

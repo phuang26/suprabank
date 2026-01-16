@@ -1,0 +1,99 @@
+
+<nav class="navbar navbar-inverse navbar-default navbar-expand-md">
+ <div class="container-fluid">
+   <div class="navbar-header">
+     <%= link_to 'SupraBank', root_path, class: 'navbar-brand ', id: 'logo' %>
+   </div>
+
+   <ul class="nav navbar-nav ">
+
+     <li class="dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong>Interactions</strong> <b class="caret"></b></a>
+        <ul class="dropdown-menu" id="menu1">
+          <% if false %>
+          <li>
+              <a href="#">2-level Menu <i class="icon-arrow-right"></i></a>
+              <ul class="dropdown-menu sub-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+              </ul>
+          </li>
+          <% end %>
+          <li><%= link_to "Last 100 Entries", interactions_path  %></li>
+          <li><%= link_to "Search", intsearch_interactions_path  %></li>
+          <li><%= link_to "Search", int_advanced_search_interactions_path  %></li>
+          <li role="separator" class="divider"></li>
+          <li><%= link_to "New", new_interaction_path  %></li>
+        </ul>
+      </li>
+
+     <li class="dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong>Compounds</strong> <b class="caret"></b></a>
+        <ul class="dropdown-menu" id="menu2">
+
+          <li><%= link_to "Lookup Molecules/Hosts", molecules_path  %></li>
+          <li><%= link_to "Chemical Editor (beta)", chemeditor_molecules_path  %></li>
+          <li><%= link_to "Create a Custom Molecule/Host", new_molecule_path  %></li>
+          <li><%= link_to "Show all Molecules/Hosts", listing_molecules_path %> </li>
+          <li role="separator" class="divider"></li>
+          <li><%= link_to "Lookup Solvent", solvents_path  %></li>
+          <li role="separator" class="divider"></li>
+          <li><%= link_to "Lookup Additive", additives_path  %></li>
+
+        </ul>
+      </li>
+
+     <li class="dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong>Buffer</strong> <b class="caret"></b></a>
+        <ul class="dropdown-menu" id="menu3">
+
+                   <li><%= link_to "All Buffers", buffers_path  %></li>
+                   <li><%= link_to "New Buffer", new_buffer_path  %></li>
+        </ul>
+      </li>
+
+
+
+
+
+      <% if false %>
+       <ul class="nav navbar-nav navbar-left">
+         <li> <%= link_to molecules_path, class: "btn btn-md " do %>
+           <i class="fa fa-search" aria-hidden="true"></i> <strong>Look up a molecule</strong>
+           <% end %> </li>
+         </ul>
+     <% end %>
+   </ul>
+   <ul class="nav navbar-nav navbar-right">
+
+     <li>
+       <%= image_tag "logo-production.png", class: "img-rounded nav-logo"%>
+     </li>
+     <li class="user-name">
+       <i class="fa fa-user user"></i>
+     </li>
+     <% if current_user.present? %>
+       <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong><%= current_user.givenName if current_user.present? %> <%= current_user.familyName if current_user.present?%></strong> <b class="caret"></b></a>
+          <ul class="dropdown-menu" id="menu3">
+
+            <li><%= link_to 'Edit Profile', edit_user_registration_path(current_user) %></li>
+            <li><%= link_to 'View Profile', user_path(current_user) %></li>
+            <li><%= link_to 'Your Interactions', {controller: "/users", action: 'interactions', id: current_user} %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+          </ul>
+        </li>
+      <% else %>
+        <li><%= link_to 'Sign in', new_user_session_path, method: :get %></li>
+      <% end %>
+
+
+   </ul>
+ </div>
+</nav>

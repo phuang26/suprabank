@@ -1,0 +1,102 @@
+<%- model_class = User -%>
+<div class="page-header">
+  <h1> <%= @user.givenName %> <%= @user.familyName %>
+    <span data-toggle="tooltip" data-placement="top" title="Edit profile">
+      <%= link_to '', edit_user_registration_path(current_user), class:"fas fa-cog" %>
+    </span>
+  </h1>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= image_tag @user.avatar.url(:medium), class: "img-rounded" , style: "max-height: 20vh;"%>
+    </div>
+    <div class="col-md-9 container">
+      <div class="row">
+        <div class="col-md-12">
+          <dl class="dl-horizontal">
+            <% if false %>
+              <div class="progress">
+                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="<%= @user.assignments.first.status[:percentage]  %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @user.assignments.first.status[:percentage]  %>%">
+                  <%= @user.assignments.first.status[:count] %>
+                </div>
+              </div>
+            <% end %>
+            <h5>Personal Information
+              <span data-toggle="tooltip" data-placement="top" title="Edit profile">
+                <%= link_to '', edit_user_registration_path(current_user), class:"fas fa-cog" %>
+              </span>
+            </h5>
+            <% if false%>
+              <dt><strong>Level:</strong></dt>
+              <dd><%= @user.assignments.first.status[:status] %> ( <%= @user.assignments.first.status[:next_level]  - @user.assignments.first.status[:count] %> points for next Level ) </dd>
+            <% end %>
+            <dt><strong>Name:</strong></dt>
+            <dd><%= @user.full_name %> <%= @user.nameIdentifier %><%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/#{@user.nameIdentifier}", target: :_blank %></dd>
+            <% if current_user.present? && current_user.admin? %>
+              <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+              <dd><%= @user.email %></dd>
+            <% end %>
+            <% if @user.url %>
+              <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+              <dd><%= @user.url %></dd>
+            <% end %>
+            <% if @user.affiliation.present? %>
+              <dt><strong><%= model_class.human_attribute_name(:affiliation) %>:</strong></dt>
+              <dd><%= @user.affiliation %> <%= link_to (image_tag("logos/ror.png", size: "16x16")), "#{@user.affiliationIdentifier}", target: :_blank %> <%= @user.affiliationIdentifier %></dd>
+            <% end %>
+            <% if policy(@user).show? %>
+              <dt>Status:</dt>
+              <dd>You are <%= @user.user_role.capitalize %> of the SupraBank.
+                <% unless @user.groups.present? %>
+                  You are an independent researcher.
+                <% else %>
+                  You are <%= @user.role.capitalize %> of the group
+                  <%= link_to @user.assignments.first.group.name, group_path(@user.assignments.first.group), :class => 'label label-primary label-link'  %>.
+                <% end %>
+              </dd>
+            <% end %>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <h3><i class="fas fa-flask"></i> Interactions</h3>
+    <div class="col-md-4">
+     <%= render 'buttons/create_interactions' %>
+    </div>
+    <div class="col-md-4">
+      <%= link_to interactions_user_path(@user), :class => 'btn btn-success btn-lg new_button' do %>
+        Personal Interactions <span class="badge"><%= InteractionPolicy::Personal.new(current_user, @interactions).resolve.count %></span>
+      <% end %>
+    </div>
+    <% if @user.groups.present?%>
+      <div class="col-md-4">
+        <%= link_to interactions_group_path(@user.assignments.first.group), :class => 'btn btn-primary btn-lg new_button' do %>
+          Group Interactions <span class="badge"><%= @groupinteractions.count %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <hr>
+  <div class="row">
+  <h3><i class="fas fa-database"></i> Datasets</h3>
+    <div class="col-md-4">
+      <%= render 'buttons/create_datasets' %>
+    </div>
+    <div class="col-md-4">
+      <%= link_to datasets_user_path(@user), :class => 'btn btn-success btn-lg new_button' do %>
+        Personal Datasets <span class="badge"><%#= InteractionPolicy::Personal.new(current_user, @datasets).resolve.count %> <%= @user.datasets.count %></span>
+      <% end %>
+    </div>
+    <% if @user.groups.present?%>
+      <div class="col-md-4">
+        <%= link_to datasets_group_path(@user.assignments.first.group), :class => 'btn btn-primary btn-lg new_button' do %>
+          Group Datasets <span class="badge"><%= @groupdatasets.count %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

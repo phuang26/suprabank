@@ -1,0 +1,27 @@
+
+<div class="col-md-12" >
+  <h3 style="margin-top: 30px; margin-bottom: 20 px">PDB powered search <%= link_to (image_tag("logos/rcsb_logo.png", size: "138x38")), "https://www.rcsb.org/", target: :_blank, class:"pull-right" %> </h3>
+</div>
+<div class="col-md-12">
+  <br>
+</div>
+<div class="" id="cidmolecule-lookup">
+  <div class="form-group row">
+    <div class="col-md-8">
+      <input type="text" name="pdb_id" id="pdb_id" placeholder="by PDB ID e.g. 4HHB" autofocus="autofocus" class="form-control search-box">
+    </div>
+    <div class="col-md-1">
+      <div id="cidloader", class="loader">
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <span class="btn btn-primary search_button" id="searchPDBId"> <i class="fa fa-search"></i> Search by PDB ID </span>
+    </div>
+
+  </div>
+  <div class="container col-md-12" id='pdbresults'>
+    
+  </div>
+
+</div>

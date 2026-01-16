@@ -1,0 +1,11 @@
+<div class="well col-md-12 col-xs-12">
+        <div class="row">
+          <h1 style="padding-left: 15px; margin-bottom: 30px">Contributing groups</h1>
+        </div>
+        <div class="groups_map_col">
+          <%= geo_chart Group.group(:country).count, id: "groups_country_map", height:"300px"%>
+        </div>
+        <div class="container col-md-12 col-xs-12">
+           <p> <br><br>Thanks to all of you! For further information see <a href="/groups" target="_blank" class="external-link">here</a>. </p>
+        </div>
+  </div>

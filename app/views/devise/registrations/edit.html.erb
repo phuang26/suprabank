@@ -1,0 +1,382 @@
+<div class="page-header normalWidthOnLargeScreens">
+  <h1><%= t('.title', resource: resource_name.to_s.humanize) %></h1>
+  <p><br></p>
+</div>
+
+<div class="row col-md-12 normalWidthOnLargeScreens">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= bootstrap_devise_error_messages! %>
+
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :email, class: "alignLabel bootstrap-label" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.email_field :email, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+  <div class="form-group row">
+     <div class="col-md-2">
+        <%= f.label :givenName, "Given Name", class: "alignLabel bootstrap-label" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.text_field :givenName, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+  <div class="form-group row">
+      <div class="col-md-2">
+        <%= f.label :familyName, "Family Name", class: "alignLabel bootstrap-label" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.text_field :familyName, autofocus: true, autocomplete: 'name', class: 'form-control' %>
+      </div>
+  </div>
+
+    <div class="form-group row">
+      <% if resource.avatar.present? %>
+      <div class="col-md-2">
+      <%= image_tag resource.avatar.url, alt:"You Image", id:"instant_image", class:"img-rounded instant-image"%>
+      </div>
+      <% else %>
+      <div class="col-md-2">
+      <%= image_tag "blank-user-profile.png", alt:"You Image", id:"instant_image", class:"img-rounded instant-image"%>
+      </div>
+      <% end %>
+      <div class="col-md-6">
+        <label class="btn btn-primary btn-change-avatar search_button">
+          Upload new image
+          <span style="display:none;">
+             <%= f.file_field :avatar, id: "fileUploader", accept: 'image/png, image/gif, image/jpeg'%>
+         </span>
+        </label>
+      </div>
+      <div class="col-md-1">
+
+      </div>
+      <div id='loader' class="col-md-1">
+        <%= image_tag "preloader/default_trans.gif", size:"64x64"%>
+      </div>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+
+<hr>
+
+  <div class="form-group row">
+      <div class="col-md-2">
+        <%= f.label :nameIdentifier, "ORCID", class: "alignLabel bootstrap-label"  %> <%= image_tag "logos/orcid.png", size: "16x16" %>
+      </div>
+      <div class="col-md-6">
+        <%= f.text_field :nameIdentifier, autofocus: true, class: 'form-control' %>
+      </div>
+      <div class="col-md-4">
+         <%= link_to 'Let SupraBank search for your ORCID', orcid_modal_users_path, { :remote => true, method: :post, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class => "btn btn-primary search_button ", :id => "modal_request"}  %>
+        <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+      </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :affiliation, class: "alignLabel bootstrap-label"  %> <%= image_tag "logos/ror.png", size: "16x16" %>
+        <%= f.hidden_field :affiliationIdentifier %>
+    </div>
+    <div class="col-md-6">
+        <%= f.text_field :affiliation, :class => 'form-control' , placeholder: "live search", data: {autocomplete_source: query_affiliation_path }%>
+    </div>
+    <div class="col-md-4">
+      <span id="affiliationIdentifier">  <%= link_to @user.affiliationIdentifier.present? ? @user.affiliationIdentifier : "" %> </span>
+
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2">
+        <%= f.label :url, class: "alignLabel bootstrap-label"  %>
+      </div>
+      <div class="col-md-6">
+        <%= f.text_field :url, autofocus: true, autocomplete: 'name', class: 'form-control', placeholder:"You might having a website/blog or other profile listing page" %>
+      </div>
+  </div>
+
+  <hr>
+<% if false %>
+<%= f.fields_for :assignments do |assignment|%>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Role in your Research Unit</strong></p>
+        <label class="radio-inline control-label"><%= assignment.radio_button :role, 'Group Member', id:'group_member_new' , class:"role" %> Group Member
+        </label>
+        <label class="radio-inline control-label"><%= assignment.radio_button :role, 'Group Leader', id:'group_leader_new', class:"role" %> Group Leader
+        </label>
+        <label class="radio-inline control-label"><%= assignment.radio_button :role, 'independent', id:'independent_new', class:"role" %> independent
+        </label>
+      </div>
+
+      <div class="dynamic-interaction-panel col-md-6" id="group_info_panel">
+          <%= assignment.label :group_name, "Group" %>
+          <%= assignment.text_field :group_name , :class => 'form-control' , id:"user_group_name", data: {autocomplete_source: query_groups_path }, placeholder:"Search groups by Name, Institution, City" %>
+          <p style="color: #a9a;">Search for existing groups. If you want to create you own group please first be a member or a leader and then edit the group. Group functionality will be activated for your profile after updating it.</p>
+      </div>
+    </div>
+  </div>
+<% end %>
+<hr>
+<% end %>
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-6 ">
+      <p><strong>Role in your Research Unit</strong></p>
+
+      <label class="control-label text-success">Currently:
+      </label> <strong><%= @user.role %></strong>
+      <%= if (@user.role == "Group Member" || @user.role == "Group Leader")
+      "of the #{@user.group_name}"
+
+     end
+       %>
+      <br>
+      <label class="control-label text-info">Desired:
+      </label>
+      <% if @user.assignments.empty? || @user.assignments.first.confirmed? %>
+        <label class="radio-inline control-label"> <%= f.radio_button :desired_role, 'Group Member', id:'group_member_new' , class:"desired-role" %> Group Member
+        </label>
+        <label class="radio-inline control-label"> <%= f.radio_button :desired_role, 'Group Leader', id:'group_leader_new', class:"desired-role" %> Group Leader
+        </label>
+        <label class="radio-inline control-label"> <%= f.radio_button :desired_role, 'independent', id:'independent_new', class:"desired-role" %> independent
+        </label>
+      <% else %>
+        <span class="label label-info">You have requested to be part of a research group. We will approve this very soon.</span>
+        <% end %>
+
+    </div>
+    <% if @user.assignments.empty? || @user.assignments.first.confirmed? %>
+      <div class="dynamic-interaction-panel col-md-6" id="group_info_panel">
+          <%= f.label :desired_group_name, "Desired Group" %>
+          <%= f.text_field :desired_group_name , :class => 'form-control' , id:"user_group_name", data: {autocomplete_source: query_groups_path }, placeholder:"Search groups by Name, Institution, City" %>
+          <p style="color: #a9a;">Search for existing groups. If you leave this vacant, you can create your own group after approval.</p>
+      </div>
+    <% end %>
+  </div>
+  <div class="row" id="groupAssignmentInfo">
+    <div class="col-md-3">
+      <button type="button" name="declineChangeButton" class="btn btn-md btn-info" id="declineChangeButton">Do not change my role</button>
+    </div>
+    <div class="col-md-9">
+      <p class="text-info"><strong>Note:</strong> Being part of a group at SupraBank enables for you elaborated features for yiewing and sharing research data within the group. Because this can be sensitive unpublished data, your desired group assignment will first be approved.</p>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="form-group row"">
+  <div class="col-md-2">
+ </div>
+ <div class="col-md-10">
+   <button class="btn btn-primary search_button" type="button" data-toggle="collapse" data-target="#password_panel" aria-expanded="false" aria-controls="collapseExample">
+    Change Password
+   </button>
+ </div>
+</div>
+
+<div class="container col-md-12">
+
+  <div class="collapse row" id="password_panel">
+    <hr>
+    <div class="form-group row">
+      <div class="col-md-2">
+      <%= f.label :password, "New Password", class: "alignLabel bootstrap-label" %>
+     </div>
+     <div class="col-md-10">
+      <%= f.password_field :password, autocomplete: 'new-password', class: 'form-control' %>
+      <small class="form-text text-muted"><%= t('.leave_blank_if_you_don_t_want_to_change_it') %></small>
+     </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-2">
+      <%= f.label :password_confirmation, "Confirm Password", class: "alignLabel bootstrap-label" %>
+      </div>
+      <div class="col-md-10">
+      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control'  %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="form-group row">
+  <div class="col-md-2">
+    <%= f.label :current_password, "Current Password", class: "alignLabel bootstrap-label" %>
+  </div>
+  <div class="col-md-10">
+    <%= f.password_field :current_password, autocomplete: 'current-password', class: 'form-control' %>
+
+    <small class="form-text text-muted"><%= t('.We_need_your_current_password_to_confirm_your_changes') %></small>
+  </div>
+</div>
+
+<div class="form-group row">
+   <div class="col-md-2">
+   </div>
+   <div class="col-md-6">
+    <%= f.submit t('.update'), class: 'btn btn-primary search_button' %>
+  </div>
+  <div class="col-md-4">
+    <%= link_to t('.back'), :back, class: 'btn btn-default search_button'%>
+  </div>
+</div>
+<% end %>
+<% if false %>
+<p><%= t('.unhappy') %>? <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>.</p>
+<% end %>
+</div>
+
+<script type="text/javascript">
+
+  function readURL(input) {
+
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+              $('#instant_image').attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+
+
+  $(document).ready(function() {
+    $('#modal_request').click(function(){
+      var href = "/users/orcid_modal";
+      var fn = $('#user_givenName').val();
+      var ln = $('#user_familyName').val();
+
+      // href = $(this).attr('href');
+      var queryhref = href + "?givenName=" + fn + "&familyName=" + ln;
+      $(this).attr('href', queryhref);
+      // var queryString = '?street=' +  encodeURIComponent($('#form').text());
+      // $('#form').attr('href', href + queryString );
+    });
+});
+
+
+
+
+
+  $("#fileUploader").change(function(){
+      readURL(this);
+  });
+
+  $(document).ready(function() {
+    $('#user_affiliation').autocomplete({
+    source: $('#user_affiliation').data('autocomplete-source'),
+    focus: function( event, affiliation ) {
+      $( "#user_affiliation" ).val( affiliation.item[0] );
+      return false;
+    },
+      select: function( event, affiliation ) {
+        $( "#user_affiliation" ).val( affiliation.item[0] );
+        $( "#affiliationIdentifier" ).html( "<a href=" + affiliation.item[1] + " target='_blank'>" + affiliation.item[1] + "</a>" );
+        $( "#user_affiliationIdentifier" ).val( affiliation.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+        .appendTo( ul );
+      };
+    });
+
+<% if @user.assignments.first.confirmed? %>
+  $(document).ready(function() {
+    $('#user_group_name').autocomplete({
+    source: $('#user_group_name').data('autocomplete-source'),
+    focus: function( event, group ) {
+      $( "#user_group_name" ).val( group.item[0] );
+      return false;
+    },
+      select: function( event, group ) {
+        $( "#user_group_name" ).val( group.item[0] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+        .appendTo( ul );
+      };
+    });
+<% end %>
+function showGroupSearch() {
+
+}
+
+        $(document).on('ready turbolinks:load', function(){
+            $('.desired-role').on('change', function() {
+              var val = $('.desired-role:checked').val();
+              $('#groupAssignmentInfo').show();
+              switch (val) {
+                case 'Group Leader':
+                  $("#group_info_panel").show();
+                  return event.preventDefault();
+                  break;
+
+                case 'Group Member':
+                  $("#group_info_panel").show();
+                  return event.preventDefault();
+                  break;
+
+                case 'independent':
+                  $("#group_info_panel").hide();
+                  return event.preventDefault();
+                  break;
+                }
+            });
+        });
+
+        $(document).on('ready turbolinks:load', function(){
+            $('#groupAssignmentInfo').hide();
+              var val = $('.desired-role:checked').val();
+              switch (val) {
+                case 'Group Leader':
+                  $("#group_info_panel").show();
+                  return event.preventDefault();
+                  break;
+
+                case 'Group Member':
+                  $("#group_info_panel").show();
+                  return event.preventDefault();
+                  break;
+
+                case 'independent':
+                  $("#group_info_panel").hide();
+                  return event.preventDefault();
+                  break;
+                }
+        });
+
+        $('#declineChangeButton').on("click",function(){
+          $('.desired-role').each(function () { $(this).attr('checked', false); });
+          $("#group_info_panel").hide();
+          $("#groupAssignmentInfo").hide();
+
+        });
+
+        $(document).ready(function(){
+        var $loading = $('#loader').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });  });
+</script>

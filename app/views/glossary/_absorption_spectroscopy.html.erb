@@ -1,0 +1,106 @@
+<h3 id="abs" class="level2">UV/Vis Absorption spectroscopy (ABS)</h3>
+<p class="item">
+  Absorption spectroscopy is a widely used technique in analytical chemistry which uses the wavelength dependent absorption characteristics of materials to identify and quantify specific substances.
+</p>
+<p class="item">
+  The absorption of a photon leads to the transition of an electron from the ground state (S<sub>0</sub>) to an excited state (S<sub>x</sub>
+  with x>0), see
+  <a href="#f7">Jablonski diagram</a>. The wavelength of the absorbed photon is hereby dependent on the energy gap between S<sub>x</sub>
+  and S<sub>0</sub>. If the energy gap is small, light having a small energy and, thus, a long wavelength is absorbed.
+</p>
+<p class="item">
+  Employing Lambert-Beer’s law, the
+  <b>absorbance A</b>
+  of a molecule can be used to determine its concentration in the measured solution as the law states that the absorbance A is directly proportional to the concentration c of the absorbing species.<a href="#Tec_ref">
+    <sup>[7,11]</sup>
+  </a>
+  The absorbance A is a dimensionless quantity and is the degree of the light intensity reduction after crossing a certain matter
+  <em>
+    e.g.</em>
+  the sample cell:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_abs.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  with ε: molar extinction coefficient, c: concentration of species, and d: path length of the light in the sample cell.
+</p>
+
+<p class="item">
+  The absorbance is often measured at a double beam spectrometer (see
+  <a href="#f8">
+    Figure 8</a>), where a continuous light source (<em>e.g.</em>
+  xenon lamp) irradiates light in a defined range,
+  <em>e.g.</em>
+  200&nbspnm&nbsp-&nbsp1000&nbspnm. The light beam passes the monochromator, selecting one wavelength, and is then split into two beams. One beam passes the sample and the other passes the reference (<em>e.g.</em>
+  the neat solvent). The beams are collected in the detector, compared by the multiplier and, then, transferred into data (spectrum).
+</p>
+
+<p id="f8" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/fig_uvvis.png", class:"figure"%>
+  <figcaption class="gloss_caption">
+    Fig. 8: Schematic representation of a double beam spectrometer.
+  </figcaption>
+</figure>
+
+<p class="item">
+  Absorption spectroscopy is commonly used to examine the binding affinities of two molecules to each other (<em>e.g.</em>
+  host-guest complexes), by measuring the absorbance of the formed complex during the titration of one species to the other. Here, often the host is added stepwise to a guest solution and the absorbance is measured after each addition. The
+  <a href="TD_Ka">binding affinity <em>K</em><sub>a</sub></a> can then be determined by fitting the curve of the obtained data points (absorbance vs. concentration of the host) (see
+  <a href="#f9">
+    Figure 9</a>).
+  <a href="#Tec_ref">
+    <sup>[12]</sup>
+  </a>
+</p>
+
+<p id="f9" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/Abs-Tit.png", class:"figure"%>
+  <figcaption class="gloss_caption">
+    Fig. 9: Schematic spectra and resulting binding isotherm.
+  </figcaption>
+</figure>
+
+<p class="item">
+  Information output:
+  <ul class="list">
+    <li>binding affinity (<em>K</em><sub>a</sub>)</li>
+    <li>stoichiometry (N)
+      <em>via</em>
+      <a href="#jobs">Job Plot</a>
+      or best fit approach
+    </li>
+    <li>concentration c of the complex
+    </li>
+  </ul>
+
+</p>
+
+<span class="item">
+  Examples:
+  <ol class="bibliography, list">
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1021/ja00052a069" target="_blank">
+        A. R. Bernardo, J. F. Stoddart, A. E. Kaifer,
+        <em>Journal of American Chemical Society</em>
+        <b>1992</b>,
+        <em>114</em>, 10624-10631.</a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1021/acsomega.7b00429" target="_blank">
+        Z.-Z. Gao, J.-L. Kan, L.-X. Chen, D. Bai, H.-Y. Wang, Z. Tao, X. Xiao,
+        <em>ACS Omega</em>
+        <b>2017</b>,
+        <em>2</em>, 5633-5640.</a>
+    </li>
+  </ol>
+
+  <br>
+</span>
+<!-- #reviewed 3.2.2021 -->

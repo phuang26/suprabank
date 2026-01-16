@@ -1,0 +1,7 @@
+
+body {
+    /* Margin bottom by footer height */
+    padding-top: 50px;
+    margin-bottom: 60px;
+    background-color: #f7faff;
+  }

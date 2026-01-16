@@ -1,0 +1,34 @@
+<div class="navbar navbar-expand-lg navbar-inverse  navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <%= link_to (image_tag "logo-#{ENV['LOGOENV']}.svg", :class => "img-rounded nav-logo"), root_path, id: 'logo' %>
+    <button class="navbar-toggler responsiveMenuButton btn-primary pull-right" style="margin:12px" type="button" data-toggle="collapse" data-target="#navbarResponsiveContent" aria-controls="navbarResponsiveContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden= "true"></i></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse" id="navbarResponsiveContent">
+    <ul class="nav navbar-nav">
+    <% if false %>
+      <sup class="label label-success"><em>New</em></sup>
+    <% end %>
+      <li style=" padding:15px 10px;"><strong> <%= link_to "Datasets", datasets_path %> </strong></li>
+      <li style=" padding:15px 10px;"><strong> <%= link_to "Interactions", interactions_path %> </strong></li>
+      <li style=" padding:15px 10px;"><strong> <%= link_to "Compounds", molecules_path %> </strong></li>
+      <li style=" padding:15px 10px;"><strong> <%= link_to "Media", media_path %> </strong></li>
+      <li style=" padding:15px 10px;"><strong><%= link_to "Glossary", glossary_path %></strong></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% unless ENV['LOGOENV'] == "production"  %>
+        <% if Rails.env == "development" %>
+          <li style="padding:15px 10px"><i class="fab fa-github"></i> <%= @git_branch %> </li>
+        <% else %>
+          <li style="padding:15px 10px"><i class="fab fa-github"></i> <%= ::GitBranch %> </li>
+        <% end %>
+      <% end %>
+      <% if current_user.present? %>
+        <%= render 'layouts/user_menu' %>
+      <% else %>
+        <li style=" padding:15px 10px;"><i class="far fa-user user"></i>&nbsp;&nbsp;<strong><%= link_to 'Sign in', new_user_session_path, method: :get, style:"padding-right:25px" %></strong></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

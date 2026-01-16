@@ -1,0 +1,55 @@
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Dataset</h3>
+  </div>
+  <div class="panel-body">
+    <p>Directly include this interaciton in one of your datasets.</p>
+    <div class="col-md-1">
+      <%= f.label :molecule_name,"Title", :class => 'control-label form-label bootstrap-label' %>
+    </div>
+    <div class="col-md-11">
+      <%= text_field_tag "dataset_title",nil, :class => 'form-control' , data: {autocomplete_source: query_user_datasets_editable_datasets_path } %>
+      <%= hidden_field_tag :dataset_id %>
+      <span class="label label-supra" id="dataset_doi"></span>
+      <span class="label" id="dataset_state"></span>
+    </div>
+  </div>
+  <div class="panel-footer" >
+    Start typing the title of your dataset and select.
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+  function datasetPrepopulation() {
+    $( "#dataset_id" ).val(<%= @dataset&.id %>);
+    $( "#dataset_title" ).val("<%= @dataset&.title %>");
+    $( "#dataset_doi" ).text("<%= @dataset&.identifier %>");
+    $( "#dataset_state" ).text("<%= @dataset&.state %>");
+    $( "#dataset_state" ).addClass("<%= @dataset&.state %>");
+  }
+
+
+  function datasetsAutocomplete() {
+    $('#dataset_title').autocomplete({
+    source: $('#dataset_title').data('autocomplete-source'),
+    select: function( event, dataset ) {
+      $( "#dataset_id" ).val( dataset.item[3] );
+      $( "#dataset_title" ).val( dataset.item[0] );
+      $( "#dataset_doi" ).text( dataset.item[1] );
+      $( "#dataset_state" ).text( dataset.item[2] );
+      $( "#dataset_state" ).addClass( dataset.item[2] );
+      return false;
+      }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li'>" )
+      .append( "<li class=' list-group-item ' > Title: " + item[0]  + " | DOI: " + item[1] + " | State: " + item[2] + "</li>" )
+      .appendTo( ul );
+    };
+  };
+</script>

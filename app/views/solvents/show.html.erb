@@ -1,0 +1,9 @@
+<div class="container">
+  <%= render 'result' %>
+  <div class="container col-md-12">
+  <%= link_to 'Back', 'javascript:history.back()', class:"btn btn-default" %>
+  <% if policy(@solvent).update? %>
+    <%= link_to 'Edit', edit_solvent_path(@solvent), class:"btn btn-default" %> 
+  <% end %>
+  </div>
+</div>

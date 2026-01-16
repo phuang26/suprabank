@@ -1,0 +1,13 @@
+<div class="additive_fields ">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-5">
+    <%= f.text_field :additive_name , :class => 'form-control buffer_additive_name buffer-solvent' , data: {autocomplete_source: query_additives_path }, placeholder:"#{@buffer.buffer_solvents.first.solvent.present? ? @buffer.buffer_solvents.first.solvent.display_name : 'live search'}"%>
+
+    <%# builder.text_field :first_additive_name, :id => 'first_solvent_name', :class => 'form-control' , placeholder:  "#{@buffer.solvents.first.present? ? @buffer.solvents.first.display_name : 'Solvent'}", data: {autocomplete_source: query_solvents_path }%>
+  </div>
+  <div class="col-md-3">
+    <%= f.text_field :concentration , :class => 'form-control'%>
+
+  </div>
+</div>

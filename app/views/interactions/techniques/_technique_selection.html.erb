@@ -1,0 +1,73 @@
+<div class="form-group" id="technique_selection">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "technique used for the determination of <em>K</em><sub>a</sub>, click for further information in glossary"}), glossary_url(anchor:'techniques'), target: :_blank
+    %>
+  </div>
+  <div class="col-md-1" style="text-align:left;">
+    <%= f.label :in_technique_type, "Technique", :class => 'control-label form-label', id:"technique_label" %>
+  </div>
+  <div class="col-md-10 ">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="col-md-12">
+          <div class="row-fluid">
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Fluorescence">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'Fluorescence', class:"in_technique"%><span></span>
+                FL
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Absorbance">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'Absorbance', class:"in_technique"%><span></span>
+                ABS
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Isothermal Titration Calorimetry">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'IsothermalTitrationCalorimetry', class:"in_technique"%><span></span>
+                ITC
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Nuclear Magnetic Resonance">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'NuclearMagneticResonance', class:"in_technique"%><span></span>
+                NMR
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Circular Dichroism">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'CircularDichroism', class:"in_technique"%><span></span>
+                CD
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Surface Enhanced Raman Scattering">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'SurfaceEnhancedRamanScattering', class:"in_technique"%><span></span>
+                SERS
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Extraction">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'Extraction', class:"in_technique"%><span></span>
+                EXT
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Potentiometry">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'Potentiometry', class:"in_technique"%><span></span>
+                POT
+              </label>
+            </span>
+            <span class="has-tooltip col-md-1" data-toggle="tooltip" title="Electron Paramagnetic Resonance">
+              <label class="radio-inline control-label">
+                <%= f.radio_button :in_technique_type, 'ElectronParamagneticResonance', class:"in_technique"%><span></span>
+                EPR
+              </label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

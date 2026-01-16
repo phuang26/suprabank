@@ -1,0 +1,79 @@
+<%- model_class = Dataset -%>
+<%= render 'datasets/locales/metatags' %>
+
+<% if false %>
+<div class="page-header container-fluid">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %>
+  <%= link_to "Show all Datasets", datasets_path, :class => 'btn btn-default pull-right'  %>
+
+</h1>
+<span  data-toggle="tooltip" data-placement="bottom" title="<%= @dataset.rights %>" >
+  <%= image_tag "logos/cc.svg", size:"36x36" %>
+  <% if @dataset.rightsIdentifier == "cc-by-sa-4.0"%>
+  <%= image_tag "logos/cc-by-4.0.svg", size:"36x36" %>
+  <% end %>
+  <%= image_tag "logos/#{@dataset.rightsIdentifier}.svg", size:"36x36" %>
+</span>
+
+</div>
+<% end %>
+<div class="page-header container-fluid">
+
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'datasets/locales/metadata' %>
+  </div>
+  <div class="row">
+    <%= render 'datasets/locales/included_interactions' %>
+  </div>
+  <% if policy(@dataset).update? %>
+  <div class="row">
+    <%= render "datasets/locales/publishing" %>
+  </div>
+  <% end %>
+</div>
+<%= render 'datasets/guides/show_guide' %>
+
+
+
+<% if false %>
+  <div class="input_fields_wrap row">
+      <input type="text" name="familyName[]" class="col-md-6" placeholder="familyName">
+      <input type="text" name="givenName[]" class="col-md-6" placeholder="givenName">
+      <button class="add_field_button">Add More Fields</button>
+  </div>
+
+
+
+
+<div class="well col-md-12 add_interactions_well">
+  <h4 class="center"><u>Add Interactions</u></h4>
+  <%= render "add_interactions", dataset:@dataset %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+
+
+  $(function () {
+    var dataset_id = <%= @dataset.id %>
+    $("#button_update_dois").on('click', function () {
+      updateInteractionDOIs(dataset_id);
+    });
+  });
+
+
+
+  $(function () {
+    var $loading = $('#update_doi_loader').hide()
+
+    $(document).ajaxStart(function () {
+      $loading.show();
+    }).ajaxStop(function () {
+      $loading.hide();
+    });
+  })
+
+
+</script>

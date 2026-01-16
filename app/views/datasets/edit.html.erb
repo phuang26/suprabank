@@ -1,0 +1,31 @@
+<%= render :partial => 'edit_form' %>
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function () {
+    $("#dataset_primary_reference").on('input', function () {
+      var doi = $("#dataset_primary_reference").val();
+      uniqueDOIViolation(doi);
+    });
+    rightsInformation()
+    $("#dataset_rights").change(function () {
+      rightsInformation()
+    });
+    $('#doi_reference').hide();
+    $('#creation_info').hide();
+    $('input[value="Create Dataset"]').hide()
+    $('.wizard_role input[type="radio"]').click(function(){
+      var radio = $(this).val();
+      switch (radio) {
+        case "post":
+        $('#doi_reference').show();
+        $('#title_form').hide();
+          break;
+        case "pre":
+        $('#doi_reference').hide();
+        $('#title_form').show();
+          break;
+        }
+      // $('#wizard_metadata').show();
+      $('input[value="Create Dataset"]').show()
+    });
+  });
+</script>

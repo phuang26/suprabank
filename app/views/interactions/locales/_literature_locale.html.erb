@@ -1,0 +1,37 @@
+<table class="table table-responsive determination_specification">
+  <tbody>
+    <tr>
+      <td class="no_top_border col-md-4"><strong>Citation:</strong></td>
+      <td class="no_top_border col-md-8">
+        <div class="has-tooltip" id="literature_citation" onclick="copyToClipboard('#literature_citation')" data-toggle="tooltip" data-placement="top" title="Click to copy">
+          <p class="citation-text">
+            <%= literature.citation&.html_safe %>
+          </p>
+        </div>
+    </tr>
+    <tr>
+      <td class="no_top_border col-md-4">
+      <strong>Link:</strong>
+      </td>
+      <td class="no_top_border col-md-8"><%= link_to literature.url, literature.url, target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %></td>
+    </tr>
+    <% if literature.bibtex.present? %>
+    <tr>
+      <td class="no_top_border col-md-4">
+      <strong>Export:</strong>
+      </td>
+      <td class="no_top_border col-md-8">
+      <% if literature.bibtex.present? %>
+        <%= link_to " BibTex", {controller: "related_identifiers", action: 'citation_export', id: literature, export: "bibtex"}, class:'fa fa-download bibtex-export', data: {turbolinks: false} %> |
+        <%= link_to " RIS", {controller: "related_identifiers", action: 'citation_export', id: literature, export: "ris"}, class:'fa fa-download ris-export', data: {turbolinks: false} %> |
+        <%= link_to " EndNote", {controller: "related_identifiers", action: 'citation_export', id: literature, export: "endnote"}, class:'fa fa-download endnote-export', data: {turbolinks: false} %>
+      <% end  %>
+      <% if literature.citation_pdf.present? %>
+        |
+        <%= link_to "", literature.citation_pdf, class:'fa fa-file-pdf-o pdf-export', taget:"_blank", "rel" => "noopener noreferrer" %>
+      <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

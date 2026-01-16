@@ -1,0 +1,130 @@
+<%- model_class = Dataset -%>
+
+
+<div class="panel panel-primary" id="dataset_panel_metadata">
+  <div class="panel-heading">
+    <h4 class="panel-title">Dataset
+    <a href="#state"><span class="pull-right label <%= @dataset.label %>"> <%= @dataset.label %> </span></a>
+    </h4>
+  </div>
+  <div class="panel-body dataset-panel-body">
+    <div class="col-md-8">
+      <dl class="dl-horizontal justify_list">
+        <% unless controller_name == 'datasets' && action_name == 'preview' %>
+          <% if @dataset.state == "draft" %>
+            <dt ><strong>Sharable Link:</strong></dt>
+            <dd id="sharable_link_show"><span class="label label-warning has-tooltip" id="dataset_share" onclick="copyToClipboard('#dataset_share')" data-toggle="tooltip" data-placement="top" title="Share this link with peers to enable a preview of the dataset. Click to copy"><%= @dataset.alternateIdentifier %></span>
+            <% unless @dataset.state == 'findable' %>
+              <a href='#state'><span class="pull-right label <%= @dataset.state %>"><i class="fas fa-database"></i> <strong><%= @dataset.state.capitalize %></strong></span></a>
+            <% end %>
+            </dd>
+            <hr class="dataset-ruler">
+          <% elsif @dataset.state == "registered"%>
+            <dt><strong>Dataset is registered:</strong></dt>
+            <dd id="doi_show"><span>Use the DOI to share a preview of your data! (e.g. in you paper submission)</span></dd>
+            <hr class="dataset-ruler">
+          <% end %>
+        <% end %>
+        <dt><strong>DOI:</strong></dt>
+        <dd>  <span class="label label-supra has-tooltip" id="dataset_doi" onclick="copyToClipboard('#dataset_doi')" data-toggle="tooltip" data-placement="top" title="Click to copy">https://doi.org/<%= @dataset.identifier %></span>
+          <span  class="pull-right" data-toggle="tooltip" data-placement="bottom" title="
+            <%= @dataset.rights %>
+            <hr class='dataset-ruler'>
+             &#x2022; You may use and mix this data
+            <br>
+             <%= "&#x2022; You must cite this dataset".html_safe if (@dataset.rightsIdentifier == "cc-by-sa-4.0" || @dataset.rightsIdentifier == "cc-by-4.0") %>
+             <%= "<br> &#x2022; You must must use CC-BY-SA".html_safe if (@dataset.rightsIdentifier == "cc-by-sa-4.0") %>
+            " >
+            <%= link_to(@dataset.rightsURI, {target: :_blank}) do %>
+              <%= image_tag "logos/cc.svg", size:"36x36" %>
+              <% if @dataset.rightsIdentifier == "cc-by-sa-4.0"%>
+              <%= image_tag "logos/cc-by-4.0.svg", size:"36x36" %>
+              <% end %>
+              <%= image_tag "logos/#{@dataset.rightsIdentifier}.svg", size:"36x36" %>
+            <% end %>
+          </span>
+        </dd>
+        <hr class="dataset-ruler">
+
+        <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+        <dd><%= @dataset.title %></dd>
+      </dl>
+       <% if @dataset.img_url.present? %>
+      <hr class="dataset-ruler">
+      <div class="image-container">
+        <%= image_tag @dataset.img_url, class:"toc-image img-responsive", alt:@dataset.related_identifier&.toc_url %>
+      </div>
+      <% end %>
+      <dl class="dl-horizontal justify_list">
+        <% if @dataset.description.present?  %>
+        <hr class="dataset-ruler">
+        <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+        <dd><%= @dataset.description %></dd>
+        <% end %>
+        <% if @dataset.dataset_related_identifiers.first.related_identifier.present? && @dataset.dataset_related_identifiers.first.related_identifier.relatedIdentifier.present?  %>
+        <hr class="dataset-ruler">
+        <%= render "datasets/locales/citation_export" %>
+          <% if false %>
+          <dt><strong>Literature:</strong></dt>
+          <dd>
+              <span >
+                <%= link_to @dataset.dataset_related_identifiers.first.related_identifier.url, @dataset.dataset_related_identifiers.first.related_identifier.url, target:"_blank" , class:"label label-crossref"%>
+              </span>
+              <% if @dataset.dataset_related_identifiers.first.related_identifier.relatedIdentifierType == "DOI"%>
+                <% if  @dataset.valid_reference_doi? %>
+                  <span class="text-success"><i class="fa fa-check-circle" aria-hidden="true"> </i> valid DOI</span>
+                <% else %>
+                  <span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> no valid DOI</span>
+                <% end %>
+              <% end %>
+          </dd>
+          <% end %>
+        <% end %>
+
+      </dl>
+    </div>
+
+    <div class="col-md-4">
+      <dl class="lefty_list">
+        <dt><strong>Creators:</strong></dt>
+        <% for dc in @dataset.dataset_creators do  %>
+        <dd>
+          <%= link_to (image_tag("logos/ORCIDiD.svg", size: "16x16")), "https://orcid.org/#{dc&.creator&.nameIdentifier}", target: :_blank %>
+          |
+          <%= link_to (image_tag("logos/ror.png", size: "16x16")), "#{dc&.creator&.affiliationIdentifier}", target: :_blank %>
+          |
+          <%= dc&.creator&.creatorName %>
+        </dd>
+        <% end %>
+        <% if @dataset.contributors.present? %>
+        <hr class="dataset-ruler">
+          <dt><strong>Contributers:</strong></dt>
+          <% for dc in @dataset.dataset_contributors do  %>
+            <dd>
+              <%= link_to (image_tag("logos/ORCIDiD.svg", size: "16x16")), "https://orcid.org/#{dc.contributor.nameIdentifier}", target: :_blank %>
+              |
+              <%= link_to (image_tag("logos/ror.png", size: "16x16")), "#{dc.contributor.affiliationIdentifier}", target: :_blank %>
+              |
+              <%= dc.contributor.contributorName %>
+              |
+              <%= dc.contributorType %>
+              <%#= dc.contributor.affiliation %>
+            </dd>
+          <% end %>
+        <% end %>
+        <% if @dataset.subjects.present? %>
+          <hr class="dataset-ruler">
+          <dt><strong>Subjects:</strong></dt>
+          <dd>
+          <% @dataset.subjects.each_with_index do |subject, index| %>
+            <span class="subjects-label"><%= subject.name %></span>
+          <% end %>
+          </dd>
+        <% end %>
+      </dl>
+    </div>
+
+  </div>
+    <div class="panel-footer">
+    </div>
+</div>

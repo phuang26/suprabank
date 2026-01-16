@@ -1,0 +1,15 @@
+<div class="page-header container-fluid">
+  <div class="row">
+    <h1 class="col-xs-12">Interactions entered by <%= @user.full_name %> </h1>
+    <p class="col-xs-12">
+      Here you can find an overview over the interactions you personally created.
+    </p>
+  </div>
+  <% if user_signed_in? && @user == current_user %>
+    <div class="row">
+      <div class="col-md-4">
+        <%= render 'buttons/create_interactions' %>
+      </div>
+    </div>
+  <% end %>
+</div>

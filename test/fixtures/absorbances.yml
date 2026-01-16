@@ -1,0 +1,16 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% 1.upto(10) do |i| %>
+absorbance_<%= i %>:
+ id: <%= i %>
+ lambda_obs: <%= Faker::Number.number(digits: 3) %>
+ free_to_bound: <%= Faker::Number.number(digits: 1) %>
+ instrument: <%= Faker::ElectricalComponents.active %>
+<% end %>
+
+absorbance_11:
+ id: 11
+ lambda_obs: 234
+ free_to_bound: 2.3
+ instrument: Test_Instrument

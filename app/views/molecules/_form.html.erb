@@ -1,0 +1,356 @@
+
+
+<%= form_for @molecule, :html => { :class => "form-horizontal molecule" } do |f| %>
+
+  <% if @molecule.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@molecule.errors.count, "error") %> prohibited this molecule from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @molecule.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="container col-md-6">
+
+      <div class="form-group">
+        <div class="col-md-6">
+            <%= f.label :display_name,'Common Name *', :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-6">
+                <%= f.text_field :display_name, :class => 'form-control' %>
+        </div>
+              <%=f.error_span(:display_name) %>
+      </div>
+
+      <div class="form-group">
+          <div class="col-md-6">
+                <%= f.label :preferred_abbreviation,'Preferred Abbreviation *', :class => 'control-label form-label' %>
+          </div>
+          <div class="col-md-6">
+                <%= f.text_field :preferred_abbreviation, :class => 'form-control' %>
+          </div>
+                <%=f.error_span(:preferred_abbreviation) %>
+      </div>
+
+      <div class="form-group">
+          <div class="col-md-6">
+              <%= f.label :molecular_weight,'Molecular Weight', :class => 'control-label form-label' %>
+            </div>
+            <div class="col-md-4">
+                <%= f.text_field :molecular_weight, :class => 'form-control' , placeholder:"336.367"%>
+            </div>
+            <label class="control-label col-md-2" style="text-align:right;">g mol<sup>-1</sup></label>
+              <%=f.error_span(:molecular_weight) %>
+      </div>
+
+      <div class="form-group">
+             <div class="col-md-6">
+                <%= f.label :sum_formular, "Formula", :class => 'control-label form-label' %>
+              </div>
+              <div class="col-md-6">
+                  <%= f.text_field :sum_formular, :class => 'form-control', placeholder:"e.g. C20H18NO4+" %>
+              </div>
+                <%=f.error_span(:sum_formular) %>
+      </div>
+
+      <div class="form-group">
+             <div class="col-md-6">
+              <%= f.label :tag_list,"Tags (separated, by, commas)", :class => 'control-label form-label' %>
+            </div>
+            <div class="col-md-6">
+                <%= f.text_field :tag_list, value:nil, :class => 'form-control' , id: "add_tag_tokens", data: {load: @molecule.tag_counts.to_json}%>
+            </div>
+      </div>
+</div>
+<div class="container col-md-1">
+</div>
+<div class="container col-md-5">
+  <div class="col-md-12" style="margin-bottom: 30px;">
+          <label class="btn btn-primary btn-change-avatar login_button">
+            Upload own image
+            <span style="display:none;">
+              <%= f.file_field :png, id: "fileUploader" %>
+            </span>
+          </label>
+  </div>
+
+   <div class="container col-md-12" style="center">
+        <% if @molecule.png.present? %>
+
+              <div class="panel-body structure-image-panel">
+                <div class="molecule-structure">
+                  <%# <%= image_tag("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/#{@molecule.display_name}/PNG" , size: "150x150")%>
+                  <input type="checkbox" id="zoomCheck" class="zoomCheck">
+                  <label for="zoomCheck">
+                    <%= image_tag @molecule.png_url, alt:"Your Image", id:"instant_image", class:"img-rounded instant-image structure-image"%>
+                  </label>
+                </div>
+              </div>
+        <% else %>
+              <%= image_tag "blank-user-profile.png", alt:"Your Image", id:"instant_image", class:"img-rounded instant-image"%>
+        <% end %>
+
+    </div>
+
+   <div class="col-md-12" style="margin-top: 30px;">
+      <label class="btn btn-primary btn-change-avatar login_button">
+        Upload ChemDraw File
+        <span style="display:none;">
+          <%= f.file_field :cdx, id: "cdxUploader", accept: 'chemical/x-cdx, image/x-coreldraw, chemical/x-chem3d' %>
+        </span>
+      </label>
+    </div>
+
+    <div class="col-md-12">
+        <% if @molecule.cdx.present? %>
+          <%= link_to "Download CDX", @molecule.cdx.url , :class => 'btn btn-default login_button'%>
+        <% end %>
+        <p class="" id="instant_cdx"></p>
+    </div>
+</div>
+
+<div class="container col-md-12">
+<hr>
+</div>
+
+<div class="container col-md-12">
+      <div class="form-group">
+        <div class="col-md-3">
+        <%= f.label :iso_smiles,'IsoSmiles', :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-9">
+          <%= f.text_field :iso_smiles, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:iso_smiles) %>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-3">
+        <%= f.label :cano_smiles,'CanoSmiles', :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-9">
+          <%= f.text_field :cano_smiles, :class => 'form-control' %>
+      </div>
+        <%=f.error_span(:cano_smiles) %>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-3">
+          <%= f.label :inchikey,'InChiKey', :class => 'control-label form-label' %>
+        </div>
+         <div class="col-md-9">
+          <%= f.text_field :inchikey, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:inchikey) %>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-3">
+        <%= f.label :inchistring,'InChi', :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-9">
+          <%= f.text_field :inchistring, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:inchistring) %>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-3">
+           <%= f.label :iupac_name, 'IUPAC Name', :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-9">
+          <%= f.text_field :iupac_name, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:iupac_name) %>
+      </div>
+</div>
+
+<div class="container col-md-12">
+<hr>
+</div>
+
+<div class="container col-md-6">
+  <div class="form-group">
+      <div class="col-md-6">
+        <%= f.label :h_bond_donor_count, 'Number of H-Bond Donors', :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :h_bond_donor_count, :class => 'form-control' %>
+      </div>
+        <%=f.error_span(:h_bond_donor_count) %>
+  </div>
+
+
+  <div class="form-group">
+       <div class="col-md-6">
+            <%= f.label :bond_stereo_count, 'Number Stereogenic Bonds (E/Z)', :class => 'control-label form-label' %>
+          </div>
+          <div class="col-md-6">
+            <%= f.text_field :bond_stereo_count, :class => 'form-control' %>
+          </div>
+          <%=f.error_span(:bond_stereo_count) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-6">
+        <%= f.label :charge, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :charge, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:charge) %>
+  </div>
+
+  <div class="form-group">
+      <div class="col-md-6">
+        <%= f.label :complexity, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :complexity, :class => 'form-control' %>
+        </div>
+        <%=f.error_span(:complexity) %>
+  </div>
+
+</div>
+
+<div class="container col-md-6">
+  <div class="form-group">
+     <div class="col-md-6">
+        <%= f.label :h_bond_acceptor_count, 'Number of H-Bond Acceptors',  :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :h_bond_acceptor_count, :class => 'form-control' %>
+      </div>
+        <%=f.error_span(:h_bond_acceptor_count) %>
+  </div>
+
+  <div class="form-group">
+       <div class="col-md-6">
+          <%= f.label :atom_stereo_count, "Number Stereogenic Atoms (R/S)".html_safe, :class => 'control-label form-label' %>
+        </div>
+        <div class="col-md-6">
+            <%= f.text_field :atom_stereo_count, :class => 'form-control' %>
+        </div>
+          <%=f.error_span(:atom_stereo_count) %>
+  </div>
+
+
+  <div class="form-group">
+     <div class="col-md-6">
+        <%= f.label :volume_3d, "3D Volume/&#8491;<sup>3</sup>".html_safe, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :volume_3d, :class => 'form-control' %>
+     </div>
+        <%=f.error_span(:volume_3d) %>
+  </div>
+
+  <div class="form-group">
+     <div class="col-md-6">
+        <%= f.label :conformer_count_3d, "Number of Conformers".html_safe, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-6">
+          <%= f.text_field :conformer_count_3d, :class => 'form-control' %>
+     </div>
+        <%=f.error_span(:conformer_count_3d) %>
+  </div>
+
+
+</div>
+
+<div class="container col-md-12">
+<hr>
+</div>
+
+<div class="container col-md-12">
+  <div class="form-group">
+    <div class="col-md-3">
+    <%= f.label :cas, 'CAS', :class => 'control-label form-label' %>
+    </div>
+    <div class="col-md-9">
+      <%= f.text_field :cas, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:cas) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3">
+    <%= f.label :fingerprint_2d, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-md-9">
+      <%= f.text_field :fingerprint_2d, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:fingerprint_2d) %>
+  </div>
+
+  <%= f.hidden_field :cid, :class => 'form-control' , readonly: true%>
+
+  <div class="form-group">
+    <div class="col-md-3">
+    <%= f.label :mdl_string, :class => 'control-label form-label' %>
+    </div>
+    <div class="col-md-9">
+      <%= f.text_field :mdl_string, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:mdl_string) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+      <%= f.submit nil, :class => 'btn btn-primary login_button' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                molecules_path, :class => 'btn btn-default  select_button' %>
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+<script type="text/javascript">
+  function readURL(input) {
+
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+              $('#instant_image').attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+  $("#fileUploader").change(function(){
+      readURL(this);
+  });
+
+
+  $("#cdxUploader").change(function(e){
+
+              var fileName = e.target.files[0].name;
+
+              $('#instant_cdx').text('The file "' + fileName +  '" has been selected.');
+
+          });
+
+$(document).on('turbolinks:load', function () {
+    $("#add_tag_tokens").tokenInput("/molecules/query_tags.json", {
+            theme: "facebook",
+            tokenValue: "name",
+            allowFreeTagging: true,
+            allowCreation: true,
+            creationText: 'Add new element',
+            placeholder: 'e.g. dye, hormone, macrocycle',
+            hintText: 'Enter new tags by typing and hitting ENTER',
+           prePopulate: $('#add_tag_tokens').data('load')
+          });
+
+});
+</script>

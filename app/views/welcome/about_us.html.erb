@@ -1,0 +1,151 @@
+<% content_for :head do %>
+  <meta name="DC.identifier" content=<%= @dcidentifier %> >
+<% end %>
+<div class="container" style="margin-top: 30px;">
+  <div class="row center">
+    <%= image_tag "logo-production.svg" , class: "aboutUsLogo aboutUsLogoSmall"%>
+    <p><b style="font-size: larger;"><br>
+        An open resource for intermolecular interactions,<br>
+        comprising currently <strong><%= Interaction.published.count %></strong> peer-reviewed interactions including <strong><%= Molecule.all.size %></strong> molecules.</b><br>
+    </p>
+    <hr>
+    <p><em>developed at the <a href="https://biedermann-labs.com/" target="_blank">Biedermann Labs</a></em></p>
+  </div>
+  <%= render "mission_statement" %>
+  <%= render "contact_information" %>
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Developers</h3>
+    </div>
+    <div class="col-md-8">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-2">
+      <%= image_tag "people/stephansinn.gif" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><a href="https://biedermann-labs.com/index.php/team/stephan" target="_blank"><strong>Dr. Stephan Sinn</strong></a> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-9676-9839", target: :_blank %> </li>
+        <li> <a href="https:int.kit.edu/staff_4854.php" target="_blank">Karlsruher Institut für Technologie</a ></li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/Katharina.JPG" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>Dr. Katharina Wendler</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-2767-9012", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/frankbiedermann.gif" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><a href="https://biedermann-labs.com/index.php/team/frank" target="_blank"><strong>Dr. Frank Biedermann</strong></a> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-1077-6529", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Curators</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-2">
+      <%= image_tag "people/Nilima.jpg" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>M.Sc. Nilima Manoj Kumar </strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0003-0498-7298", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/Laura.png" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>Dr. Laura Grimm</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-1808-2206", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/paersis_weslie.jpg" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>M.Sc. Paersis Weslie</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-1808-2206", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-2">
+        <h3>Alumni</h3>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-3 col-md-offset-2">
+      <%= image_tag "people/kangrui.jpg" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>Dr. Rui Kang</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0002-5149-6443", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/amrutha.png" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>Dr. Amrutha Prabodh</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0001-7106-0324", target: :_blank %> </li>
+        <li >Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/chunting.png" , class:"people-photo img-thumbnail"%>
+      <ul class="people-properties ">
+        <li><strong>Dr. Chunting Zhong</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/", target: :_blank %> </li>
+        <li>Karlsruher Institut für Technologie</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-2">
+      <%= image_tag "people/changming_Cropped.png" , class:"people-photo img-thumbnail"%>
+        <ul class="people-properties ">
+          <li><strong>Dr. Changming Hu</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/", target: :_blank %> </li>
+          <li >Karlsruher Institut für Technologie</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+      <%= image_tag "people/joana_cropped.jpg" , class:"people-photo img-thumbnail"%>
+        <ul class="people-properties ">
+          <li><strong>Dr. Joana Krämer</strong> <%= link_to (image_tag("logos/orcid.png", size: "16x16")), "https://orcid.org/0000-0003-0498-7298", target: :_blank %> </li>
+          <li >Karlsruher Institut für Technologie</li>
+        </ul>
+    </div>
+  </div>
+  <div class="row" >
+    <br>
+  </div>
+  <div class="row" >
+    <div class="col-md-2" style="text-align: left;">
+      <h3>Credits</h3>
+    </div>
+    <div class="col-md-10">
+    <br>
+    <br>
+    <p>
+      The <a href="https://thenounproject.com/search/?q=structure&i=1298522"  target="_blank" class="external-link" rel="noopener noreferrer">structure icon</a> used on SupraBank is designed by Path Lord from the Noun Project. The first SupraBank logo was designed by Bastian Sinn.
+    </p>
+    </div>
+  </div>
+  <div class="row" id="power_text">
+    <div class="col-md-2" style="text-align: left;">
+      <h3>Power</h3>
+    </div>
+    <div class="col-md-10">
+    <br>
+    <br>
+
+    <p>
+      Our servers are located at the Institute of Nanotechnology (INT) at Campus North of the Karlsruhe Institute of Technology (KIT) in Germany. The german electricity mix is generated by approximately <a href="https://www.umweltbundesamt.de/themen/klima-energie/erneuerbare-energien/erneuerbare-energien-in-zahlen#ueberblick"  target="_blank" class="external-link" rel="noopener noreferrer">45% renewable energy sources</a> such as wind or solar power plants. Additionaly, at the KIT campus north (KIT CN), a solar power plant provides around 1 GWh p.a. to the entire electricity consumtion of around 80 GWh p.a. of KIT CN resulting in an overall percentage of 46% renewable electrical energy for our servers.
+    </p>
+    </div>
+  </div>
+  <div class="row" id="gender_policy">
+    <p>
+    The SupraBank team fully respects all genders and sexual orientations. In some descriptive texts on the SupraBank, researchers or scientists are explicitly addressed in form of a user story, making it easier to understand the process of research data management. In these texts, the subject is addressed with pronouns such as "he" or "she", which ALWAYS includes all genders and is supposed to address all researchers or scientists independent of their gender. Nobody is excluded and everybody is welcome to use and contribute to the SupraBank!
+    </p>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+$("#user_interactions_published").html("<%= escape_javascript(render partial:"users/interactions/table_ransack", :locals =>{ranquery: @qpublished, interactions: @interactions_published, table_id:'published'}) %>")
+  $('#datasets_index_paginator').html('<%= escape_javascript(paginate(@interactions_published, btncolor:"primary", :remote => true).to_s) %>');

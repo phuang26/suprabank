@@ -1,0 +1,36 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Molecule</th>
+      <th>Host</th>
+      <th>Assay</th>
+      <th>Technique</th>
+      <th>logKa</th>
+      <th>User</th>
+      <th>Embargo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interactions.each do |interaction| %>
+      <tr>
+        <td><%= link_to (polymorphic_url(interaction)), (polymorphic_url(interaction)) %>
+        </td>
+        <td><%= interaction.molecule.display_name %>
+        </td>
+        <td><%= interaction.host.display_name %>
+        </td>
+        <td><%= interaction.assay_type %>
+        </td>
+        <td><%= interaction.technique %>
+        </td>
+        <td><%= interaction.logKa %>
+        </td>
+        <td><%= interaction.user.full_name %>
+        </td>
+        <td><%= interaction.embargo %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

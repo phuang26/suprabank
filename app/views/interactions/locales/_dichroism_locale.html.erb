@@ -1,0 +1,20 @@
+
+
+<% if @interaction.in_technique.lambda_obs.present? %>
+<tr>
+  <td class='no_top_border col-md-3'></td>
+  <td class="col-md-1">&#120524;<sub>(I)CD</sub></td>
+  <td class="col-md-1">=</td>
+  <td class="col-md-2"><%= @interaction.in_technique.lambda_obs %> nm</td>
+  <td class="col-md-2"></td>
+</tr>
+<% end %>
+<% if @interaction.in_technique.free_to_bound.present? %>
+  <tr>
+    <td  class='no_top_border col-md-3'></td>
+    <td class="col-md-1"><sup>CD<sub>bound</sub></sup>&frasl;<sub>CD<sub>free</sub></sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.free_to_bound %></td>
+    <td class="col-md-2"></td>
+  </tr>
+<% end %>

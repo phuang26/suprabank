@@ -1,0 +1,101 @@
+<%= form_for @group, :html => { :class => "form-horizontal molecule" } do |f| %>
+
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-12 ">
+          <%= f.label :name, "Name of the group" %>
+          <%= f.text_field :name , :class => 'form-control' %>
+        </div>
+
+        <div class="">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 ">
+          <%= f.label :affiliation %>
+          <%= f.text_field :affiliation, :class => 'form-control' , placeholder: "live search", data: {autocomplete_source: query_affiliation_path }%>
+
+        </div>
+        <div class="col-md-6">
+          <%= f.label :department %>
+          <%= f.text_field :department , :class => 'form-control' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+
+          <%= f.hidden_field :affiliationIdentifier %>
+          <%= link_to (image_tag("logos/ror.png", size: "16x16")), "#{@group.affiliationIdentifier}", target: :_blank %> <span id="affiliationIdentifier"> <%= @group.affiliationIdentifier %> </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 ">
+          <%= f.label :city %>
+          <%= f.text_field :city , :class => 'form-control' %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :country %>
+          <%= f.text_field :country , :class => 'form-control' , id:"country"%>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+
+        <div class="col-md-6">
+          <%= f.label :website %>
+          <%= f.text_field :website , :class => 'form-control' %>
+        </div>
+        <div class="col-md-6 ">
+        </div>
+      </div>
+    </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                molecules_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('#group_affiliation').autocomplete({
+    source: $('#group_affiliation').data('autocomplete-source'),
+    focus: function( event, affiliation ) {
+      $( "#group_affiliation" ).val( affiliation.item[0] );
+      return false;
+    },
+    select: function( event, affiliation ) {
+      $( "#group_affiliation" ).val( affiliation.item[0] );
+      $( "#affiliationIdentifier" ).text( affiliation.item[1] );
+      $( "#group_affiliationIdentifier" ).val( affiliation.item[1] );
+      $( "#country" ).val( affiliation.item[3] );
+      if(!$("#group_website").val()) {$( "#group_website" ).val( affiliation.item[4] );};
+      return false;
+      }
+    })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .append( "<li class=' list-group-item ' >" + item[0]  + " | " + item[2] + " | " + item[3] + " | "  + item[1] + "</li>" )
+        .appendTo( ul );
+      };
+    });
+
+
+
+
+</script>

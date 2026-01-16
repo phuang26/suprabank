@@ -1,0 +1,15 @@
+<% if  policy(@interaction).revision_pending? %>
+  <%= render 'interactions/revision/revision_summary_panel' %>
+<% end %>
+<% if  policy(@interaction).revision_submitted? && @interaction.revisions_reply.present? %>
+  <%= render 'interactions/revision/revision_reply_summary_panel' %>
+<% end %>
+<%= render 'interactions/new_locale' %>
+<% if policy(@interaction).revision_submitted? %>
+  <%= render 'interactions/revision/revision_comment_panel' %>
+<% end %>
+<script type="text/javascript">
+  // $(document).ajaxStop(function () {
+  //   window.scrollTo(0, document.body.offsetTop - 60);
+  // });
+</script>

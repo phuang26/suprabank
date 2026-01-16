@@ -1,0 +1,5 @@
+<span style="display:none;"><%= interaction.doi ||= "" %></span>
+
+<span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="<%= interaction.doi %>">
+  <%= interaction.doi.truncate(12) %>
+</span>

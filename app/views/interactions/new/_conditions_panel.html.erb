@@ -1,0 +1,80 @@
+<hr>
+<div id="conditions_panel">
+  <div class="form-group">
+    <strong class="control-label col-md-2" style="text-align:left;"><u id="conditions_label">Conditions</u></strong>
+  </div>
+  <div class="form-group">
+    <div class="col-md-1">
+      <%= render(:partial => 'interactions/info/question_guide', :locals => {:text => "Enter the temperature T in °&nbsp;C at which the experiment was done and the solubility of the associated complex in the chosen media. Please specify the media used. If you enter the temperature in K, it is first converted to °&nbsp;C and then saved.".html_safe}) %>
+    </div>
+    <div class="col-md-1">
+     <%= f.label :temperature, "T" , :class => 'control-label form-label'%>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :temperature, :class => 'form-control' , id:"temperature", onchange:"checkValidNumber(this), TfromC(), GfromT()"%>
+    </div>
+
+    <label class="control-label col-md-1 unit"> °C
+    </label>
+    <%=f.error_span(:temperature) %>
+
+    <div class="control-label col-md-1" style="text-align:left;">
+      <%= f.label :solubility,"Solubility", class:"form-label" %>
+     </div>
+      <div class="col-md-4">
+        <%= f.text_field :solubility, :class => 'form-control' , id:"solubility", onchange: "checkValidNumber(this)"%>
+      </div>
+      <label class="control-label col-md-1 unit"> mM
+      </label>
+      <%=f.error_span(:solubility) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-2">
+      <%= text_field_tag 'cond_TempK','', :class => 'form-control', placeholder: 'temperature in K', id: 'cond_TempK' , onchange:"checkValidNumber(this), TfromK(), GfromT()" %>
+    </div>
+
+    <label class="control-label col-md-1 unit">K</label>
+
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-2">
+    </div>
+    <span class="has-tooltip col-md-2" data-toggle="tooltip" title="<p>Choose if you have just a plain solvent <em>e.g.</em> water and nothing else.</p>" data-html="true">
+      <label class="radio-inline">
+      <%= f.radio_button :solvent_system, 'Single Solvent', class:"solvent_system custom_radio" %> Single Solvent <span></span>
+      </label>
+    </span>
+    <span class="has-tooltip col-md-2" data-toggle="tooltip" title="<p>A buffer is a solution that resists changes in pH value, when acids or bases
+    are added to it. If you have a buffer system, please predefine.</p>" data-html="true">
+      <label class="radio-inline">
+      <%= f.radio_button :solvent_system, 'Buffer System', class:"solvent_system custom_radio" %> Buffer System <span></span>
+      </label>
+    </span>
+    <span class="has-tooltip col-md-2" data-toggle="tooltip" title="<p>A complex system is a media with more than one solvent or additives like salts.
+       Choose if you want to design a custom solvent-additive mixture.</p>" data-html="true">
+      <label class="radio-inline">
+      <%= f.radio_button :solvent_system, 'Complex Mixture', class:"solvent_system custom_radio" %> Complex Mixture <span></span>
+      </label>
+    </span>
+  <span class="has-tooltip col-md-2" data-toggle="tooltip" title="<p>Choose for solvent free systems.</p>" data-html="true">
+      <label class="radio-inline">
+      <%= f.radio_button :solvent_system, 'No Solvent', class:"solvent_system custom_radio"  %> No Solvent <span></span>
+      </label>
+    </span>
+
+  </div>
+  <div class="solvent_panel dynamic-interaction-panel" id="solvent_panel">
+
+    <%= render 'interactions/new/solvent_panel', f: f %>
+  </div>
+  <div class="buffer_system dynamic-interaction-panel" id="buffer_system">
+
+    <%= render 'interactions/new/buffer_system', f: f %>
+  </div>
+</div>

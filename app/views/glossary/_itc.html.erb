@@ -1,0 +1,247 @@
+<h3 id="itc" class="level2">Isothermal titration calorimetry (ITC)</h3>
+
+<p class="item">
+  Isothermal titration calorimetry (ITC)
+  <a href="#Tec_ref">
+    <sup>[1-4]</sup>
+  </a>
+  is an often used method in supramolecular chemistry and protein science that measures the heat change occurring if two molecules interact with each other,
+  <em>i.e.</em>
+  heat release or heat uptake (see
+  <a href="#f5">
+    Figure 5</a>). In supramolecular reactions, the heat is released or consumed due to redistribution and formation of non-covalent bonds and the re-organization of solvent molecules during the complexation process.
+</p>
+
+<p class="item">
+  <b>Note</b>: Typically, ITC measurements are conducted in aqueous media, but can be also performed in some organic solvents. Both in supramolecular chemistry and protein-science, it has been frequently observed that even relatively small differences
+  in the reaction media,
+  <em>i.e.</em>
+  aqueous solutions that differ in the salt concentration or potentially used co-solvents (as
+  <em>e.g.</em>
+  DMSO to solubilize the ligand), can have an pronounced impact on the obtained thermodynamic parameters, particularly on Δ<em>H</em>
+  and TΔ<em>S</em>. SupraBank offers therefore the option to accurately describe the media in detail as buffer or complex solution having additives in order to facilitate the comparison between results obtained by different operators.
+</p>
+
+<p id="f5" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/fig_itc.jpg", width:"700px", class:"figure"%>
+  <figcaption class="gloss_caption">
+    Fig. 5: A photograph and the scheme of an ITC cell as well as the signal recorded.</figcaption>
+</figure>
+
+<p class="item">
+  The calorimeter used in ITC contains two cells which typically have cell volumes between 1.5&nbspml and 2&nbspml, microcalorimeters have cell volumes around 200&nbspµl. One cell is the sample cell, the other is the reference cell (see
+  <a href="#f5">Figure 5</a>). Each of the cells is seated in an insulated compartment typically regulated 5&nbspK&nbsp–&nbsp10&nbspK above the environmental temperature to allow a cooling heat flow. The reference cell is continuously heated to the
+  reference temperature. The temperature in the sample cell is automatically regulated by an electrical heater in order to minimize the temperature difference between the cells. The reference cell usually contains water while the sample cell contains
+  an aqueous solution of one of the binding partners. A stirring syringe injects a solution of the other binding partner into the sample cell, typically in 0.5&nbspµl to 4&nbspµl aliquots until the concentration of this partner is two- to three-fold
+  higher than the sample concentration. On injecting aliquots, the association of the binding partners produces a heat effect that raises or lowers the temperature in the sample cell. The deflection of temperature triggers the feedback regulator to
+  adjust the electrical power needed to maintain identical temperatures in both cells. The change in the respective feedback current is the primary signal observed and corresponds to a heat pulse (heat production over time). This measurement parameter
+  is called the differential power (DP) (see
+  <a href="#f5">Figure 5</a>). Each injection results in a heat pulse that is integrated with respect to time and normalized for concentration to generate a titration curve of the heat
+  <em>Q</em>
+  vs. molar ratio. The resulting isotherm is fitted by a binding model to generate the binding affinity (<em>K</em><sub>d</sub> = 1/<em>K</em><sub>a</sub>), stoichiometry (N) and enthalpy of interaction Δ<em>H</em>.
+</p>
+
+<p class="item">
+  <b>Note</b>: As one binding partner is added in many aliquots from the syringe to the cell solution, the concentrations of both partners in the cell change. In the SupraBank, the option "varied" shall
+  be chosen for the binding partner in the syringe. For the binding partner, which is in the cell from the beginning, only a mean concentration shall be stated. The limits of the varied concentation
+  of the partner added by the syringe can be
+  calculated in the following manner: the start concentration is 0&nbsp;M<sup>-1</sup> as there is not yet any aliquot added. The end concentration is the number of aliqouts times the volume of the aliquots
+  times the concentration in the syringe solution divided by the volume of the solution in the cell. The volume of the solution in the cell at the end is the volume of the solution in the cell at the beginning and the
+  volume added through the aliquots.
+</p>
+
+<p class="item">
+  The knowledge of the complex stability constant
+  <em>K</em><sub>a</sub>
+  and the molar enthalpy Δ<em>H</em>
+  enables the calculation of the Gibbs free energy Δ<em>G</em>
+  and entropy Δ<em>S</em>
+  according to
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  It has been widely accepted that the
+  <b>C-value</b>
+  (or sigmoidocity factor) with C=N*c<sub>host or guest in the cell</sub>*<em>K</em><sub>a</sub>
+  provides a good starting point to judge the reliability and error-range of the binding affinity
+  <em>K</em><sub>a</sub>
+  and the molar enthalpy Δ<em>H</em>
+  obtained by ITC under the particular experimental conditions chosen.<br>
+  In general, an optimal C-value range of 5 to 500 is recommended for binding affinity determinations. Conversely, the most accurate Δ<em>H</em>
+  values are obtained when the ITC titration curve resembles a step-function. In our experience, C-values&nbsp>&nbsp50 are preferred for accurate Δ<em>H</em>
+  determination, but a C-value of ~&nbsp10 may be sufficient for obtaining reasonable Δ<em>H</em>
+  estimates. Reliable Δ<em>S</em>
+  values are therefore only obtained if both the Δ<em>G</em>
+  and Δ<em>H</em>
+  values are reasonably accurately determined. If Δ<em>S</em>
+  is determined from one set of ITC experiments, it is therefore recommended that the C-value lies in the range of 10-500.
+</p>
+
+<p class="item">
+  <b>Note</b>: In order to allow for consideration of the C-value when comparing binding parameters listed in SupraBank, we recommend that the user provide the necessary information,
+  <em>i.e.</em>
+  concentration of the guest or host in the cell.
+</p>
+
+<p class="item">
+  <b>Note</b>: In SupraBank, you can enter Δ<em>H</em> and the term -TΔ<em>S</em> in kJ&nbsp;mol<sup>-1</sup> or  kcal&nbsp;mol<sup>-1</sup> as well as Δ<em>S</em> in
+   J&nbsp;mol<sup>-1</sup>&nbsp;K<sup>-1</sup> or cal&nbsp;mol<sup>-1</sup>&nbsp;K<sup>-1</sup>. The corresponding values in the other unit or the term -TΔ<em>S</em> and <em>S</em> are calculated automatically. However,
+   only the value of Δ<em>H</em> and the term -TΔ<em>S</em> in kJ&nbsp;mol<sup>-1</sup> are saved to the SupraBank database. This means that the value for <em>e.g.</em> Δ<em>S</em> in
+   cal&nbsp;mol<sup>-1</sup>&nbsp;K<sup>-1</sup> displayed in the interaction overview after saving can differ slightly from the original entered value due to rounding.
+</p>
+
+<p class="item">
+  Information output:
+  <ul class="list">
+    <li>binding affinity (<em>K</em><sub>a</sub>)</li>
+    <li>stoichiometry (N)</li>
+    <li>thermodynamic data (Δ<em>H</em>, Δ<em>G</em>, Δ<em>S</em>)
+    </li>
+  </ul>
+</p>
+
+<span class="item">
+  Examples:
+  <ol class="bibliography, list">
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1002/9780470661345.smc024" target="_blank">
+        F. P. Schmidtchen,
+        <em>
+          Isothermal Titration Calorimetry in Supramolecular Chemistry</em>. In: Eds.: P. A. Gale, J. W. Steed
+        <em>
+          Supramolecular Chemistry: From Molecules to Nanomaterials
+        </em>
+        <b>
+          2012</b>,
+        <em>Wiley</em>.
+      </a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1021/ja109904u" target="_blank">
+        S. Moghaddam, C. Yang, M. Rekharsky, Y. H. Ko, K. Kim, Y. Inoue, M. K. Gilson,
+        <em>
+          Journal of American Chemical Society</em>
+        <b>2011</b>,
+        <em>133</em>, 3570-3581.</a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1007/BF03245784" target="_blank">
+        A. Saboury,
+        <em>
+          Journal of Iranian Chemical Society</em>
+        <b>2006</b>,
+        <em>3</em>, 1-21. (protein interaction)
+      </a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://doi.org/10.1016/S0959-440X(00)00248-7" target="_blank">
+        S. Leavitt, E. Freire,
+        <em>
+          Current Opinion in Structural Biology</em>
+        <b>2001</b>,
+        <em>11</em>, 560-566. (protein interaction)
+      </a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="http://www.tainstruments.com/pdf/literature/MCAPN-2016-1.pdf" target="_blank">
+        Short introduction to ITC by TA instruments.
+      </a>
+    </li>
+    <li class="bibliographic_item">
+      <a href="https://www.materials-talks.com/blog/2019/01/10/best-practices-for-isothermal-titration-calorimetry-to-study-binding-interactions-part-1" target="_blank">
+        V. Frasca,
+        <em>
+          Best practices for ITC to study binding interactions</em>
+        <b>2019</b>.
+      </a>
+    </li>
+  </ol>
+  <br>
+</span>
+<h4 id="itc_data_acquisition_example" class="level3">ITC data acquisition example</h4>
+<p class="item">
+  This is an example for data acquisition from the outputs of an experiment conducted with the MircoCal PEAQ-ITC by Malvern Pananalytical.
+<div class="container-flex">
+  <figure>
+
+<h4 id="itc_data_acquisition_example" class="level3">ITC data acquisition</h4>
+
+<p class="item">
+  In <a href="#f5a">Figure 5a,</a> there is an example how to extract the parameters needed for the SupraBank from the outputs of an experiment conducted with the MircoCal PEAQ-ITC by Malvern Pananalytical.
+</p>
+
+<p id="f5a" class="item"><br>
+</p>
+<div class="container-flex">
+  <figure>
+  <div class="row">
+    <div class="col-md-12">
+      <%= image_tag "glossary/itc_data_acquisition_example.png", class:"mining-example" %>
+    </div>
+  </div>
+  <figcaption class="gloss_caption">
+    Fig. 5a: ITC data acquisition example. Zoomed-in windows that are not necessarily connected in the actual software.
+  </figcaption>
+</figure>
+</div>
+
+<p class="item">
+ <b>Note</b>: In SupraBank, you can enter either directly the concentrations of the substances or the ITC parameters shown in <a href="#f5a">Figure 5a.</a> In the second case, Suprabank automatically
+ calculates the substances' concentrations. SupraBank approximates concentrations of substances in the cell to be constant:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc2.png", class:"eq"%>
+</figure>
+
+<p class="item">
+Of course, also these concentrations will change slightly as the volume in the cell increases by the injections of the syringe.
+For the substances in the syringe, the concentration range in the cell is calculated as follows. In the beginning, the concentration in the cell is zero as nothing has been added from the syringe:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc3.png", class:"eq"%>
+</figure>
+
+<p class="item">
+ During the injection from the syringe to the cell, the amount of substance remains constant:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc4.png", class:"eq"%>
+</figure>
+
+<p class="item">
+ with
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc6.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  Hence, the upper concentration of the substance injected in the cell is:</p>
+
+  <figure>
+    <%= image_tag "glossary/f_itc5.png", class:"eq"%>
+  </figure>
+
+  <p class="item">
+ If some of the parameters are unknown, SupraBank makes approximations:<br>
+ If the volume of the first injection V<sub>init</sub> is not given, SupraBank assumes that it is equal to the injection volume V<sub>injection</sub> of the further injections. Consequently, the assumed added volume and the upper concentration are probably slightly overestimated. <br>
+ If the volume of injections V<sub>injection</sub> or the number of injections N<sub>injection</sub> is not given, SupraBank assumes that the complete syringe volume is added to the cell:
+</p>
+
+<figure>
+  <%= image_tag "glossary/f_itc7.png", class:"eq"%>
+</figure>
+
+<p class="item">
+  and, thus, calculates only an overestimate of the concentration range.
+</p>

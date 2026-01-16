@@ -1,0 +1,195 @@
+
+
+<div id="graph-container" style="position: relative">
+      <canvas id="results-graph"></canvas>
+      <p>The plot depicts the binding isotherm simulation of a 1:1 interaction of <%= @interaction.molecule.preferred_abbreviation.present? ? @interaction.molecule.preferred_abbreviation : @interaction.molecule.display_name %> (<%= 1/@interaction.binding_constant %> M) and <%= @interaction.host.preferred_abbreviation.present? ? @interaction.host.preferred_abbreviation : @interaction.host.display_name %> (0 &mdash; <%= (1/@interaction.binding_constant) %> M). </p>
+    </div>
+
+
+
+<script type="text/javascript">
+  var ctx = document.getElementById('results-graph').getContext('2d');
+
+
+  var resetCanvas = function(){
+    $('#results-graph').remove(); // this is my <canvas> element
+    $('#graph-container').append('<canvas id="results-graph"><canvas>');
+    canvas = document.querySelector('#results-graph');
+    ctx = canvas.getContext('2d');
+
+    var x = canvas.width;
+    var y = canvas.height;
+    ctx.font = '10pt Verdana';
+    ctx.textAlign = 'center';
+    ctx.fillText('This text is centered on the canvas', x, y);
+  };
+$(document).ready(function(){
+
+      var hd_data = $.ajax({
+        type: "GET",
+        url: "/interactions/<%= @interaction.id %>/hg_sim_data"
+      });
+  });
+
+  var hd_data = $.ajax({
+    type: "GET",
+    url: "/interactions/<%= @interaction.id %>/hg_sim_data"
+  });
+
+  let chartJSon =  {
+    type: 'line',
+    data: {
+
+      datasets: [{
+        label: 'HD',
+        data: hd_data,
+        backgroundColor: "rgba(153,255,51,0.6)"
+      },{
+        label: 'H',
+        data: [0, 10, 5, 2, 20, 30, 45],
+        backgroundColor: "rgba(51, 139, 255, 0.6)"
+      }, {
+        label: 'D',
+        data: [0, 10, 5, 2, 20, 30, 45],
+        backgroundColor: "rgba(255,153,0,0.6)"
+      }]
+    },
+    options: {
+      title: {display:true,text:'Equilibrium Concentration', fontSize: 30,fontFamily: "Open Sans"},
+      scales: {
+        yAxes: [{
+          ticks:{
+            fontFamily: "Open Sans",
+            fontSize: 16
+          },
+          scaleLabel: {
+            fontFamily: "Open Sans",
+            fontSize: 16,
+            display: true,
+            labelString: 'Concentration at equilibrium'
+          }
+        }],
+        xAxes: [{
+            ticks:{
+              fontFamily: "Open Sans",
+              fontSize: 16
+            },
+            scaleLabel: {
+            fontFamily: "Open Sans",
+            fontSize: 16,
+            display: true,
+            labelString: 'Concentration of Host'
+          }
+        }]
+      }
+    }
+  };
+
+<%#
+var jsonfile = {
+   "jsonarray": [{
+      "x": "Joe",
+      "y": 12
+   }, {
+      "x": "Tom",
+      "y": 14
+   }]
+}; %>
+var jsonfile = $.ajax({
+  type: "GET",
+  url: "/interactions/<%= @interaction.id %>/hg_sim_data",
+  dataType:"json",
+  success:function(data){
+      message = data;
+      console.log(data)
+    }
+});
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+$(document).ajaxComplete(function(){
+
+var labels = window.jsonfile.responseJSON.jsonarray.map(function(e) {
+   return e.x;
+});
+var data = window.jsonfile.responseJSON.jsonarray.map(function(e) {
+  return e.y;
+});
+
+var config = {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Host:Guest Complex',
+      data: data,
+      backgroundColor: 'rgba(0, 119, 204, 0.3)'
+    }]
+  },
+  responsive: true,
+  aspectRatio: 1,
+  options: {
+    title: {display:true,text:'Equilibrium Concentration', fontSize: 30,fontFamily: "Open Sans"},
+    scales: {
+      yAxes: [{
+        ticks:{
+          fontFamily: "Open Sans",
+          fontSize: 16,
+
+        },
+        gridLines: {
+          display: false,
+          drawTicks: true
+          },
+        scaleLabel: {
+          fontFamily: "Open Sans",
+          fontSize: 16,
+          display: true,
+          labelString: 'Concentration of Complex / M at Equilibrium'
+        }
+      }],
+      xAxes: [{
+          ticks:{
+            fontFamily: "Open Sans",
+            fontSize: 16,
+            callback: function(value, index, values) {
+                      expo = Math.log10(value)
+                      factor = Math.pow(10,Math.round(expo))
+                      value=value/factor
+                      value=parseFloat(Math.round(value*100)/100).toFixed(2);
+
+                      if (isNaN(value)) {
+                        value = 0.
+                      } else {
+                        value = value + 'e' + Math.round(expo)
+                      }
+                      return value;
+                  }
+          },
+          gridLines: {
+            display: false,
+            drawTicks: true
+            },
+          scaleLabel: {
+          fontFamily: "Open Sans",
+          fontSize: 16,
+          display: true,
+          labelString: 'Concentration of Host / M'
+            }
+      }],
+
+    },
+    elements: { point: { radius: 0 }
+    },
+
+  }
+};
+
+var chart = new Chart(ctx, config);
+});
+
+
+
+</script>

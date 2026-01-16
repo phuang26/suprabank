@@ -1,0 +1,421 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+
+<%techniques=["Fluorescence","Absorbance","Circular Dichroism","Extraction","Potentiometry","Surface Enhanced Raman Scattering","Nuclear Magnetic Resonance","Electron Paramagnetic Resonance","Isothermal Titration Calorimetry"]%>
+
+
+interaction_published:
+ id: 301
+ user: user_one
+ molecule: molecule_one
+ host: molecule_two
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Fluorescence
+ in_technique_type: Fluorescence
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: 1000
+ binding_constant_unit: M-1
+ deltaG: -17.12
+ logKa: 3
+ published: true
+ solvent_system: No Solvent
+ doi: 10.1039/D0CC03715J
+ doi_validity: true
+ revision: published
+ reviewer: reviewer
+ embargo: false
+
+
+interaction_one:
+ id: 302
+ user: user_one
+ molecule: molecule_one
+ host: molecule_three
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Fluorescence
+ in_technique_type: Fluorescence
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: 1000
+ binding_constant_unit: M-1
+ deltaG: -17.12
+ logKa: 3
+ published: false
+ solvent_system: No Solvent
+ revision: created
+ embargo: true
+
+#
+interaction_two:
+ id: 303
+ user: user_one
+ molecule: molecule_one
+ host: molecule_three
+ indicator: molecule_two
+ assay_type: Competitive Binding Assay
+ method: Competitive
+ technique: Absorbance
+ in_technique_type: Absorbance
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: 1000
+ binding_constant_unit: M-1
+ deltaG: -17.12
+ logKa: 3
+ published: false
+ doi: 10.1021/jacs.6b07655
+ doi_validity: true
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+#  column: value
+
+interaction_three:
+ id: 304
+ user: user_one
+ molecule: molecule_one
+ host: molecule_two
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Fluorescence
+ in_technique_type: Fluorescence
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: 1000
+ binding_constant_unit: M-1
+ deltaG: -17.12
+ logKa: 3
+ published: false
+ solvent_system: Complex Mixture
+ doi: 10.1021/jacs.6b07655
+ doi_validity: true
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+# interactions trying to cover systematically all options
+interaction_five:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Fluorescence
+ molecule: molecule_one
+ lower_molecule_concentration: 0.0
+ upper_molecule_concentration: 50.0
+ host: molecule_two
+ lower_host_concentration: 200.0
+ in_technique_type: Fluorescence
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 72
+ binding_constant_unit: M-1
+ binding_constant_error: 7.2
+ logKa: 1.86
+ logka_error: 0.04
+ deltaG: -10.60
+ deltaG_error: 0.25
+ solubility: 24
+ solvent_system: Single Solvent
+ pH: 7.3
+ kin_hg: 45
+ kin_hg_error: 4.5
+ kin_hg_unit: M-1s-1
+ kout_hg: 0.625
+ kout_hg_error: 0.063
+ kout_hg_unit: s-1
+ itc_deltaH: -5.6
+ itc_deltaH_error: 0.15
+ itc_deltaST: -5.0
+ itc_deltaST_error: 0.1
+ comment: It is just for testing.
+ published: false
+ doi: 10.1021/jacs.6b07655
+ citation: "A. I. Lazar, F. Biedermann, K. R. Mustafina, K. I. Assaf, A. Hennig, W. M. Nau, J. Am. Chem. Soc. 2016, 138, 13022–13029."
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#-----------------------------------------
+interaction_six:
+  user: user_one
+  assay_type: Associative Binding Assay
+  method: Direct
+  technique: Absorbance
+  molecule: molecule_one
+  host: molecule_two
+  conjugate: molecule_one
+  stoichometry_molecule: 2
+  in_technique_type: Absorbance
+  in_technique_id: 11
+  binding_range: less
+  binding_constant: 1e9
+  binding_constant_unit: M-2
+  logKa: 9
+  deltaG: -51.37
+  solvent_system: Buffer System
+  buffer_id: <%= ActiveRecord::Fixtures.identify(:buffer_three) %>
+  published: false
+  doi: 10.1021/jacs.6b07655
+  revision: pending
+  revision_comment: "Just testing."
+  reviewer: reviewer
+  embargo: false
+
+#----------------------------------------
+interaction_seven:
+  user: user_one
+  assay_type: Competitive Binding Assay
+  method: Competive
+  technique: Isothermal Titration Calorimetry
+  molecule: molecule_one
+  host: molecule_two
+  stoichometry_host: 3
+  indicator: molecule_one
+  in_technique_type: IsothermalTitrationCalorimetry
+  in_technique_id: 11
+  binding_range: greater
+  binding_constant: 1e9
+  binding_constant_unit: M-3
+  logKa: 9
+  deltaG: -51.37
+  solvent_system: Complex Mixture
+  pH: 6.5
+  ionic_strength: 35
+  published: false
+  doi: 10.1021/jacs.6b07655
+  revision: submitted
+  reviewer: reviewer
+  embargo: false
+
+#----------------------------------------
+interaction_eight:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Nuclear Magnetic Resonance
+ molecule: molecule_one
+ lower_molecule_concentration: 200.0
+ host: molecule_two
+ lower_host_concentration: 0.0
+ upper_host_concentration: 50.0
+ variation: host
+ in_technique_type: NuclearMagneticResonance
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 10000
+ binding_constant_unit: M-1
+ logKa: 4
+ deltaG: -22.83
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#----------------------------------------
+interaction_nine:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Circular Dichroism
+ molecule: molecule_one
+ host: molecule_two
+ in_technique_type: CircularDichroism
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 100
+ binding_constant_unit: M-1
+ logKa: 2
+ deltaG: -11.42
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#----------------------------------------
+interaction_ten:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Surface Enhanced Raman Scattering
+ molecule: molecule_one
+ host: molecule_two
+ in_technique_type: SurfaceEnhancedRamanScattering
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 1e12
+ binding_constant_unit: M-1
+ logKa: 12
+ deltaG: -68.50
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#----------------------------------------
+interaction_eleven:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Extraction
+ molecule: molecule_one
+ host: molecule_two
+ in_technique_type: Extraction
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 5
+ binding_constant_unit: M-1
+ logKa: 0.7
+ deltaG: -3.99
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#----------------------------------------
+interaction_twelve:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Potentiometry
+ molecule: molecule_one
+ host: molecule_two
+ in_technique_type: Potentiometry
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 0.1
+ binding_constant_unit: M-1
+ logKa: -1
+ deltaG: 5.71
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#----------------------------------------
+interaction_thirteen:
+ user: user_one
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Electron Paramagnetic Resonance
+ molecule: molecule_one
+ host: molecule_two
+ in_technique_type: ElectronParamagneticResonance
+ in_technique_id: 11
+ binding_range: equal
+ binding_constant: 0.0001
+ binding_constant_unit: M-1
+ logKa: -4
+ deltaG: 22.83
+ solvent_system: No Solvent
+ doi: 10.1021/jacs.6b07655
+ revision: submitted
+ reviewer: reviewer
+ embargo: false
+
+#some unpublished interactions
+<% 1.upto(10) do |i| %>
+interaction_<%= i %>:
+ id: <%= i %>
+ doi: 10.1002/anie.201400718
+ doi_validity: true
+ user_id: <%= Faker::Number.between(from: 11, to: 20) %>
+ molecule_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ host_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Fluorescence
+ in_technique_type: Fluorescence
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant:  <%= Faker::Number.number(digits: 6) %>
+ binding_constant_unit: M-1
+ deltaG: -29.06
+ logKa: <%= Faker::Number.decimal(l_digits: 1) %>
+ published: false
+ solvent_system: Complex Mixture
+ embargo: false
+ revision: "submitted"
+ reviewer: reviewer
+<% end %>
+
+#some pending interactions
+<% 11.upto(20) do |i| %>
+interaction_<%= i %>:
+ doi: 10.1021/jacs.9b00150
+ doi_validity: true
+ id: <%= i %>
+ user_id: <%= i %>
+ molecule_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ host_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: Absorbance
+ in_technique_type: Absorbance
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: <%= Faker::Number.number(digits: 3) %>
+ binding_constant_unit: M-1
+ deltaG: -17.12
+ logKa: <%= Faker::Number.decimal(l_digits: 1) %>
+ published: false
+ solvent_system: Complex Mixture
+ embargo: false
+ revision: "pending"
+ reviewer: reviewer
+<% end %>
+
+
+#some published interactions
+<% 21.upto(30) do |i| %>
+interaction_<%= i %>:
+ id: <%= i %>
+ doi: 10.1021/jo00373a018
+ doi_validity: true
+ user_id: 11
+ molecule_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ host_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: <%= k=techniques.sample %>
+ in_technique_type: <%= k.delete(' ') %>
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: <%= Faker::Number.number(digits: 6) %>
+ binding_constant_unit: M-1
+ deltaG: -46.19
+ logKa: <%= Faker::Number.decimal(l_digits: 1) %>
+ published: true
+ solvent_system: Single Solvent
+ embargo: false
+ reviewer: reviewer
+ revision: "published"
+<% end %>
+
+<% 31.upto(40) do |i| %>
+interaction_<%= i %>:
+ id: <%= i %>
+ doi: 10.1021/jacs.9b00150
+ doi_validity: true
+ user_id: 12
+ molecule_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ host_id: <%= Faker::Number.between(from: 21, to: 30) %>
+ assay_type: Direct Binding Assay
+ method: Direct
+ technique: <%= k=techniques.sample %>
+ in_technique_type: <%= k.delete(' ') %>
+ in_technique_id: <%= Faker::Number.between(from: 1, to: 10) %>
+ binding_constant: <%= Faker::Number.number(digits: 6) %>
+ binding_constant_unit: M-1
+ deltaG: -46.19
+ logKa: <%= Faker::Number.decimal(l_digits: 1) %>
+ published: true
+ solvent_system: Single Solvent
+ embargo: false
+ reviewer: reviewer
+ revision: "published"
+<% end %>

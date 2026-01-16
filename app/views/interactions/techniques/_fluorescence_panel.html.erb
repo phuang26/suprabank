@@ -1,0 +1,50 @@
+<%= fields_for :in_technique do |technique| %>
+<hr>
+<div class="form-group">
+    <label class="control-label col-md-12 " style="text-align:left;"><u id="technique_name" class="technique-panel-label">Fluorescence</u></label>
+</div>
+  <div class="form-group">
+    <div class="col-md-1">
+      <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Enter wavelength &#120524; of excitation or emission, or the ratio of the fluorescence intensities of the bound species and the free
+species. Click for further information in glossary".html_safe}),
+    glossary_url(anchor:'fl'), target: :_blank %>
+    </div>
+   <div class="control-label col-md-1" style="text-align:left;">
+    <%= technique.label :lambda_ex,"&#120524;<sub>exc</sub>".html_safe%>
+    </div>
+
+  <div class="col-md-2">
+    <%= technique.text_field :lambda_ex, :class => 'form-control', placeholder: "excitation", onchange: "checkValidNumber(this)" %>
+  </div>
+  <%=technique.error_span(:lambda_ex) %>
+  <div class="col-md-1">
+    <label class="control-label ">nm</label>
+  </div>
+
+  <div class="control-label col-md-1">
+<%= technique.label :free_to_bound,"<sup>I<sub>bound</sub></sup>&frasl;<sub>I<sub>free</sub></sub>".html_safe %>
+ </div>
+<div class="col-md-4">
+  <%= technique.text_field :free_to_bound, :class => 'form-control', placeholder: "e.g. 1.8", onchange: "checkValidNumber(this)" %>
+</div>
+<%=technique.error_span(:free_to_bound) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-1">
+
+    </div>
+    <div class="control-label col-md-1" style="text-align:left;">
+     <%= technique.label :lambda_em,"&#120524;<sub>em</sub>".html_safe%>
+     </div>
+    <div class="col-md-2">
+      <%= technique.text_field :lambda_em, :class => 'form-control' , placeholder: "emission", onchange: "checkValidNumber(this)"%>
+    </div>
+    <%=technique.error_span(:lambda_em) %>
+    <div class="col-md-1">
+      <label class="control-label">nm</label>
+    </div>
+
+
+</div>
+<% end %>

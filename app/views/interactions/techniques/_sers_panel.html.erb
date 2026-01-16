@@ -1,0 +1,31 @@
+<%= fields_for :in_technique do |technique| %>
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u class="technique-panel-label">Surface Enhanced Raman Scattering</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Enter the wavenumber &nu;, which was monitored, or the ratio of wavenumbers &nu; of the bound species and the free species. Click for further information in glossary.".html_safe}),
+    glossary_url(anchor:'sers'), target: :_blank %>
+  </div>
+  <div class="col-md-1" style="text-align:left;">
+  <%= technique.label :nu_obs,"&nu;<sub>obs</sub>".html_safe, :class => 'control-label' %>
+  </div>
+  <div class="col-md-2">
+    <%= technique.text_field :nu_obs, :class => 'form-control', placeholder: "observed", onchange: "checkValidNumber(this)" %>
+  </div>
+  <div class="control-label col-md-1 unit" style="text-align: left;">
+    <strong>cm<sup>-1</sup></strong>
+  </div>
+  <%=technique.error_span(:nu_obs) %>
+
+  <div class="control-label col-md-1">
+  <%= technique.label :free_to_bound,"<sup>&nu;<sub>bound</sub></sup>&frasl;<sub>&nu;<sub>free</sub></sub>".html_safe %>
+  </div>
+  <div class="col-md-4">
+    <%= technique.text_field :free_to_bound, :class => 'form-control', placeholder: "e.g. 1.8", onchange: "checkValidNumber(this)" %>
+  </div>
+  <%=technique.error_span(:free_to_bound) %>
+
+</div>
+<% end %>

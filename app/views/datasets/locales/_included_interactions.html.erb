@@ -1,0 +1,161 @@
+<% if @dataset.check_reference_discrepancy?
+  panelclass = "panel-danger"
+else
+  panelclass = "panel-success"
+end
+ %>
+<div class="panel <%= panelclass %>" id="dataset_panel_interactions">
+  <div class="panel-heading">
+    <h4 class="panel-title">Included Interactions <span class="badge dataset_size"> <%= @dataset.size_count %> </span> 
+    <span class="alert alert-warning info-guide" id="dataset_interactions_guide_info">Info</span>
+    </h4>
+    <% if @dataset.check_reference_discrepancy? %>
+        <% if policy(@dataset).user_edit? %>
+          <p>The primary reference DOI of your dataset is not matching some of your included interactions. You may update the DOIs of all of your included <strong>unpublished</strong> interactions.</p>
+          <p> <button type="button" name="update_dois" id="button_update_dois" class="btn btn-md btn-default">Update DOIs</button> <%= image_tag "preloader/default_trans.png", size:"35x35", class:"pull-right", id:"update_doi_loader", class:"loader" %></p>
+        <% end %>
+    <% end %>
+    <% if policy(@dataset).self_revision? %>
+      
+      <%= form_tag self_revision_temp_dataset_path(@dataset), method: :put do %>
+                <%= submit_tag "Self Revision", :class => 'btn btn-md btn-warning ', data: {:confirm => "Are you sure?"}%>
+      <% end %>
+
+    <% end %>
+
+  </div>
+  <div class="col-md-12">
+    <%= form_tag dataset_path(@dataset), method: :get, id: 'limit_form' do %>
+        <div class="select-tag text-info">
+          <strong> Show <%= select_tag :limit, options_for_select([5, 10, 15, 20], selected: params[:limit] || 5), onchange: "$('#limit_form').submit();", class:"kaminari-pagination-select" %> interactions per page </strong>
+        </div>
+    <% end %>
+  </div>
+  <%= form_tag remove_interactions_datasets_path, method: :put do %>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-12" id="dataset_interactions_content"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 center">
+          <%= image_tag "preloader/default_trans.png", size:"50x50", class:"formLoader"%>
+        </div>
+        <div class="col-md-9" id="dataset_interactions_paginator"></div>
+      </div>
+    </div>
+        <div class="panel-footer" id="included_interactions_footer">
+          <% if policy(@dataset).user_edit? %>
+            <%= link_to "Create a new Interaction", new_interaction_path(dataset_id: @dataset.id), :class => 'btn btn-info ' %>
+            <% if @dataset.addition_scope(current_user).present? %>
+              <%= link_to 'Search and add existiting Interactions',
+                  interaction_addition_dataset_path(@dataset), :class => 'btn btn-success'  %>
+            <% end %>
+            <%= hidden_field_tag "dataset_id", @dataset.id %>
+            <% if @dataset.interactions.present? %>
+              <%= submit_tag "Remove selected Interactions", :class => 'btn btn-danger pull-right remove_selected_button'%>
+            <% end %>
+          <% end %>
+            <span class="btn btn-md btn-black pull-right close-guide" id="close_guide_interactions_show">Close Guide</span>
+            <span class="btn btn-md btn-primary pull-right continue-guide" id="continue_guide_interactions_show">Continue to next panel</span>
+        </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  var dataTablesProp = {
+   "bAutoWidth": false,
+   "bDestroy": true,
+   stateSave: true,
+   ordering: false,
+   info: false,
+   searching: false,
+   paging: false,
+   "order": [],
+   "columnDefs": [
+     {"targets"    : 'no-sort',
+      "orderable"  : false},
+     {"targets"    : [ 3,4,7,8 ],
+      "visible"    : false},
+      {"width": "2%", "targets": [9]},
+     {"width": "3%", "targets": [1,3,5,7]} ],
+   "drawCallback": function(){
+  
+     $('[data-toggle="popover"]').popover({
+         container: 'body',
+         placement : 'top',
+         trigger : 'click',
+         html : true,
+     });
+  
+     $('[data-toggle="ajax-popover"]').popover({
+         container: 'body',
+         placement : 'top',
+         trigger : 'click',
+         html : true,
+     });
+  
+     $('[data-toggle="top-popover"]').popover({
+         container: 'body',
+         placement : 'top',
+         trigger : 'click',
+         html : true,
+     });
+     $('[data-toggle="ajax-tooltip"]').tooltip({
+         placement : 'right',
+         trigger : 'hover',
+         html : true,
+     });
+     $('[data-toggle="tooltip"]').tooltip({
+         placement : 'left',
+         trigger : 'hover',
+         html : true,
+     });
+     $('[data-toggle="left-tooltip"]').tooltip({
+         placement : 'left',
+         trigger : 'hover',
+         html : true,
+     });
+   }
+  }
+  
+  var dataTables = {
+    "published":NaN,
+  }
+  
+  function removalAbility() {
+    if ($(":checkbox:checked").length > 0) {
+      $(".remove_selected_button").fadeIn()
+    } else {
+      $(".remove_selected_button").fadeOut()
+    }
+  }
+  
+  $(document).on('ready turbolinks:load',function(){
+  
+    $(".remove_selected_button").hide()
+    $(":checkbox").click(removalAbility())
+    
+    $("#dataset_interactions_content").html('<%= escape_javascript(render "datasets/interactions/table_ransack", interactions: @interactions_included) %>');
+    $('#dataset_interactions_paginator').html('<%= escape_javascript(paginate(@interactions_included, btncolor:"primary", :remote => true).to_s) %>');
+    dataTables.published = $('#int-index-published').DataTable(dataTablesProp);
+  
+  });
+  
+  $(document).on('ready turbolinks:load', function(){
+  var $loading = $('.formLoader').hide();
+  $(document)
+  
+    .ajaxStart(function () {
+      $loading.show();
+    })
+    .ajaxComplete(function () {
+      $loading.hide();
+      dataTables.published = $('#int-index-published').DataTable(dataTablesProp);
+      $('.kaminari-paginate-button').on("click", function (){
+        hidePopovers();
+      });
+  
+    });
+    });
+  
+
+</script>

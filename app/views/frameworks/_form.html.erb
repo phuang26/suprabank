@@ -1,0 +1,94 @@
+<%= simple_form_for @framework, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="container-fluid">
+  <div class="form-div row">
+    
+    <label class="btn btn-primary btn-change-avatar  login_button"  style="margin-bottom: 30px;">
+      Upload new structure
+      <span style="display:none;">
+        <%= f.file_field :png, id: "fileUploader", accept: 'image/png, image/gif, image/jpeg'%>
+      </span>
+    </label>
+    
+    
+    <%= image_tag @framework.png_url, alt:"Structure", id:"instant_image", class:"img-rounded instant-image"%>
+    <hr>
+  </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :name %></div>
+      <div class="col-md-6"><%= f.input :code %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :crystal_system %></div>
+      <div class="col-md-6"><%= f.input :space_group %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :unit_cell_a, label: "Unit Cell a/&#8491;".html_safe %></div>
+      <div class="col-md-6"><%= f.input :unit_cell_b, label: "Unit Cell b/&#8491;".html_safe  %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :unit_cell_c, label: "Unit Cell c/&#8491;".html_safe  %></div>
+    </div>
+      <div class="form-div row">
+        <div class="col-md-6"><%= f.input :unit_cell_alpha, label: "Unit Cell &alpha;/°".html_safe  %></div>
+        <div class="col-md-6"><%= f.input :unit_cell_beta, label: "Unit Cell &beta;/°".html_safe %></div>
+      </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :unit_cell_gamma, label: "Unit Cell &gamma;/°".html_safe %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :volume, label: "Volume /&#8491;&sup3;".html_safe  %></div>
+      <div class="col-md-6"><%= f.input :rdls, label: "R<sub>DLS</sub>".html_safe %></div>
+    </div>
+    
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :framework_density, label: "Framework density FD<sub>Si</sub> / T/1000 &#8491;&sup3;".html_safe %></div>
+      <div class="col-md-6"><%= f.input :topological_density, label: "Topological density TD".html_safe %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :topological_density_10, label: "Topological density TD<sub>10</sub>".html_safe %></div>
+      <div class="col-md-6">
+        <div class="form-group float optional framework_ring_sizes form-group-valid">
+          <%= f.label :ring_sizes, class:"form-control-label text optional" %>
+          <%= f.text_field :ring_sizes, class:"form-control is-valid text optional" %>
+        </div>
+      </div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :channel_dimensionality %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :max_d_sphere_included, label: "Max diameter of a sphere that can be included /&#8491;".html_safe %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :max_d_sphere_diffuse_a, label: "Max diameter of a sphere that can diffuse along a/&#8491;".html_safe %></div>
+      <div class="col-md-6"><%= f.input :max_d_sphere_diffuse_b, label: "Max diameter of a sphere that can diffuse along b/&#8491;".html_safe %></div>
+    </div>
+    <div class="form-div row">
+      <div class="col-md-6"><%= f.input :max_d_sphere_diffuse_c, label: "Max diameter of a sphere that can diffuse along c/&#8491;".html_safe %></div>
+      <div class="col-md-6"><%= f.input :accessible_volume, label: "Accessible Volume /%".html_safe %></div>
+    </div>
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                frameworks_path, :class => 'btn btn-default' %>
+  </div>
+<% end %>
+
+<script>
+ function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#instant_image').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#fileUploader").change(function(){
+        readURL(this);
+    });
+
+</script>

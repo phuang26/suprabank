@@ -1,0 +1,222 @@
+
+<div class="form-group" id="assay_type_panel">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "assay type used for the determination of <em>K</em><sub>a</sub>, click for further information in glossary"}),
+    glossary_url(anchor:'assay_type'), target: :_blank %>
+  </div>
+  <div class="col-md-1" style="text-align:left;">
+      <%= f.label :assay_type,"Assay", :class => 'control-label form-label red-tooltip', id:"assay_type_label" %>
+  </div>
+
+  <div class="col-md-4 ">
+    <%# f.text_field :assay_type, :class => 'form-control'%>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="col-md-12 ">
+            <div class="row-fluid ">
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="<%= AssayType.search_by_names('Direct Binding Assay').first.names[0] %>: molecule and partner bind directly, <em>e.g.</em>
+useful in case of an inherently chromophoric partner or molecule.">
+                <label class="radio-inline control-label" ><%= f.radio_button :assay_type, 'Direct Binding Assay', class:"assay-type" %><span></span> <%= AssayType.search_by_names('Direct Binding Assay').first.names[1] %>
+                </label>
+              </span>
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="<%= AssayType.search_by_names('Associative Binding Assay').first.names[0] %>: partner binds molecule and cofactor simultaneously.">
+                <label class="radio-inline control-label"  ><%= f.radio_button :assay_type, 'Associative Binding Assay', class:"assay-type" %><span></span> <%= AssayType.search_by_names('Associative Binding Assay').first.names[1] %>
+                </label>
+              </span>
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="<%= AssayType.search_by_names('Competitive Binding Assay').first.names[0] %>: molecule and indicator compete in binding to
+the partner, <em>e.g.</em> as in indicator displacement assays. There, the partner is preloaded with
+an indicator, which is displaced by the molecule.">
+                <label class="radio-inline control-label" ><%= f.radio_button :assay_type, 'Competitive Binding Assay', class:"assay-type" %><span></span> <%= AssayType.search_by_names('Competitive Binding Assay').first.names[1] %>
+                </label>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= f.error_span(:assay_type) %>
+  <%= f.label :method, :class => 'control-label col-md-2 form-label' %>
+  <div class="col-md-3">
+    <label class="radio-inline control-label not-allowed"><%= f.radio_button :method, 'Direct', id:'direct' , class:"method", checked:true, disabled:true %><span></span> Direct
+    </label>
+    <label class="radio-inline control-label not-allowed"><%= f.radio_button :method, 'Competive', id:'competive', class:"method", disabled:true %><span></span> Competitive
+    </label>
+  </div>
+  <%= f.error_span(:method) %>
+</div>
+
+<script type="text/javascript">
+
+var defaultTooltip = {
+  container: "body",
+  placement: "right",
+  animation: true,
+  trigger: "manual",
+  html: true,
+  template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+  title: ""
+}
+
+
+var defaultPopover = {
+  container: "body",
+  placement: "top",
+  animation: true,
+  trigger: "manual",
+  html: true,
+  template: '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><button type="button" name="next" class="btn btn-sm btn-black pull-right">NEXT</button></div>',
+  title: "",
+  content: ""
+}
+
+function popoverStepI() {
+  defaultPopover.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><button type="button" name="next" class="btn btn-sm btn-black pull-right">NEXT</button></div>'
+  defaultPopover.title = "<strong>Step 1</strong>"
+  defaultPopover.content = "<p>Select an assay type.</p>";
+  $("#assay_type_label").popover(defaultPopover).popover("show");
+  $("#assay_type_panel").addClass("guide-panel-active");
+  $("button[name=next]").click(function() {
+    if ($(".assay-type").is(":checked")) {
+      $("button[name=next]").tooltip("destroy");
+      popoverStepII()
+    } else {
+      defaultTooltip.title = "<p>Please first select an assay type before continue to the next step.</p>";
+      $("button[name=next]").tooltip(defaultTooltip).tooltip("show");
+    }
+  });
+}
+
+function popoverStepII() {
+    $("#assay_type_label").popover("destroy");
+    $("#assay_type_panel").removeClass("guide-panel-active");
+    defaultPopover.title = "<strong>Step 2</strong>"
+    defaultPopover.content = "<p>Select the technique you used for determination.</p>";
+    $("#technique_label").popover(defaultPopover).popover("show");
+    $("#technique_selection").addClass("guide-panel-active");
+    $("button[name=next]").click(function() {
+      if ($(".in_technique").is(":checked")) {
+        $("button[name=next]").tooltip("destroy");
+        popoverStepIII()
+      } else {
+        defaultTooltip.title = "<p>Please first select a technique before continue to the next step.</p>";
+        $("button[name=next]").tooltip(defaultTooltip).tooltip("show");
+      }
+    });
+}
+
+
+function popoverStepIII() {
+  $("#technique_label").popover("destroy");
+  $("#technique_selection").removeClass("guide-panel-active");
+  defaultPopover.title = "<strong>Step 3</strong>"
+  defaultPopover.content = "<p>Assign the molecules that are involved in the interaction. Start typing the name of the molecule. SupraBank will search for the molecule you need.</p>";
+  $("#binding_label").popover(defaultPopover).popover("show");
+  $("#binding_molecules_panel").addClass("guide-panel-active");
+  $("button[name=next]").click(function() {
+    if ($("#interaction_molecule_name").val() && $("#interaction_host_name").val()) {
+      $("button[name=next]").tooltip("destroy");
+      popoverStepIV()
+    } else {
+      defaultTooltip.title = "<p>Please first load a molecule and a partner before continue to the next step.</p>";
+      $("button[name=next]").tooltip(defaultTooltip).tooltip("show");
+    }
+  });
+}
+
+
+function popoverStepIV() {
+  $("#binding_label").popover("destroy");
+  $("#binding_molecules_panel").removeClass("guide-panel-active");
+  defaultPopover.title = "<strong>Step 4</strong>"
+  defaultPopover.content = "<p>Please provide some details of your measurements.</p>";
+  $(".technique-panel-label").popover(defaultPopover).popover("show");
+  $("#technique_panel_content").addClass("guide-panel-active");
+  $("button[name=next]").click(function() { popoverStepV()  });
+}
+
+function popoverStepV() {
+  $(".technique-panel-label").popover("destroy");
+  $("#technique_panel_content").removeClass("guide-panel-active");
+  defaultPopover.title = "<strong>Step 5</strong>"
+  defaultPopover.content = "<p>Provide the binding information. Just type; SupraBank supports you with automatic calculations.</p>";
+  $("#binding_properties_label").popover(defaultPopover).popover("show");
+  $("#binding_properties").addClass("guide-panel-active");
+  $("button[name=next]").click(function() {
+    if ($("#ka").val()) {
+      $("button[name=next]").tooltip("destroy");
+      popoverStepVI()
+    } else {
+      defaultTooltip.title = "<p>Please first provide a binding value before continue to the next step.</p>";
+      $("button[name=next]").tooltip(defaultTooltip).tooltip("show");
+    }
+  });
+}
+
+function popoverStepVI() {
+  $("#binding_properties_label").popover("destroy");
+  $("#binding_properties").removeClass("guide-panel-active");
+  defaultPopover.title = "<strong>Step 6</strong>"
+  defaultPopover.content = "<p>Please provide further conditions of your experiment such as solvents.</p>";
+  $("#conditions_label").popover(defaultPopover).popover("show");
+  $("#conditions_panel").addClass("guide-panel-active");
+  $("button[name=next]").click(function() { popoverStepVII()  });
+}
+
+function popoverStepVII() {
+  $("#conditions_label").popover("destroy");
+  $("#conditions_panel").removeClass("guide-panel-active");
+  defaultPopover.title = "<strong>Step 7</strong>"
+  defaultPopover.content = "<p>You may add specfic thermodynamic and kinetic parameters or leave a comment. Eventually click on Publishing.</p>";
+  $("#options_selection").popover(defaultPopover).popover("show");
+  $("#options_selection").addClass("guide-panel-active");
+  $("button[name=next]").click(function() {
+    if ($("#int_publishing_panel").hasClass("in")) {
+      $("button[name=next]").tooltip("destroy");
+      popoverStepVIII()
+    } else {
+      defaultTooltip.title = "<p>Please open the publishing panel by clicking on the Publishing button.</p>";
+      $("button[name=next]").tooltip(defaultTooltip).tooltip("show");
+    }
+  });
+}
+
+function popoverStepVIII() {
+  $("#options_selection").popover("destroy");
+  $("#options_selection").removeClass("guide-panel-active");
+  defaultPopover.template = '<div class="popover guide-popover" role="tooltip"><div class="arrow guide-arrow-top"></div><h3 class="popover-title guide-popover-title"></h3><div class="popover-content guide-popover-content"></div><button type="button" name="close" class="btn btn-sm btn-black pull-right">CLOSE</button></div>'
+  defaultPopover.title = "<strong>Step 8</strong>"
+  defaultPopover.content = "<p>You are almost done, great! Just decide whether you want to use the entry just for youself (embargoed) or start the reviewing process. Finally click on Create Interaction.</p>";
+  $("#int_publishing_panel").popover(defaultPopover).popover("show");
+  $("#int_publishing_panel").addClass("guide-panel-active");
+  $("button[name=close]").click(function() {
+    $("#int_publishing_panel").popover("destroy");
+    $("#int_publishing_panel").removeClass("guide-panel-active");
+  });
+}
+
+  $(document).on('ready turbolinks:load', function() {
+    $("#interaction_form_guide").click(function(){
+      $(".tooltip").hide()
+      $(".popover").hide()
+      $(".guide-panel-active").removeClass("guide-panel-active")
+      popoverStepI()
+    });
+
+
+    var interaction_form_guide = localStorage.getItem('interaction_form_guide');
+    var tooltipOptions = {
+        container: 'body',
+        placement : 'right',
+        trigger : 'hover',
+        html : true,
+        template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner guide-tooltip"></div></div>',
+        title : "Great that you want to create an interaction entry at SupraBank! This guide can help you moving stepwise through the form."
+    }
+    if (interaction_form_guide === null) {
+    $('#interaction_form_guide').tooltip(tooltipOptions).tooltip('show');
+    localStorage.setItem('interaction_form_guide', 1);
+    } else {
+    $('#interaction_form_guide').tooltip(tooltipOptions);
+    }
+});
+</script>

@@ -1,0 +1,303 @@
+<br>
+<div class="container col-md-12 form-horizontal interaction">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <strong><u>Molecule | G </u></strong>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 control-label unit">
+
+        <label for="molecule_concentration" class="">Concentration | [G]<sub>0</sub></label>
+      </div>
+      <div class="col-md-3 ">
+        <input type="text" class="form-control" id="molecule_concentration" onblur="calculate_simulation()" placeholder="" value=<%= 20./@interaction.binding_constant %> >
+      </div>
+        <label class="control-label col-md-1 unit">M</label>
+        <label class="control-label col-md-4 unit"><%= @interaction.molecule.preferred_abbreviation.present? ? @interaction.molecule.preferred_abbreviation : @interaction.molecule.display_name %> </label>
+    </div>
+  </div>
+  <hr>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <strong><u>Host</u></strong>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 control-label unit">
+
+        <label for="molecule_concentration" class="">Concentration | [H]<sub>0</sub></label>
+      </div>
+      <div class="col-md-3 ">
+        <input type="text" class="form-control" id="host_concentration" onblur="calculate_simulation()" placeholder="" value=<%= 40./@interaction.binding_constant %>>
+      </div>
+        <label class="control-label col-md-1 unit">M</label>
+        <label class="control-label col-md-4 unit"><%= @interaction.host.preferred_abbreviation.present? ? @interaction.host.preferred_abbreviation : @interaction.host.display_name %> </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <strong><u>Binding Constant</u></strong>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 control-label unit">
+
+        <label for="binding_constant" class="">K<sub>a</sub></label>
+      </div>
+      <div class="col-md-1">
+
+      </div>
+      <div class="col-md-3 ">
+        <input type="text" class="form-control" id="binding_constant"  disabled placeholder="" value=<%= @interaction.binding_constant %> >
+      </div>
+        <label class="control-label col-md-1 unit">M<sup>-1</sup></label>
+    </div>
+  </div>
+  <hr>
+  <div class="form-group dynamic-interaction-panel">
+    <div class="row">
+      <div class="col-md-12">
+        <strong><u>Display Options</u></strong>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 control-label unit">
+
+        <label for="molecule_concentration" class="">Equilibrium Concentration</label>
+      </div>
+
+
+    </div>
+    <div class="row">
+      <label class=" control-label col-md-1"> [HG]
+      </label>
+      <div class="col-md-1 control-label pull-left">
+        <input type="checkbox" aria-label="..." >
+      </div>
+      <div class="col-md-2">
+        <label class="radio-inline control-label pull-right">s <sub>HG</sub></label>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="hg_concentration" disabled placeholder="" value=1 >
+      </div>
+    </div>
+    <div class="row">
+      <label class=" control-label col-md-1"> [G]
+      </label>
+      <div class="col-md-1 control-label">
+        <input type="checkbox" aria-label="..." >
+      </div>
+      <div class="col-md-2">
+        <label class="radio-inline control-label pull-right">s <sub>G</sub></label>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="g_concentration" disabled placeholder="" value=1 >
+      </div>
+    </div>
+    <div class="row">
+      <label class=" control-label col-md-1"> [H]
+      </label>
+      <div class="col-md-1 control-label">
+        <input type="checkbox" aria-label="..." >
+      </div>
+      <div class="col-md-2">
+        <label class="radio-inline control-label pull-right">s <sub>H</sub></label>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="h_concentration" disabled placeholder="" value=1 >
+      </div>
+    </div>
+
+
+  </div>
+  <hr>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <strong><u>Formulas</u></strong>
+
+      </div>
+    </div>
+    <div class="row">
+      <label class="control-label col-md-3 unit">Interaction</label>
+      <div class="col-md-2 control-label unit">
+
+      </div>
+      <div class="col-md-2 control-label unit">
+        <math>
+          <mrow>
+            <mrow>
+              <msup>
+                <mi>H <sub></sub></mi>
+                <mn></mn>
+
+              </msup>
+               <mo>+</mo>
+            </mrow>
+            <mrow>
+              <msup>
+                <mi>G <sub></sub></mi>
+                <mn></mn>
+
+              </msup>
+
+            </mrow>
+            <mo>⇋</mo>
+            <mrow>
+              <msup>
+                <mi> HG <sub></sub></mi>
+                <mn></mn>
+
+              </msup>
+
+            </mrow>
+          </mrow>
+        </math>
+
+      </div>
+    </div>
+    <div class="row">
+      <label class="control-label col-md-3 unit">System of equations</label>
+
+      <div class="col-md-2 control-label unit">
+        <math>
+          <mrow>
+            <mrow>
+              <msup>
+                <mi>K <sub>a</sub></mi>
+                <mn></mn>
+              </msup>
+            </mrow>
+            <mo>=</mo>
+            <mfrac>
+                <mn>[HG] <sub></sub></mn><mn>[H]  <mo>  &middot; </mo> [G] </mn>
+            </mfrac>
+          </mrow>
+        </math>
+
+      </div>
+
+      <div class="col-md-2 control-label unit">
+        <math>
+          <mrow>
+            <mrow>
+              <msup>
+                <mi>[G] <sub>0</sub></mi>
+                <mn></mn>
+              </msup>
+              <mo>=</mo>
+              <mrow>
+                <msup>
+                  <mi> [HG] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo>+</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi>[G] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+              </mrow>
+            </mrow>
+          </mrow>
+        </math>
+      </div>
+      <div class="col-md-2 control-label unit">
+        <math>
+          <mrow>
+            <mrow>
+              <msup>
+                <mi>[H] <sub>0</sub></mi>
+                <mn></mn>
+              </msup>
+              <mo>=</mo>
+              <mrow>
+                <msup>
+                  <mi> [HG] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo>+</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi>[H] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+              </mrow>
+            </mrow>
+          </mrow>
+        </math>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+
+      </div>
+      <div class="col-md-3 control-label unit">
+        <math>
+          <mrow>
+            <mrow>
+              <msup>
+                <mi>S <sub></sub></mi>
+                <mn></mn>
+              </msup>
+              <mo>=</mo>
+              <mrow>
+                <msup>
+                  <mi> s <sub>HG</sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo> &middot;</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi> [HG] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo> +</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi> s <sub>G</sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo> &middot;</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi> [G] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo> +</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi> s <sub>H</sub></mi>
+                  <mn></mn>
+                </msup>
+                   <mo> &middot;</mo>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi> [H] <sub></sub></mi>
+                  <mn></mn>
+                </msup>
+
+              </mrow>
+
+            </mrow>
+          </mrow>
+        </math>
+      </div>
+    </div>
+  </div>
+</div>

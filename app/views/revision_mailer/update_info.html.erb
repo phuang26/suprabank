@@ -1,0 +1,8 @@
+<p>Dear <%= @user.full_name %> </p>
+<br>
+<p>We are happy to announce our new revision system.</p>
+<p>It is more intuitive than before and now you have a clearly arranged overview.</p>
+<br>
+<p>Your recently created unpublished data is now in the state "<strong style="color: #428bca !important;">submitted</strong>" and you will get a notification if <strong style="color: #f0ad4e !important;">revision</strong> is required or if you can <strong style="color: #5cb85c !important;">publish</strong>  your data.</p>
+<p>When you start creating new entries, you can now easily apply an <strong style="color: #a94442 !important;">embargo</strong>, preventing any revision. Release of the embargo will start the revision process.</p>
+<%= render 'user_table' %>

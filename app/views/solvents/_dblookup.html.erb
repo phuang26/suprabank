@@ -1,0 +1,25 @@
+<div class="col-md-12" id="solvent-dblookup">
+  <%= form_tag dbsearch_solvents_path, remote: true, method: :get, id: "solvent-dblookup-form" do %>
+  <div class="form-group row">
+
+    <div class="col-md-8">
+      <%= text_field_tag :search_param, params[:search_param], placeholder: "Enter name of solvent; % serves as wildcard", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1">
+      <div id='turboloader'>
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= button_tag(type: :submit, name:"searchSolventButton",  class: "btn btn-success btn-lg search_button", onclick: "showLoader('turbo')") do %>
+        <%= image_tag "logo-notext-noshadow-white.svg", class:"svg-logo-button"%> Search
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="container col-md-12" id='dbresults'>
+
+  </div>
+
+</div>

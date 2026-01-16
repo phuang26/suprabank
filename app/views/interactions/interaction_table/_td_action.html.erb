@@ -1,0 +1,33 @@
+<span class="has-tooltip" data-toggle="tooltip" title="<%= "Clone this interaciton" %>">
+  <%= link_to "", {controller: "interactions", action: 'duplicate', id: interaction.id}, class:'fas fa-clone', :method=>:post%>
+</span>
+<% if policy(interaction).update? %>
+  <span> | </span>
+  <span class="has-tooltip"  data-toggle="tooltip" title="<%= interaction.revision.titleize %>">
+    <i class="fa fa-circle
+    <%= if interaction.revision=='revised entry'
+      'revised'
+    elsif interaction.revision=='needs revision'
+      'revision'
+    elsif interaction.revision=='pending inspection'
+      'inspection'
+    end %>"></i>
+  </span>
+  <span> | </span>
+  <span class="has-tooltip" data-toggle="tooltip" title="
+  <% if interaction.published? %>
+    <%= "Interaction with ID #{interaction.id} is published" %>
+  <% else %>
+    <%= "Interaction with ID #{interaction.id} is unpublished" %>
+  <% end %> ">
+    <% if interaction.published? %>
+      <i class="fa fa-check-circle"></i>
+    <% else %>
+      <i class="fa fa-times-circle-o"></i>
+    <% end %>
+  </span>
+  <span> | </span>
+  <span class="has-tooltip" data-toggle="tooltip" title="<%= "Edit this interaciton" %>">
+    <%= link_to "", {controller: "interactions", action: 'edit', id: interaction.id}, class:'fas fa-pencil-square-o'%>
+  </span>
+<% end %>

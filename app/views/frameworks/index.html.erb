@@ -1,0 +1,48 @@
+<%- model_class = Framework -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<div class="container-fluid">
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:code) %></th>
+        <th><%= model_class.human_attribute_name(:iza_url) %></th>
+        <th><%= model_class.human_attribute_name(:crystal_system) %></th>
+        <th><%= model_class.human_attribute_name(:space_group) %></th>
+        <th><%= model_class.human_attribute_name(:created_at) %></th>
+        <th><%= model_class.human_attribute_name(:updated_at) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @frameworks.each do |framework| %>
+        <tr>
+          <td><%= link_to framework.id, framework_path(framework) %></td>
+          <td><%= framework.name %></td>
+          <td><%= framework.code %></td>
+          <td><%= framework.iza_url %></td>
+          <td><%= framework.crystal_system %></td>
+          <td><%= framework.space_group %></td>
+          <td><%=l framework.created_at %></td>
+          <td><%=l framework.updated_at %></td>
+          <td>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_framework_path(framework), :class => 'btn btn-default btn-xs' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        framework_path(framework),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_framework_path,
+              :class => 'btn btn-primary' %>
+</div>

@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+solvent_one_buffer_one:
+ solvent: solvent_one
+ buffer: buffer_one
+ volume_percent: 55
+
+solvent_two_buffer_one:
+ solvent: solvent_two
+ buffer: buffer_one
+ volume_percent: 45
+
+solvent_one_buffer_two:
+ solvent: solvent_one
+ buffer: buffer_two
+ volume_percent: 22
+
+solvent_two_buffer_two:
+ solvent: solvent_two
+ buffer: buffer_two
+ volume_percent: 78
+
+solvent_one_buffer_three:
+ solvent: solvent_one
+ buffer: buffer_three
+ volume_percent: 30
+
+solvent_two_buffer_three:
+ solvent: solvent_two
+ buffer: buffer_three
+ volume_percent: 70

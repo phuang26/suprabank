@@ -1,0 +1,169 @@
+<% if params[:action] == 'pubchem_request' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <%= bootstrap_flash %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @molecule  %>
+  <div class="col-md-12 overview container">
+    <h4><%= @molecule.display_name %> | SBID = <%= @molecule.id %> | <%= @molecule.molecule_type.capitalize %> |
+      <% if @molecule.cid > 0  %>
+        <%= link_to (image_tag("logos/pubchem_logo.svg", size: "150x38")), @molecule.pubchem_link, target: :_blank %>
+      <% else %>
+        <% if @molecule.molecule_type == 'protein'  %>
+          <%= link_to (image_tag("logos/rcsb_logo.png", size: "150x38")), "https://www.rcsb.org/structure/#{@molecule.pdb_id}", target: :_blank %>
+        <% else %>
+          <span>Custom Molecule</span>
+        <% end %>
+      <% end %>
+      <% if policy(@molecule).update? %>
+        <%= link_to 'Edit', edit_molecule_path(@molecule), class:"btn btn-sm btn-default" %>
+      <% end %>
+      <% if policy(@molecule).destroy? %>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                molecule_path(@molecule),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-sm btn-danger' %>
+      <% end %>
+    </h4>
+    <% if @molecule.molecule_type == 'framework' %>
+      <%= render 'molecules/locales/framework_locale' %>
+    <% else %>
+      
+    
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <%= render 'molecules/locales/structure', object:@molecule %>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <% if @molecule.molecule_type == 'compound'  %>
+          <%= render 'molecules/locales/molecular_properties', object:@molecule %>
+        <% elsif @molecule.molecule_type == 'protein' %>
+          <%= render 'molecules/locales/protein_properties', object:@molecule %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <% if @molecule.molecule_type == 'compound'  %>
+          <%= render 'molecules/locales/molecular_identifiers', object:@molecule %>
+        <% elsif @molecule.molecule_type == 'protein' %>
+          <%= render 'molecules/locales/protein_identifiers', object:@molecule %>        
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+    <% if policy(@molecule).destroy? && @molecule.molecule_type == 'compound' %>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-info ">
+          <div class="panel-heading">
+            <%= link_to "Auto Update", {controller: "molecules", action: 'pubchem_auto_update', id: @molecule, remote:true}, class:'btn btn-md btn-success', data: {turbolinks: false} %>
+            <button type="button" name="button" id="pubChemUpdate" class="btn btn-md btn-primary">Request PubChem Update</button>  Run an update for molecular data. Review the results and <strong> select </strong> the entry you think is correct!
+            <%= image_tag "preloader/black_white_trans.png", size:"35x35", id:"loader", class:"pull-right"%>
+          </div>
+          <%= form_tag pubchem_update_molecules_path, method: :put do %>
+            <table class='table' id="results_table">
+              <thead>
+                <tr>
+                  <th>CID</th>
+                  <th>PubChem</th>
+                  <th>IUPAC Name</th>
+                  <th>SMILES</th>
+                  <th>Formula</th>
+                  <th>Select</th>
+                </tr>
+              </thead>
+              <tbody id="results_table_body">
+              </tbody>
+            </table>
+            <%= hidden_field_tag "molecule_id", @molecule.id %>
+            <div class="panel-footer panelPubChem" id="panel_footer">
+              <%= submit_tag "Update this molecule" , class:"btn btn-md btn-success login_button", id:"molecule_update_button"%>
+              <span> &nbsp;&nbsp;This could take a little time, SupraBank will retrieve the full record.</span> <strong id="footer_info"></strong>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+  <script type="text/javascript">
+    $(function(){
+      $('#loader').hide();
+      var $loading = $('#loader')
+      $(document)
+        .ajaxStart(function () {
+          $loading.show();
+        })
+        .ajaxStop(function () {
+          $loading.hide();
+        });
+    
+    
+      $("#molecule_update_button").hide()
+      $("#panel_footer").hide()
+      var moleculeID = <%= @molecule.id %>
+      var moleculeCID = <%= @molecule.cid %>
+      function requestPubchem(){
+          $.ajax({
+          type: "GET",
+          url: "/molecules/" + moleculeID + "/pubchem_update_query",
+          success: function(data) {
+          //  console.log(data)
+          //  alert(data[0]);
+            if (data.length > 0) {
+              console.log(data)
+    
+              $("#results_table_body").empty()
+              for (var entry of data) {
+                $("#results_table_body").append("<tr><td> <a href=https://pubchem.ncbi.nlm.nih.gov/compound/" + entry[0] + " target='_blank'>" + entry[0] + "</a></td><td> <a href=https://pubchem.ncbi.nlm.nih.gov/compound/" + entry[0] + " target='_blank'>" + "Link" + "</a></td><td class='smiles-query-td-smiles'>" + entry[3] + "</td><td class='smiles-query-td-smiles'>" + entry[1] + "</td><td>" + entry[2] + "</td><td> <input type='radio' name='selection_cid' value=" + entry[0] + " /></td></tr>")
+              };
+              $("#molecule_update_button").show()
+              $("#panel_footer").show()
+              $("input[type=radio]").on('click', function(){
+                if ($(this).is(':checked')) {
+                  var selectionCID = parseFloat($(this).parents("tr").find("a").text())
+                  if (selectionCID == moleculeCID) {
+                    $(this).parents("table").find("tr").removeClass("alert alert-danger");
+                    $(this).parents("tr").addClass("alert alert-success");
+    
+                    $("#footer_info").text("CID matches!")
+                    $("#footer_info").removeClass("text-danger")
+                    $("#footer_info").addClass("text-success")
+                  } else {
+                    $(this).parents("table").find("tr").removeClass("alert alert-danger");
+                    $(this).parents("table").find("tr").removeClass("alert alert-success");
+                    $(this).parents("tr").addClass("alert alert-danger");
+    
+                    $("#footer_info").text("CID mismatch, are you sure?")
+                    $("#footer_info").removeClass("text-success")
+                    $("#footer_info").addClass("text-danger")
+                  }
+    
+                }
+              });
+            }
+            return false;
+          },
+          error: function(data) {
+            return false;
+          }
+            });
+      };
+    
+    
+      $(function(){
+        $("#pubChemUpdate").on('click', function(){
+          //var smiles = $(this).val();
+          requestPubchem();
+        });
+      });
+    
+    });
+  </script>
+<% end %>

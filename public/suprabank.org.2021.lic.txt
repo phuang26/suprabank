@@ -1,0 +1,11 @@
+# ChemWriter
+# (c) 2020 Metamolecular, LLC
+# info@metamolecular.com
+# http://metamolecular.com
+
+Licensed To: Karlsruhe Institute of Technology
+License Type: website
+Licensed Host: suprabank.org
+Issued On: June 13, 2020
+Deployment Expires: June 14, 2021
+Signature: d7498b380831ebef8fb31afa972a36d937fc159c

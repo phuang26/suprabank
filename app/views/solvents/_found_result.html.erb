@@ -1,0 +1,43 @@
+<% if params[:action] == 'pubchem_request' %>
+<div class="container-flex">
+  <div class="row">
+    <div class="col-sm-9">
+      <%= bootstrap_flash %>
+    </div>
+  </div>
+</div>
+<% end %>
+<% if @solvent  %>
+<hr>
+    <div class="container-flex col-md-12" id="preliminary_result">
+
+            <div class="row">
+              <h4>We have found the following solvent.
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <dl>
+                  <dt>CID:</dt>
+                  <dd>
+                    <%= @solvent.cid %>
+                  </dd>
+                  <dt>Molecular Weight:</dt>
+                  <dd>
+                    <%= @solvent.molecular_weight %> g/mol
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <%= image_tag  @solvent.png_url , size: "200x200"%>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <%= link_to "Go to solvent", solvent_path(@solvent), class:"btn btn-default btn-success"%>
+            </div>
+          </div>
+
+
+
+<% end %>

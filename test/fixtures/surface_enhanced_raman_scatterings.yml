@@ -1,0 +1,28 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+<% 1.upto(10) do |i| %>
+surface_enhanced_raman_scatterings_<%= i %>:
+ id: <%= i %>
+ nu_obs: <%= Faker::Number.number(digits: 3) %>
+ free_to_bound: <%= Faker::Number.number(digits: 1) %>
+ instrument: <%= Faker::ElectricalComponents.active %>
+<% end %>
+
+surface_enhanced_raman_scatterings_11:
+ id: 11
+ nu_obs: 200
+ free_to_bound: 2
+ instrument: Test_Instrument
+
+#  create_table "surface_enhanced_raman_scatterings", force: :cascade do |t|
+#    t.float    "nu_obs"
+#    t.float    "free_to_bound"
+#    t.text     "instrument"
+#    t.datetime "created_at",    null: false
+#    t.datetime "updated_at",    null: false
+#  end

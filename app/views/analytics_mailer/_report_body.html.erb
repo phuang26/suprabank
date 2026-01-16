@@ -1,0 +1,28 @@
+  <div class="row">
+    <%= render 'summary_table' %>
+  </div>
+  <br>
+  <div class="row">
+    <%= render 'interaction_table' %>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4" style="width: 33.33333333%; position: relative; float: left;">
+      <%= render 'molecule_table', :molecules => @molecules, style: "warning" %>
+    </div>
+    <div class="col-md-4" style="width: 33.33333333%; position: relative; float: left;">
+      <%= render 'molecule_table', :molecules => @solvents, style: "warning" %>
+    </div>
+    <div class="col-md-4" style="width: 33.33333333%; position: relative; float: left;">
+      <%= render 'molecule_table', :molecules => @additives, style: "warning" %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-6" style="width: 50%; position: relative; float: left;">
+      <%= render 'buffer_table' %>
+    </div>
+    <div class="col-md-6" style="width: 50%; position: relative; float: left;">
+      <%= render 'user_table' %>
+    </div>
+  </div>

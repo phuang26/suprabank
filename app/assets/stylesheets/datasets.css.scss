@@ -1,0 +1,284 @@
+$navbar-supraback-color: #5479b4;
+$crossref-color: #ffc72c;
+
+.btn-disabled {
+  cursor: not-allowed;
+}
+
+.dataset-form-panel {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.label-supra {
+  background-color: $navbar-supraback-color;
+  cursor: pointer;
+}
+
+.label-crossref {
+  background-color: $crossref-color;
+  cursor: pointer;
+}
+
+.dataset-membership {
+  color: green;
+  font-size: 1.5em;
+  vertical-align: bottom;
+}
+
+
+.errorbox {
+  border: 1px solid red;
+}
+
+.checkzero {
+  color: red;
+}
+
+.metadata_well {
+  background-color: #00787b69;
+}
+
+.included_interactions_well {
+  //background-color: #e4ac218c;
+}
+
+
+.ORCID-autocomplete {
+  border-color: black !important;
+  border-radius: 0px !important;
+}
+
+
+.justify_list dt {
+  text-align: left;
+  // line-break: anywhere;
+}
+
+.justify_list dd {
+  text-align: justify;
+  // line-break: anywhere;
+}
+
+.lefty_list dt {
+  text-align: left;
+  // line-break: anywhere;
+}
+
+.lefty_list dd {
+  text-align: left;
+  // line-break: anywhere;
+}
+
+
+
+.nav-tabs li.active  a{
+  display: block;
+  background-color: #dff0d8 !important;
+}
+
+.nav-tabs li.active.dataset-citation  a{
+  display: block;
+  background-color: white !important;
+}
+
+.nav-tabs li.active.dataset-citation  a i{
+  color: #5cb85c;
+}
+
+.nav-tabs li.dataset-citation  a i{
+  color: cornflowerblue;
+}
+
+.nav-tabs.dataset-citation-tabs {
+  border-bottom: 0;
+}
+
+.nav-tabs li.active.dataset-citation  a .fas {
+  transition:transform .75s;
+  transform:rotate(90deg);
+}
+
+.nav-tabs li.dataset-citation  a .fas {
+  transition:transform .75s;
+}
+
+.panel-cooperator {
+  padding: 30px;
+}
+
+.add-cooperator {
+  margin-left: -15px;
+}
+
+h4.dataset-heading {
+  padding-bottom: 1.5em;
+  margin-top: 0px;
+}
+
+.draft {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.registered {
+  color: #fff;
+  background-color: #ec971f;
+  border-color: #d58512;
+}
+
+.findable {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+
+.publishing-panel {
+  background-color: cadetblue;
+}
+
+.badge.dataset_size {
+  background-color: lightseagreen;
+}
+
+
+
+.dataset-interaction-reference-discrepancy-true {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+
+.csv-export {
+  color: forestgreen;
+}
+
+.panel-body.dataset-panel-body {
+  font-weight: normal;
+}
+
+// .subject-label ~ ul.token-input-list-facebook {
+//   margin-left: -15px;
+//   margin-right: -15px;
+// };
+
+hr.dataset-ruler {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+#datasets_rights_information {
+  display: block;
+}
+
+
+.curated {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.uncurated {
+  color: #fff;
+  background-color: #d65bde;
+  border-color: #d65bde;
+}
+
+.toc-image {
+  max-height: 200px;
+  max-width: 100%;
+}
+
+
+.subjects-label {
+  margin: 3px;
+  padding: 1px 3px;
+  background-color: #eff2f7;
+  color: #000;
+  cursor: default;
+  border: 1px solid #ccd5e4;
+  border-radius: 5px;
+  white-space: nowrap;
+  line-height: 2;
+}
+
+.view_count_head {
+  color: #2dce89;
+}
+
+.download_count_head {
+  color: #fb6340;
+}
+
+.citation_count_head {
+  color: #5e72e4;
+}
+
+.alert-shadow-rectangle {
+  box-shadow: 0.5rem .5rem 1rem rgba(0,0,0,.15);
+  border-radius: 0.25rem;
+}
+
+.refinement-button {
+  margin-top: 1.5em;
+}
+
+.refinement-input {
+  height: 45px;
+  font-size: 15px;
+}
+
+.kaminari-pagination-select {
+  display: inline;
+  // width: 100%;
+  // height: 34px;
+  padding: 3px 3px;
+  margin-top: 2px;
+  // font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+#creation_info {
+  display: block;
+}
+
+
+
+.btn-black.close-guide {
+  display: none;
+  margin-left: 1rem;
+}
+
+.btn-primary.continue-guide {
+  display: none;
+}
+
+.alert.info-guide {
+  display: none;
+  text-transform: none;
+  font-size: 0.8em;
+  margin-left: 1em;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+#dataset_show_guide {
+  display: inline;
+}
+
+
+table.table.dataTable td.title {
+  text-align: justify;
+}

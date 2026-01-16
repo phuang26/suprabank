@@ -1,0 +1,76 @@
+
+  <div class="panel-heading"><h4>Molecular Properties</h4>
+  </div>
+    <div class="panel-body">
+      <table class="col-md-12 table table-responsive interaction_properties ">
+        <tbody >
+            <tr>
+              <td colspan="2" class="no_top_border"><strong>Interactions: </strong></td>
+              <td colspan="2" class="no_top_border">
+                  <% if object.present? %>
+                    <% overall_interactions_size = (Interaction.active.where(molecule:object) +  Interaction.active.where(host:object)).uniq.size + Interaction.active.where(indicator:object).size + Interaction.active.where(conjugate:object).size %>
+                    <%= link_to overall_interactions_size, {controller: "molecules", action: 'interactions', id: object.id}, class:'badge'%>
+                  <% end %>
+              </td>
+            </tr>
+
+          <tr>
+            <td colspan="2" class="no_top_border" ><strong>PubChem TPSA/&#8491;<sup>2</sup>: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.tpsa %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border" ><strong>Ertl TPSA/&#8491;<sup>2</sup>: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.ertl_tpsa %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Hydrophilicity (PubChem XLogP): </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.x_log_p %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Hydrophilicity (Cheng XLogP3): </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.cheng_xlogp3 %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Charge: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.charge %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Number of H-Bond Donors: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.h_bond_donor_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Number of H-Bond Acceptors: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.h_bond_acceptor_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Number of Stereogenic Bonds (E/Z): </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.bond_stereo_count %> </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="no_top_border"><strong>Number of Stereogenic Atoms (R/S): </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.atom_stereo_count %> </td>
+          </tr>
+          <tr >
+            <td colspan="2" class="no_top_border"><strong>3D Volume/&#8491;<sup>3</sup>: </strong></td>
+            <td colspan="2" class="no_top_border"><%= object.volume_3d %> </td>
+          </tr>
+          <tr >
+            <td colspan="2" class="no_top_border"><strong>Sum Formula: </strong></td>
+            <td colspan="2" class="no_top_border"><%= @molecule.sum_formular %> </td>
+          </tr>
+          <tr >
+            <td colspan="2" class="no_top_border"><strong>M / g/mol: </strong></td>
+            <td colspan="2" class="no_top_border"><%= @molecule.molecular_weight %> </td>
+          </tr>
+          <tr >
+            <td colspan="2" class="no_top_border"><strong>Complexity: </strong></td>
+            <td colspan="2" class="no_top_border"><%= @molecule.complexity %> </td>
+          </tr>
+          <tr >
+            <td colspan="2" class="no_top_border"><strong>Number of Conformers: </strong></td>
+            <td colspan="2" class="no_top_border"> <%= @molecule.conformer_count_3d %> </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>

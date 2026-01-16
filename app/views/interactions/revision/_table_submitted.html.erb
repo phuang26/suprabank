@@ -1,0 +1,117 @@
+<div class="table-responsive">
+ <table class="table col-md-12" id="int-index-<%= table_id %>" data-turbolinks='false'>
+   <thead>
+     <tr>
+       <th class="col-md-2"><span data-toggle="tooltip" title="Sort by name of User">Actions / Info <%= sort_link(ranquery, :user_givenName, "")%></span ></th>
+       <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tableMolName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewMolStructure('<%= table_id %>')">
+            <%= image_tag "struc.svg", size:"17x17" %>
+          </button></th>
+       <th class="col-md-2"><span >Molecule <%= sort_link(ranquery, :molecule_preferred_abbreviation, "")%></span> </th>
+       <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tableMolStruc-<%= table_id %>" type="button" data-toggle="tooltip" title="Show names" onclick="viewMolNames('<%= table_id %>')">
+               <i class="fa fa-list" aria-hidden="true"></i>
+          </button></th>
+       <th class="col-md-2"><span >Molecule <%= sort_link(ranquery, :molecule_preferred_abbreviation, "")%></span> </th>
+       <th class="no-sort" style="text-align: right;">
+          <button class="btn btn-sm btn-primary has-tooltip " id="tablePartName-<%= table_id %>" type="button" data-toggle="tooltip" title="Show structures" onclick="viewPartStructure('<%= table_id %>')">
+             <%= image_tag "struc.svg", size:"17x17" %>
+          </button></th>
+       <th class="col-md-2"><span >Partner <%= sort_link(ranquery, :host_preferred_abbreviation, "")%></span></th>
+       <th class="no-sort" style="text-align: right;">
+            <button class="btn btn-sm btn-primary has-tooltip " id="tablePartStruc-<%= table_id %>"type="button" data-toggle="tooltip" title="Show names" onclick="viewPartNames('<%= table_id %>')">
+                 <i class="fa fa-list" aria-hidden="true"></i>
+            </button></th>
+       <th class="col-md-2" ><span >Partner <%= sort_link(ranquery, :host_preferred_abbreviation, "")%></span></th>
+       <th class="no-sort"></th>
+       <th class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="decadic logarithm of the binding constant">lg<em>K</em><sub>a</sub> </span> <%= sort_link(ranquery, :binding_constant, "")%></th>
+       <th class="col-md-1">DOI <%= sort_link(ranquery, :doi, "")%></th>
+       <th class="col-md-1">Reviewer <%= sort_link(ranquery, :reviewer_full_name, "")%></th>
+       <th class="col-md-1"><i class="fas fa-marker"></i> <%= sort_link(ranquery, :updated_at, "")%></th>
+       <th class="col-md-1"><i class="fas fa-magic"></i><%= sort_link(ranquery, :created_at, "")%></th>
+     </tr>
+   </thead>
+  <tbody>
+    <% interactions.each do |interaction| %>
+
+      <% if policy(interaction).displayable? %>
+      <tr>
+        <td class="col-md-2 tight-column">
+          <%= render "interactions/revision/tds/td_info_new", interaction:interaction %>
+        </td>
+<!-- Molecule structure button -->
+        <td class="" >
+        </td>
+
+        <td class="col-md-2">
+          <%= render "interactions/revision/tds/td_molecule_name", interaction:interaction %>
+        </td>
+<!-- Molecule name button -->
+
+        <td class="" >
+        </td>
+
+        <td class="col-md-2" style="height: 160px">
+          <%= render "interactions/revision/tds/td_molecule_structure", interaction:interaction %>
+        </td>
+<!-- Host structure button -->
+        <td class="" >
+        </td>
+
+        <td class="col-md-2">
+          <%= render "interactions/revision/tds/td_host_name", interaction:interaction %>
+        </td>
+<!-- Host name button -->
+        <td class="" >
+        </td>
+
+        <td class="col-md-2" style="height: 160px">
+          <%= render "interactions/revision/tds/td_host_structure", interaction:interaction %>
+        </td>
+
+        <td class="center">
+          <%= render "interactions/revision/tds/td_ka_range", interaction:interaction %>
+        </td>
+
+        <td class="col-md-1 center">
+            <%= render "interactions/revision/tds/td_logka", interaction:interaction %>
+        </td>
+        <td class="col-md-1">
+          <%= render "interactions/revision/tds/td_doi", interaction:interaction %>
+        </td>
+
+        <td class="col-md-2">
+          <span style="display:none;">"<%= interaction.reviewer.full_name %>"</span>
+          <%= hidden_field_tag "reviewers[][interaction_id]", interaction.id %>
+          <%= select_tag "reviewers[][reviewer_id]", options_from_collection_for_select(User.reviewers, "id", "givenName", :selected => interaction.reviewer.id), class:"dropdown"  %>
+         <%#=  collection_select :interaction, "reviewers[][reviewer_id]", User.admins, :id, :full_name, :selected => interaction.reviewer.id %>
+          <%#= select_tag "reviewers[][reviewer_id]", options_for_select(User.admins.collect{ |u| [u.full_name, u.id] }, :selected => interaction.reviewer.id)  %>
+        </td>
+        <td>
+          <%= render "interactions/revision/tds/td_updated", interaction:interaction %>
+        </td>
+        <td>
+          <%= render "interactions/revision/tds/td_created", interaction:interaction %>
+        </td>
+
+
+
+        </tr>
+      <% end %>
+      <% end %>
+
+  </tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+  window.alert = (function() {
+    var nativeAlert = window.alert;
+    return function(message) {
+        window.alert = nativeAlert;
+        message.indexOf("DataTables warning") === 0 ?
+            console.warn(message) :
+            nativeAlert(message);
+    }
+  })();
+</script>

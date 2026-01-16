@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= @title.present? ? @title : "SupraBank"%></title>
+    <meta name="description" content="<%= @meta_description %>">
+    <meta property="og:url" content="<%= @meta_og_url %>">
+    <meta property="og:title" content="<%= @meta_title %>">
+    <meta property="og:image" content="<%= image_url(@meta_image) %>">
+    <meta property="og:description" content="<%= @meta_description %>" >
+    <meta name="twitter:title" content="<%= @meta_title %>">
+    <meta name="twitter:image" content="<%= image_url(@meta_image) %>">
+    <meta property="og:site_name" content="SupraBank" >
+    <meta property="og:type" content="website" >
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@supra_back">
+    <meta name="twitter:creator" content="@supra_back">
+    <% if content_for?(:head) %>
+    <%= yield(:head) %>
+    <% end %>
+
+
+
+    <%= csrf_meta_tags %>
+    <%#= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+    <%#= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%#= stylesheet_link_tag "https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" %>
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <!-- Size should be 144 x 144 pixels -->
+    <%#= favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144' %>
+
+    <!-- For iPhone with high-resolution Retina display: -->
+    <!-- Size should be 114 x 114 pixels -->
+    <%#= favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114' %>
+
+    <!-- For first- and second-generation iPad: -->
+    <!-- Size should be 72 x 72 pixels -->
+    <%#= favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72' %>
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <!-- Size should be 57 x 57 pixels -->
+    <%#= favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
+
+    <!-- For all other devices -->
+    <!-- Size should be 32 x 32 pixels -->
+    <%= favicon_link_tag "favicon.ico", :rel => 'shortcut icon' %>
+    <%= javascript_include_tag "application" %>
+    <!-- <script async defer data-domain="suprabank.org" src="/plausible.js"></script> -->
+    <script async defer data-domain="suprabank.org" src="https://suprabank.org/plausible.js"></script>
+
+    <!-- End Cheneditor Code -->
+  </head>
+  <body>
+
+    <div id="page-container" class="" >
+      <%= render 'layouts/navbar_top' %>
+      <div id="content-wrap" class="container widerscreens">
+        <div class="row">
+          
+            <%= bootstrap_flash %>
+            <%= yield %>
+            <%= javascript_include_tag "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js", "data-turbolinks-track" => true, defer:true  %>
+
+          
+        </div><!--/row-->
+      </div> <!-- /container -->
+      <div id='footer' class="footer">
+      <%= render 'layouts/navbar_bottom' %>
+      </div>
+    </div>
+
+  </body>
+
+
+</html>

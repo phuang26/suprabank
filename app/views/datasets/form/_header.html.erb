@@ -1,0 +1,18 @@
+<div class="well col-md-12">
+  <p>Your preliminary DOI* is <%= @dataset.identifier %>. You dataset will only be registered, not yet published.</p>
+
+  <dl class="">
+    <dt><strong>Your preliminary DOI:</strong></dt>
+    <dd><%= @dataset.identifier %></dd>
+    <dt><strong>Publisher*:</strong></dt>
+    <dd><%= @dataset.publisher %> in <%= @dataset.publicationYear %></dd>
+    <dt><strong>ResourceType*:</strong></dt>
+    <dd><%= @dataset.resourceTypeGeneral %>/<%= @dataset.resourceType %></dd>
+    <dd><%= @dataset.language %></dd>
+  <dd>  <%= @dataset.descriptionType %></dd>
+    <dd><%= @dataset.relatedIdentifierType %></dd>
+    <dd><%= @dataset.relationType %></dd>
+    <dd><%= @dataset.size %></dd>
+
+  </dl>
+</div>

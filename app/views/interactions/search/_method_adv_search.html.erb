@@ -1,0 +1,17 @@
+
+<div class="form-group row">
+   <div class="col-md-3" style="text-align:left;">
+      <%= label_tag 'assayAdvSearch',"Assay".html_safe,  class: "alignLabel" %>
+   </div>
+   <div class="col-md-9">
+      <%= text_field_tag :assay_type_param, params[:assay_type_param], placeholder: "DBA, CBA, ABA", autofocus: true, class: "form-control search-box searchfield", data: {autocomplete_source: query_assay_type_interactions_path } %>
+   </div>
+</div>
+<div class="form-group row">
+   <div class="col-md-3" style="text-align:left;">
+     <%= label_tag 'techniqueAdvSearch',"Technique".html_safe,  class: "alignLabel" %>
+   </div>
+   <div class="col-md-9">
+     <%= text_field_tag :technique_param, params[:technique_param], placeholder: "NMR, FL, ITC ...", autofocus: true, class: "form-control search-box searchfield", data: {autocomplete_source: query_technique_interactions_path }  %>
+   </div>
+</div>

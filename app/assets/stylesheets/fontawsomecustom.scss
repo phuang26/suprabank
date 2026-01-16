@@ -1,0 +1,64 @@
+$submitted: #428bca;
+$pending: #f0ad4e;
+$embargoed: #a94442;
+$accepted: #5cb85c;
+
+i.fas.fa-check-square {
+  color: green;
+}
+
+i.fas.fa-square {
+  color: red;
+}
+
+i.fa.fa-circle.pending {
+  color: $pending;
+}
+i.fa.fa-circle.submitted {
+  color: $submitted;
+}
+i.fa.fa-circle.accepted {
+  color: $accepted
+}
+i.fa.fa-circle.created {
+  color: $embargoed
+}
+
+i.fa.fa-check-circle {
+  color: green;
+}
+
+i.fa.fa-times-circle-o {
+  color: red;
+}
+
+i.fas.fa-tint.aqueous {
+  color: cornflowerblue;
+}
+
+i.fas.fa-tint.organic {
+  color: firebrick;
+}
+
+.young {
+  color: $accepted
+}
+
+.old {
+  color: $embargoed
+}
+
+.adult {
+  color: $pending
+}
+
+.svg-warning {
+  max-height: 1em;
+  width: auto;
+  filter: invert(49%) sepia(6%) saturate(3622%) hue-rotate(359deg) brightness(86%) contrast(81%);
+}
+
+.svg-structure {
+  max-height: 1em;
+  width: auto;
+}

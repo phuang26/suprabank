@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <%= stylesheet_link_tag ENV['MAILERCSS'] %>
+    <title></title>
+  </head>
+  <body>
+    <%= yield %>
+    <p>Best regards</p>
+    <p>Your SupraBank team</p>
+    ---
+    <p><strong>SupraBank</strong> - <em>A scientific resource for supramolecular interactions!</em> </p>
+    <a href="mailto:contact@suprabank.org"  class="text-info" style="color: cadetblue !important;">contact@suprabank.org </a>
+  </body>
+</html>

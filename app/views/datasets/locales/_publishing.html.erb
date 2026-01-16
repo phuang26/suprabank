@@ -1,0 +1,108 @@
+<%- model_class = Dataset -%>
+<div class="panel panel-info" id="dataset_panel_publishing">
+  <div class="panel-heading">
+    <h4 class="panel-title">Publishing</h4>
+  </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal lefty_list">
+      <dt><strong>Licence:</strong></dt>
+      <dd>
+        <%= image_tag "logos/cc.svg", size:"36x36" %>
+        <% if @dataset.rightsIdentifier == "cc-by-sa-4.0"%>
+          <%= image_tag "logos/cc-by-4.0.svg", size:"36x36" %>
+        <% end %>
+        <%= image_tag "logos/#{@dataset.rightsIdentifier}.svg", size:"36x36" %>
+        <%= link_to @dataset.rights, @dataset.rightsURI, target: :_blank %>
+        <hr class='dataset-ruler'>
+         &#x2022; Others may use and mix this data
+        <br>
+         <%= "&#x2022; Others must cite this dataset".html_safe if (@dataset.rightsIdentifier == "cc-by-sa-4.0" || @dataset.rightsIdentifier == "cc-by-4.0") %>
+         <%= "<br> &#x2022; Others must must use CC-BY-SA".html_safe if (@dataset.rightsIdentifier == "cc-by-sa-4.0") %>
+
+      </dd>
+      <hr>
+      <dt> <a href="https://support.datacite.org/docs/doi-states" target="_blank" id="state"><strong>Dataset State:</strong></a></dt>
+      <dd>
+        <span class="label <%= @dataset.state %>"><strong><i class="fas fa-database"></i> <%= @dataset.state.capitalize %></strong></span>
+        <% if @dataset.state == "draft" %>
+        <span>
+          <strong> Your Dataset DOI ist not registered at DataCite and cannot be resolved. You can still delete.</strong>
+        <% elsif @dataset.state == "registered" %>
+          <strong> Your Dataset DOI ist registered at DataCite and can be resolved, but not indexed and thus not be found by DataCite's search engine.</strong>
+        <% elsif @dataset.state == "findable" %>
+          <strong> Your Dataset DOI ist registered at DataCite, can be resolved, is indexed and thus can be found by DataCite's search engine. You can revert this state to registered. </strong>
+        <% end %>
+        </span>
+      </dd>
+      <% if false %>
+        <dt>
+          <strong>Article State:</strong>  
+        </dt>
+        <dd>
+          <span class="label label-warning"><i class="fas fa-scroll"></i> <strong><%= @dataset.scholarArticleState.humanize.titleize %></strong></span>
+          <span>Some text</span>
+        </dd>
+        
+      <% end %>
+    </dl>
+  </div>
+    <div class="panel-footer">
+
+    <span class="btn btn-md btn-black pull-right close-guide" id="close_guide_publishing_show">Close Guide</span>
+    <%= link_to  "Further Assistance", glossary_url(anchor:'publishing_suprabank'), target: :_blank,class:"btn btn-md btn-primary pull-right continue-guide", id:"further_assistance_guide" %>
+    
+          <%= form_tag update_state_datasets_path, method: :put do %>
+            <% if policy(@dataset).user_edit? %>
+              <% if @dataset.state == "draft" %>
+              <% if policy(@dataset).self_revision? %>
+                
+                <p>Currently you are not allowed to register a dataset. soon this will be available again for you.</p>
+              <% else %>
+                <% if (@dataset.interactions.count > 0) %>
+                  <%= submit_tag "Register Dataset", :class => 'btn btn-warning', id:"register_dataset", data:{:confirm => "Are you sure? Leaving the Draft state ist final"}%>
+                <% else %>
+                  <button class="btn btn-warning has-tooltip btn-disabled" id="register_dataset" type="button" data-toggle="tooltip" title="Please add first some interactions." >
+                  Register Dataset
+                </button>
+                <% end %>
+              <% end %>
+                  <br>
+                <strong>You will register this dataset at DataCite making the DOI resolvable, but not findable with the DataCite search. People knowing the DOI will get to this dataset. Use this when you think you completed the dataset and want to include the DOI in your manuscript for submission. You CANNOT revert the state to "draft". In registered state dataset deletion is only possible on request. </strong>
+                <hr>
+                <%= link_to "Delete Dataset",
+                dataset_path(@dataset),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %><br>
+                <strong>You will delete this dataset, the included interactions will remain unaffected. This option is only available in "draft" state. </strong>
+              <% elsif @dataset.state == "registered" #&& policy(@dataset).self_revision_publish? %>
+                <%= submit_tag "Publish Dataset", :class => 'btn btn-success', id:"publish_dataset" , data: {:confirm => "Are you sure?"}%><br>
+                <strong>You make your dataset findable bei indexing it at DataCite. Other scientists can find and reuse your data. Do this after your manuscript was accepted and published. This step con only be reverted upon a justified request at the SupraBank staff. No further changes nor deletions to the dataset will be possible. </strong>
+              <% end %>
+
+            <% end %>
+                <% if policy(@dataset).rescue? %>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <span class="btn btn-xs btn-danger" data-toggle="collapse" data-target="#adminPowers" aria-expanded="false" aria-controls="adminPowers">
+                          <i class="fab fa-superpowers"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row"><br></div>
+                    <div class="row">
+                      <div class="col-md-12 collapse" id="adminPowers">
+                        <%= submit_tag "Revert to Registered", :class => 'btn btn-primary' , data: {:confirm => "Are you sure?"}%><br>
+                        <strong>You are an Admin with certain responsibilities! </strong>
+                        <strong>You are reverting this dataset to a "registered" state, making the DOI not findable anymore. </strong>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <%= hidden_field_tag "id", @dataset.id %>
+          <% end %>
+          
+    </div>
+
+</div>

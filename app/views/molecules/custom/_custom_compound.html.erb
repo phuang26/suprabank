@@ -1,0 +1,168 @@
+<%= simple_form_for @molecule, :html => { :class => "form-horizontal molecule" } do |f| %>
+
+<div class="form-group">
+    <div class="col-md-4 ">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="col-md-12 ">
+            <div class="row-fluid ">
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="A chemically well defined structure such as a small molecule (tryptophan) or a macrocycle (cyclodextrin). SMILES needed.">
+                <label class="radio-inline control-label" ><%= f.radio_button :molecule_type, 'compound', class:"molecule-type" %><span></span> Molecule
+                </label>
+              </span>
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="">
+                <label class="radio-inline control-label"  ><%= f.radio_button :molecule_type, 'protein', class:"molecule-type" %><span></span> Protein
+                </label>
+              </span>
+              <span class="has-tooltip col-md-3" data-toggle="tooltip" title="">
+                <label class="radio-inline control-label" ><%= f.radio_button :molecule_type, 'framework', class:"molecule-type" %><span></span> Framework
+                </label>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <% end %>
+<div id="custom_compound"></div>
+
+
+
+<script>
+  $(document).on('ready turbolinks:load', function() {
+    $('.molecule-type').click(function() {
+      switch ($('.molecule-type:checked').val()) {
+        case 'compound':
+          console.log("it's a compound")
+          $('#custom_compound').html("<%= escape_javascript(render :partial => 'molecules/custom/custom_molecule') %>");
+          $("#molecule_iso_smiles").on('input', function(){
+            var smiles = $(this).val();
+            requestSMILES(smiles);
+          });
+           $(document)
+            .ajaxStart(function () {
+              $('.loader').show();
+            })
+            .ajaxComplete(function () {
+              $('.loader').hide();
+            });
+          break;
+        case 'protein':
+          console.log("it's a protein")
+          $('#custom_compound').html("<%= escape_javascript(render :partial => 'molecules/custom/custom_pdb') %>");
+          $('.loader').hide();
+          $(document)
+            .ajaxStart(function () {
+              $('.loader').show();
+            })
+            .ajaxComplete(function () {
+              $('.loader').hide();
+            });
+          $("#searchPDBId").click(function(){
+            console.log("hello")
+            var pdb_id = $('#pdb_id').val();
+            requestPDB(pdb_id);
+          });
+          break;
+        case 'framework':
+          console.log("it's a framework")
+          $('#custom_compound').html("<%= escape_javascript(render :partial => 'molecules/custom/custom_framework') %>");
+          frameworkAutoComplete('#framework_molecule_framework_code')
+          additiveAutoComplete('#framework_molecule_additive')
+          $('.loader').hide();
+          $(document)
+            .ajaxStart(function () {
+              $('.loader').show();
+            })
+            .ajaxComplete(function () {
+              $('.loader').hide();
+            });
+          break;
+        
+        default:
+          break;
+      }
+    })
+  });
+
+
+
+
+
+
+
+
+
+function frameworkAutoComplete(input) {
+  $(input).autocomplete({
+    source: $(input).data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( input ).val( ui.item[0] );
+      $('#framework_id').val(ui.item[4]);
+      previewFramework(ui.item[4])
+      return false;
+    },
+    response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+      if (ui.content.length === 0) {
+        $("#empty_message_framework").html("<%= escape_javascript(render 'interactions/autocomplete/response_frameworks', molecule:'Framework') %>");
+      } else {
+        $("#empty_message_framework").empty();
+      }
+    }
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+      .appendTo( ul );
+    };
+};
+
+function additiveAutoComplete(input) {
+  $(input).autocomplete({
+    source: $(input).data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( input ).val( ui.item[1] );
+      $('#additive_id').val(ui.item[3]);
+      // previewFramework(ui.item[4])
+      return false;
+    },
+    response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+      if (ui.content.length === 0) {
+        $("#empty_message_additive").html("<%= escape_javascript(render 'interactions/autocomplete/response_additive', molecule:'Additive') %>");
+      } else {
+        $("#empty_message_additive").empty();
+      }
+    }
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+      .appendTo( ul );
+    };
+};
+
+function frameworkPrepopulation() {
+    $( "#molecule_display_name" ).val(<%= @molecule&.display_name %>);
+    $( "#framework_molecule_framework_code" ).val("<%= @molecule&.framework&.code %>");
+    $( "#framework_molecule_si_al_ratio" ).val("<%= @molecule&.framework_molecule&.si_al_ratio %>");
+    $( "#framework_molecule_additive" ).val("<%= @molecule&.framework_molecule&.additives&.first&.display_name %>");
+  }
+
+
+
+
+$(document).on('ready turbolinks:load', function(){
+  frameworkPrepopulation()
+  $(document).ajaxComplete(function(){
+    $('.loader').hide();
+    $('#cidloader').hide();
+    $('#turboloader').hide();
+});
+  
+});
+
+</script>

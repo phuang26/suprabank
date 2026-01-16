@@ -1,0 +1,21 @@
+<div class="navbar navbar-inverse navbar-default footer-text">
+  <hr>
+  <div class="navbar-header">
+    <span class="has-tooltip" data-toggle="tooltip" title="Funded by the DFG"><%= link_to (image_tag "logos/dfg-en_h40.png", class: "img-rounded nav-bottom-img"), "https://www.dfg.de/", target: :_blank, "rel" => "noopener noreferrer" %></span>
+    <span class="has-tooltip" data-toggle="tooltip" title="Hosted by the KIT"><%= link_to (image_tag "logos/Logo_KIT_h40.png", class: "img-rounded nav-bottom-img"), "https://www.kit.edu/", target: :_blank, "rel" => "noopener noreferrer" %></span>
+    <span class="has-tooltip" data-toggle="tooltip" title="Project of the NFDI"><%= link_to (image_tag "logos/NFDI4Chem-Logo-new_h40.png", class: "img-rounded nav-logo"), "https://www.nfdi4chem.de", target: :_blank, "rel" => "noopener noreferrer" %></span>
+    <button class="navbar-toggler responsiveMenuButton btn-primary pull-right" style="margin: 4px" type="button" data-toggle="collapse" data-target="#navbarRespBottomContent" aria-controls="navbarResponsiveContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden= "true"></i></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse" id="navbarRespBottomContent">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="https://www.int.kit.edu" target="_blank" rel="noopener noreferrer" > developed at the Institute of Nanotechnology</a></li>
+      <li><%= link_to "Legal", legal_path  %></li>
+      <li><%= link_to "Privacy", privacy_path  %></li>
+      <li><%= link_to "Terms of Service", terms_of_service_path  %></li>
+      <li><%= link_to "About Us", about_us_path  %></li>
+      <li><%= link_to "Contributors", groups_path %></li>
+    </ul>
+  </div>
+</div>

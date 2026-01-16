@@ -1,0 +1,32 @@
+<div class="table-responsive">
+  <table class="table determination_specification">
+    <tbody>
+
+      <tr>
+        <td class="no_top_border col-md-8"> <strong >Solvent</strong> </td>
+        <td class="no_top_border col-md-4"> <strong >Vol %</strong> </td>
+
+      </tr>
+      <% number = 0 %>
+      <% for intsol in object.buffer_solvents do %>
+      <% if intsol.solvent.present? %>
+      <tr>
+
+        <td class="col-md-2 ">
+          <%= intsol.solvent.preferred_abbreviation.present? ? intsol.solvent.preferred_abbreviation.truncate(18) : intsol.solvent.display_name.truncate(18) %>
+
+        </td>
+        <% if intsol.volume_percent.present? %>
+        <td class="col-md-2">
+          <%= intsol.volume_percent %>
+        </td>
+        <% end %>
+      </tr>
+      <% number = number+1 %>
+      <% end %>
+      <% end %>
+
+
+    </tbody>
+  </table>
+</div>

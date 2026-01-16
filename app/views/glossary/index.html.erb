@@ -1,0 +1,88 @@
+  
+<div class="glossary_page">
+  <%= render 'page_header' %>
+  <article>
+    <div class="all-questions">
+      <hr>
+      <div class="container-fluid">
+        <%= render 'host_guest_chemistry' %>
+        <%= render 'protein_ligand_binding' %>
+        <%= render 'artificial_host_systems' %>
+        <%= render 'hgc_refs' %>
+      </div>
+      <hr>
+      <div class="container-fluid">
+        <div class="row"><%= render 'assay_type' %></div>
+        <div class="row"><%= render 'direct_binding_assay' %></div>
+        <div class="row"><%= render 'associative_binding_assay' %></div>
+        <div class="row"><%= render 'competitive_binding_assay' %></div>
+        <div class="row"><%= render 'at_refs' %></div>
+      </div>
+      <hr>
+      <div class="container-fluid">
+        <div class="row">
+          <h3 id="techniques" class="level1">Techniques</h3>
+        </div>
+        <div class="row"><%= render 'itc' %></div>
+        <div class="row"><%= render 'nmr' %></div>
+        <div class="row"><%= render 'photophysics' %></div>
+        <div class="row"><%= render 'absorption_spectroscopy' %></div>
+        <div class="row"><%= render 'fluorescence_spectroscopy' %></div>
+        <div class="row"><%= render 'cd_spectroscopy' %></div>
+        <div class="row"><%= render 'sers' %></div>
+        <div class="row"><%= render 'extraction' %></div>
+        <div class="row"><%= render 'potentiometry' %></div>
+        <div class="row"><%= render 'epr' %></div>
+        <div class="row"><%= render 'tec_refs' %></div>
+      </div>
+      <hr>
+      <%= render 'thermodynamics_kinetics' %>
+      <h3 id="TD" class="level2">Thermodynamics: binding affinity</h3>
+      <%= render 'binding_constant' %>
+      <%= render 'stoichometry' %>
+      <%= render 'binding_energy' %>
+      <%= render 'kinetics_reaction_rate' %>
+      <%= render 'rate_constant' %>
+      <%= render 'simulations' %>
+    </div>
+    <div class="container-fluid">
+      <%= render 'rdm' %>
+      <%= render 'publishing_suprabank' %>
+    </div>
+  </article>
+</div>
+<script type="text/javascript">
+  $(function () {
+    var ToC = "<nav role='navigation' class='table-of-contents'><h2>Table of Contents</h2><ul class='toc'>";
+  
+    var newLine,
+      el,
+      title,
+      link,
+      klasse;
+  
+    $("article h3").each(function () {
+  
+      el = $(this);
+      title = el.text();
+      link = "#" + el.attr("id");
+      klasse = el.attr("class");
+  
+      newLine = "<li class = 'toc_item'><a class='" + klasse + "'href='" + link + "'>" + title + "</a></li>";
+  
+      ToC += newLine;
+  
+    });
+  
+    ToC += "</ul></nav>";
+  
+    $(".all-questions").prepend(ToC);
+  });
+  
+  $(document).ready(function () {
+    $('p').addClass("col-xs-12")
+    if (window.location.hash.length > 0) {
+      window.scrollTo(0, $(window.location.hash).offset().top - 60);
+    }
+  });
+</script>

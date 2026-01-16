@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <div class="row">
+    <h1>SupraBank Weekly Report of <%= ENV["LOGOENV"] %> | <%= ENV["ENVHOST"]  %> </h1>
+    <p class="alert alert-info">
+      Report of <strong><%= @date %></strong>
+    </p>
+  </div>
+  <%= render 'report_body' %>
+</div>

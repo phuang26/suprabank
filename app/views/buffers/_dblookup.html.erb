@@ -1,0 +1,47 @@
+
+<div class="col-md-12" id="buffer-dblookup">
+  <%= form_tag dbsearch_buffers_path, remote: true, method: :get, id: "buffer-dblookup-form" do %>
+  <div class="form-group row ">
+    <div class="col-md-1">
+        <%= label_tag 'nameBufSearch',"Name".html_safe, class: "alignLabel"%>
+    </div>
+    <div class="col-md-7">
+      <%= text_field_tag :search_param, params[:search_param], placeholder: "Enter (part of) buffer name, e.g. phosphate", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1">
+      <div id='turboloader'>
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+      <div class="col-md-3">
+      <%= button_tag(type: :submit, name:"searchBufferButton", class: "btn btn-success btn-lg search_button", onclick: "showLoader('turbo')") do %>
+        <%= image_tag "logo-notext-noshadow-white.svg", class:"svg-logo-button"%> Search
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-1" style="text-align:left; ">
+        <%= label_tag 'pHBufSearch',"pH".html_safe, class: "alignLabel"%>
+    </div>
+    <div class="col-md-3">
+      <%= text_field_tag :pH_param, params[:pH_param], placeholder: "pH value", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1" style="text-align:left; ">
+        <%= label_tag 'concBufSearch',"Conc/mM".html_safe, class: "alignLabel"%>
+    </div>
+    <div class="col-md-3">
+      <%= text_field_tag :conc_param, params[:conc_param], placeholder: "total concentration in mM", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+  </div>
+
+  <% end %>
+
+  <div class="container col-md-12" id='dbresults'>
+
+  </div>
+
+</div>

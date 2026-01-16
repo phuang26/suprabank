@@ -1,0 +1,37 @@
+<tr>
+  <td class="no_top_border col-md-6"> <strong >Additive</strong> </td>
+  <td class="no_top_border col-md-6"> <strong >Concentration</strong> </td>
+</tr>
+
+<% if object.buffer_additives.present? %>
+  <% number = 0 %>
+  <% for intsol in object.buffer_additives do %>
+  <% if intsol.additive.present? %>
+  <tr>
+
+    <td class="col-md-2">
+      <span class="has-js-popover" data-toggle="popover" title="Structure"
+      data-content='
+      <div class="">
+        <% if intsol.additive.present? %>
+        <%= image_tag intsol.additive.png_url, size: "250x250"%>
+        <% end %>
+      </div>
+      ' >
+      <% if intsol.additive %>
+        <span class="has-tooltip" data-toggle="tooltip" title="<%= intsol.additive.display_name if intsol.additive.display_name.present? %>">
+          <%= intsol.additive.preferred_abbreviation.present? ? intsol.additive.preferred_abbreviation.truncate(18) : intsol.additive.display_name.truncate(18) %>
+        </span>
+      <% end %>
+    </span>
+    </td>
+    <% if intsol.concentration.present? %>
+      <td class="col-md-2">
+        <span class="has-tooltip" data-toggle="tooltip" title="Concentration of Additive"><%= intsol.concentration %> mM</span>
+      </td>
+    <% end %>
+  </tr>
+  <% number = number+1 %>
+  <% end %>
+  <% end %>
+<% end %>

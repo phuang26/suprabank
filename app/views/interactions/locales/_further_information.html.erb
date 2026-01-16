@@ -1,0 +1,92 @@
+<div class="container-flex">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active interaction-citation ">
+          <a href="#determination_info" data-toggle="tab" class="cooperator-tab">
+            <h6>
+              <strong>Determination <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong>
+            </h6>
+          </a>
+        </li>
+        <li role="presentation" class="interaction-citation ">
+          <a href="#solvation_info" data-toggle="tab" class="cooperator-tab">
+            <h6>
+              <strong>Solvation <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong>
+            </h6>
+          </a>
+        </li>
+        <li role="presentation" class="interaction-citation ">
+          <a href="#datasets_info" data-toggle="tab" class="cooperator-tab">
+            <h6>
+              <strong>Datasets <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong>
+            </h6>
+          </a>
+        </li>
+        <% if @interaction.related_identifier.present? %>
+        <li role="presentation" class="interaction-citation">
+          <a href="#literature_info" data-toggle="tab" class="cooperator-tab">
+            <h6>
+              <strong>Literature <i class="fas fa-arrow-alt-circle-down fa-lg"></i></strong>
+            </h6>
+          </a>
+        </li>
+        <% end %>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="determination_info">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              These are the specifications of the determination of the experimental results.
+            </div>
+            <div class="panel-body panel-cooperator input_fields_wrap_creator">
+              <%= render "interactions/locales/determination_specification" %>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade in" id="solvation_info">
+          <div class="tab-pane fade in active" >
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Detailed information about the solvation.
+              </div>
+              <div class="panel-body panel-cooperator input_fields_wrap_creator">
+                <%= render "interactions/locales/solvation_properties" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="datasets_info">
+          <div class="tab-pane fade in active" >
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Please find here information about the dataset this interaction is part of.
+              </div>
+              <div class="panel-body panel-cooperator input_fields_wrap_creator">
+                <% if @interaction.datasets.present? %>
+                  <%= render "interactions/locales/datasets_locale", dataset:@interaction.dataset %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+          <% if @interaction.related_identifier.present? %>
+          <div class="tab-pane fade" id="literature_info">
+            <div class="tab-pane fade in active">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  Please find here information about the scholarly article describing the results derived from that data.
+                </div>
+                <div class="panel-body panel-cooperator input_fields_wrap_contributor">
+                  <%= render "interactions/locales/literature_locale", literature:@interaction.related_identifier %>
+                </div>
+              </div>
+            </div>
+          </div>
+            <% end %>
+            <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>

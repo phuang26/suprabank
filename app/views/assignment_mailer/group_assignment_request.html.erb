@@ -1,0 +1,92 @@
+<p>Dear Admin </p>
+<p><strong><%= @user.full_name %></strong> is requesting to be a <strong> <%= @assignment.desired_role %> </strong>
+
+<% if @desired_group.present? %>
+of the <strong><%= @desired_group.name %></strong> </p>
+<% else %>
+of a new group he wants to create.
+<% end %>
+Here are some information to evaluate the request.
+
+<table class="table text-center" style="width: 50%">
+  <caption>User Information about <strong><%= @user.full_name %></strong></caption>
+  <thead>
+    <tr>
+      <th style="text-align: center; "></th>
+      <th style="text-align: center; ">Information</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= @user.email %></td>
+  </tr>
+
+  <tr>
+    <td><strong>ORCID:</strong></td>
+    <td><%= link_to @user.nameIdentifier, user_url(@user)%></td>
+  </tr>
+
+  <tr>
+    <td><strong>URL:</strong></td>
+    <td><%= @user.url %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Affiliation:</strong></td>
+    <td><%= @user.affiliation %></td>
+  </tr>
+
+  <tr>
+    <td><strong>ROR ID:</strong></td>
+    <td><%= @user.affiliationIdentifier %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Current Role:</strong></td>
+    <td><%= @assignment.role %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Current Group:</strong></td>
+    <td><%= @assignment.group_name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Desired Role:</strong></td>
+    <td><%= @assignment.desired_role %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Desired Group:</strong></td>
+    <td><%= @desired_group.present? ? @desired_group.name : "new Group to be created" %></td>
+  </tr>
+</tbody>
+</table>
+
+<hr>
+<% if @desired_group.present? %>
+<table class="table text-center" style="width: 50%">
+  <caption>Group Information about <strong><%= @assignment.desired_group.name %></strong></caption>
+  <thead>
+    <tr>
+      <th style="text-align: center; ">User</th>
+      <th style="text-align: center; ">User Role</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <% for user in @desired_group.users.sort_by{|word| word.role } %>
+  <tr>
+    <td><%= link_to user.full_name, user_url(user) %> </td>
+    <td><%= user.role %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+<% end %>
+
+
+<p>Click this link to confirm the request: <strong ><%= link_to "Confirmation Link", confirm_group_assignment_url(@assignment.confirmation_token, host:ENV['ENVHOST'], port:ENV['ENVPORT']) ,style:"color: #5cb85c !important;"%></strong></p>
+<p>Click this link to decline the request: <strong ><%= link_to "Rejection Link", decline_group_assignment_url(@assignment.confirmation_token, host:ENV['ENVHOST'], port:ENV['ENVPORT']), style:"color: #a94442 !important;" %></strong></p>

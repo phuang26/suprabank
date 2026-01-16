@@ -1,0 +1,4 @@
+<span class="has-tooltip" data-toggle="left-tooltip" title="Updated at: <%= interaction.updated_at.strftime("%d. %B %Y") %>">
+  <span style="display:none"><%= interaction.updated_at.strftime("%Y/%m/%d") %></span>
+  <i class="fas fa-marker <%= interaction.ripeness %>"></i>
+</span>

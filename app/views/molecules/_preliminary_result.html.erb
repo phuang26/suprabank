@@ -1,0 +1,56 @@
+<% if params[:action] == 'pubchem_request' %>
+<div class="container-flex">
+  <div class="row">
+    <div class="col-sm-9">
+      <%= bootstrap_flash %>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% if @molecule  %>
+<hr>
+    <div class="container-flex col-md-12" id="preliminary_result">
+
+            <div class="row">
+              <h4>We have found the following molecule on
+                <%= link_to (image_tag("logos/pubchem_logo.svg", size: "150x38")), @molecule.pubchem_link, target: :_blank %>
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <dl>
+                  <dt>CID:</dt>
+                  <dd>
+                    <%= @molecule.cid %>
+                  </dd>
+                  <dt>Molecular Weight:</dt>
+                  <dd>
+                    <%= @molecule.molecular_weight %> g/mol
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <%= image_tag  @molecule.preferred_abbreviation , size: "200x200"%>
+              </div>
+            </div>
+            <div class="row decision-buttons">
+
+            <p><b>Please verify if this is your desired compound.</b></p>
+
+            <%= hidden_field_tag @molecule.id %>
+            <button type="button" name="button" class="btn btn-primary" id="reject_button">No (will reject this molecule)</button>
+            <%= link_to "Yes (will retrieve full record)", pubchem_full_record_molecules_path(:cid => @molecule.cid), remote: true, class:"btn btn-warning", style:"margin-right: 20px;"%>
+            </div>
+          </div>
+
+
+
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $('#reject_button').click(function(){
+      $('#preliminary_result').hide()
+    });
+  });
+</script>

@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 dataset-form-panel">
+      <div class="" id="title_form">
+        <label for="" class="bootstrap-label">Title*</label>
+        <%= f.input :title, :placeholder =>"Please provide a unique title for your dataset.", label: false %>
+      </div>
+      <div class="" id="description_form">
+        <label for="" class="bootstrap-label">Description</label>
+        <%= f.input :description, :placeholder =>"First update your dataset with a valid doi, see if SupraBank's magic can help and check afterwards. ", label: false %>
+      </div>
+      <div class="" id="subject_form">
+        <label for="" class="bootstrap-label subject-label">Subjects</label>
+        <%= f.text_field :subject_list, value:nil, :class => 'form-control', data: {load: @dataset.subjects.to_json}, label: false %>
+      </div>
+    </div>
+  </div>
+<hr>
+</div>
+
+<script type="text/javascript">
+  function truncateTagLists() {
+    $("ul.token-input-list-facebook").each(function(index) {
+      if (index > 0) {
+        console.log(index)
+        $(this).remove()
+      }
+    });
+  }
+
+  $(document).on('turbolinks:load', function () {
+
+      $("#dataset_subject_list").tokenInput("/datasets/query_subjects.json", {
+              theme: "facebook",
+              tokenValue: "name",
+              allowFreeTagging: true,
+              allowCreation: true,
+              creationText: 'Add new element',
+              placeholder: 'Please provide some subjects (keywords) explaining your research data.',
+              hintText: 'Enter new subjects by typing and hitting ENTER',
+             prePopulate: $('#dataset_subject_list').data('load')
+           });
+     truncateTagLists()
+
+  });
+</script>

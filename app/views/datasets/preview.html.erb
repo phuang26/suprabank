@@ -1,0 +1,66 @@
+<%- model_class = Dataset -%>
+<%= render 'datasets/locales/metatags' %>
+
+<div class="page-header container">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %> <%= link_to "All Datasets",
+  datasets_path, :class => 'btn btn-default'  %></h1>
+
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <%= render 'datasets/preview/metadata' %>
+  </div>
+  <div class="row">
+    <%= render 'datasets/preview/included_interactions' %>
+    
+  </div>
+</div>
+<div class="container">
+    <div id="modal-window" class="modal fade in " role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+</div>
+
+
+
+
+<% if false %>
+  <div class="input_fields_wrap row">
+      <input type="text" name="familyName[]" class="col-md-6" placeholder="familyName">
+      <input type="text" name="givenName[]" class="col-md-6" placeholder="givenName">
+      <button class="add_field_button">Add More Fields</button>
+  </div>
+
+
+
+
+<div class="well col-md-12 add_interactions_well">
+  <h4 class="center"><u>Add Interactions</u></h4>
+  <%= render "add_interactions", dataset:@dataset %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+
+
+  $(function () {
+    var dataset_id = <%= @dataset.id %>
+    $("#button_update_dois").on('click', function () {
+      updateInteractionDOIs(dataset_id);
+    });
+  });
+
+
+
+  $(function () {
+    var $loading = $('#update_doi_loader').hide()
+
+    $(document).ajaxStart(function () {
+      $loading.show();
+    }).ajaxStop(function () {
+      $loading.hide();
+    });
+  })
+
+
+</script>

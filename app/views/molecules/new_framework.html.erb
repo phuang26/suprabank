@@ -1,0 +1,87 @@
+<div class="page-header normalWidthOnLargeScreens">
+  <h1>Create a framework</h1>
+</div>
+<div class="row col-md-12 normalWidthOnLargeScreens">
+  <div>
+    <%= render 'molecules/custom/custom_framework' %>
+  </div>
+</div>
+
+<script>
+
+
+function frameworkAutoComplete(input) {
+  $(input).autocomplete({
+    source: $(input).data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( input ).val( ui.item[0] );
+      $('#framework_id').val(ui.item[4]);
+      previewFramework(ui.item[4])
+      return false;
+    },
+    response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+      if (ui.content.length === 0) {
+        $("#empty_message_framework").html("<%= escape_javascript(render 'interactions/autocomplete/response_frameworks', molecule:'Framework') %>");
+      } else {
+        $("#empty_message_framework").empty();
+      }
+    }
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+      .appendTo( ul );
+    };
+};
+
+function additiveAutoComplete(input) {
+  $(input).autocomplete({
+    source: $(input).data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( input ).val( ui.item[1] );
+      $('#additive_id').val(ui.item[3]);
+      // previewFramework(ui.item[4])
+      return false;
+    },
+    response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+      if (ui.content.length === 0) {
+        $("#empty_message_additive").html("<%= escape_javascript(render 'interactions/autocomplete/response_additive', molecule:'Additive') %>");
+      } else {
+        $("#empty_message_additive").empty();
+      }
+    }
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well container-fluid center' >" + item[0].substring(0, 20) + "<br> <div class='center previewDiv'>" + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  "</div>" )
+      .appendTo( ul );
+    };
+};
+
+function frameworkPrepopulation() {
+    $( "#molecule_display_name" ).val(<%= @molecule&.display_name %>);
+    $( "#framework_molecule_framework_code" ).val("<%= @molecule&.framework&.code %>");
+    $( "#framework_molecule_si_al_ratio" ).val("<%= @molecule&.framework_molecule&.si_al_ratio %>");
+    $( "#framework_molecule_additive" ).val("<%= @molecule&.framework_molecule&.additives&.first&.display_name %>");
+  }
+
+
+
+
+$(document).on('ready turbolinks:load', function(){
+  frameworkPrepopulation()
+  frameworkAutoComplete('#framework_molecule_framework_code')
+  additiveAutoComplete('#framework_molecule_additive')
+  $('.loader').hide();
+  $(document)
+    .ajaxStart(function () {
+      $('.loader').show();
+    })
+    .ajaxComplete(function () {
+      $('.loader').hide();
+    });
+});
+  
+</script>

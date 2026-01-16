@@ -1,0 +1,89 @@
+
+
+
+
+      <span style="display:none;">"<%= interaction.user.full_name %>"</span>
+      <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Show  #{interaction.assay_type} between #{interaction.molecule.display_name} and #{interaction.host.display_name}" %>">
+        <%= link_to "", {controller: "interactions", action: 'show', id: interaction.id}, class:'far fa-eye'%>
+      </span>
+      <span> | </span>
+
+      <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="DOI is <%= interaction.doi.present? ? 'present' : 'missing' %>">
+        <% if interaction.doi.present? %>
+          <i class="fas fa-check-square"></i>
+        <% else %>
+          <i class="fas fa-square"></i>
+        <% end %>
+      </span>
+      <span> | </span>
+
+      <span class="has-tooltip" data-toggle="ajax-tooltip" title="Citation">
+        <span class="has-js-popover citation_popover" data-toggle="popover" data-container="body" title= "<span class='text-info'><strong>Citation</strong></span>
+<button type='button' id='close' class='close' onclick='$(&quot;.citation_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+style=""
+        data-content='
+        <div class="">
+          <%= interaction.citation %>
+        </div>
+        <div class="">
+          <%= link_to interaction.doi, "https://doi.org/#{interaction.doi}", target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %>
+        </div>
+        ' >
+        <i class="fas fa-quote-right"></i>
+        </span>
+
+      </span>
+
+        <span> | </span>
+
+<!-- Assay Type  -->
+      <span class="has-tooltip " data-toggle="ajax-tooltip" title="<%= AssayType.search_by_names(interaction.assay_type).first.names[0] if interaction.assay_type.present? %>">
+        <% if interaction.assay_type == "Direct Binding Assay" %>
+          <span class="icon-dba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+        <% elsif interaction.assay_type == 'Competitive Binding Assay' %>
+          <span class="icon-cba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+        <% elsif interaction.assay_type == "Associative Binding Assay" %>
+          <span class="icon-aba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+        <% else %>
+        <% end %>
+      </span>
+
+      <span> | </span>
+
+<!-- Technique -->
+      <span class="has-tooltip " data-toggle="ajax-tooltip" title="<%= Technique.search_by_names(interaction.technique).first.names[0] if interaction.technique.present? %>">
+        <span class="icon-<%= Technique.search_by_names(interaction.technique).first.names[1].downcase if interaction.technique.present? %> <%= Technique.search_by_names(interaction.technique).first.names[1] if interaction.technique.present? %>" ></span>
+      </span>
+<!-- User Name -->
+      <br>
+      <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="Show user of entry">
+        <%= link_to interaction.user.full_name, user_path(interaction.user) %>
+      </span>
+<!-- Solvent System -->
+      <br>
+      <% if interaction.solvent_system.present?  %>
+        <% if interaction.solvent_system == "Single Solvent"  %>
+
+          <% if interaction.solvents.first.present?  %>
+          <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "#{interaction.solvents.first.display_name}" %>">
+          <%= interaction.solvents.first.display_name %>
+          </span>
+          <% end %>
+
+        <% elsif interaction.solvent_system == "Complex Mixture" %>
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= "#{interaction.solvent_system}" %>">
+          Complex
+          </span>
+
+        <% elsif interaction.solvent_system == "Buffer System" %>
+          <% if interaction.buffer.present? %>
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= interaction.buffer.name if interaction.buffer.name.present? %>">
+              <%= interaction.buffer.abbreviation.present? ? interaction.buffer.abbreviation.truncate(8) : interaction.buffer.name.truncate(8) %>
+            </span>
+          <% end %>
+        <% else %>
+        <span class="has-tooltip" data-toggle="tooltip" title="<%= "#{interaction.solvent_system}" %>">
+          No Solvent
+        </span>
+        <% end %>
+      <% end %>

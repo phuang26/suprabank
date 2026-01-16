@@ -1,0 +1,63 @@
+
+<div class="form-group">
+  <%= f.label :solvent_name, "Solvent", :class => 'control-label col-md-2' %>
+  <strong class="control-label col-md-3" style="text-align:left;">Name</strong>
+  <strong class="control-label col-md-1 additive-container <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>">Vol%</strong>
+  <label for="interaction_additive_name" class="control-label col-md-2 additive-container <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>">Additive</label>
+  <strong class="control-label col-md-2 additive-container <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>" style="text-align:left;">Name</strong>
+  <strong class="control-label col-md-2 additive-container <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>">[Additive]</strong>
+</div>
+<div class="form-group">
+
+  <div class="container col-md-6 solvent-container">
+    <% number=0 %>
+    <%= f.fields_for :interaction_solvents, f.object.interaction_solvents.order(:id) do |builder| %>
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-6">
+          <%= builder.text_field :first_solvent_name , :class => "form-control first_solvent_name interaction-solvent #{@interaction.solvent_system=='Complex Mixture' ? 'true' : 'edit_single_solvent'}", data: {autocomplete_source: query_solvents_path }, placeholder:"live search" %>
+        </div>
+        <div class="col-md-2">
+          <%= builder.text_field :volume_percent , :class => "form-control #{@interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel'}", onblur:"calculatevolume()"%>
+        </div>
+      </div>
+    <% number=number+1 %>
+    <% end %>
+</div>
+
+  <div class="container col-md-6 additive-container <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>">
+    <% number=0 %>
+    <%= f.fields_for :interaction_additives, f.object.interaction_additives.order(:id) do |builder| %>
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-6 ">
+          <%= builder.text_field :additive_name , :class => 'form-control first_additive_name interaction-additive' , data: {autocomplete_source: query_additives_path }, placeholder:"#{@interaction.interaction_additives[number].additive.present? ? @interaction.interaction_additives[number].additive.display_name : 'live search'}" %>
+        <%#= link_to_add_fields 'Add Co-Additive', f, :interaction_additives %>
+        </div>
+        <div class="col-md-3">
+          <%= builder.text_field :concentration , :class => 'form-control'%>
+        </div>
+        <div class="col-md-2">
+          <strong>mM</strong>
+        </div>
+      </div>
+      <% number=number+1 %>
+    <% end %>
+  </div>
+  <div class="">
+    <div class="col-md-1">
+    </div>
+    <%= f.label :pH, "pH", :class => 'control-label col-md-1' %>
+    <div class="col-md-1">
+      <%= f.text_field :pH, :class => 'form-control' %>
+    </div>
+    <%= f.error_span(:pH) %>
+  </div>
+  <div class=" <%= @interaction.solvent_system=='Complex Mixture' ? 'true' : 'dynamic-interaction-panel' %>" id="ionic_strength_panel">
+    <%= render 'interactions/new/ionic_strength_panel', f:f %>
+  </div>
+
+
+</div>

@@ -1,0 +1,134 @@
+
+ <div class="editor" id="editordiv">
+     <div id="my-editor"
+          data-chemwriter-ui="editor"
+          data-chemwriter-src="">
+     </div>
+ </div>
+<hr>
+
+ <div class="" id="molecule-editorlookup">
+   <%= form_tag editorsearch_molecules_path, remote: true, method: :get, id: "molecule-editorlookup-form" do %>
+   <div class="form-group col-md-12">
+     <div class="col-md-3">
+       <%= button_tag(type: :submit, class: "btn btn-success search_button", id:"editorbutton", value:"exact", onclick: "showLoader('turbo')" ) do %>
+         <i class="fa fa-search"></i> Exact Search
+       <% end %>
+     </div>
+     <div class="col-md-1">
+
+     </div>
+     <div class="col-md-3">
+       <%= hidden_field_tag :search_param, params[:search_param], placeholder: "Enter name of molecule; % serves as wildcard", autofocus: true, class: "form-control search-box input-lg", id: "fingerprint_field" %>
+       <%= button_tag(type: :submit, class: "btn btn-success search_button", id:"smilesbutton", value:"smiles", onclick: "showLoader('turbo')" ) do %>
+         <i class="fa fa-search"></i> SMILES Search
+       <% end %>
+     </div>
+     <div class="col-md-1">
+       <div id='turboloader'>
+         <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+       </div>
+     </div>
+     <div class="col-md-1">
+
+     </div>
+     <div class="col-md-3">
+       <button id="openbabel" type="button" class="btn btn-default search_button">Get Molfile</button>
+     </div>
+   </div>
+   <% end %>
+   <div class="container" id='molecule-editorresults'>
+     <%#= render 'molecule', objs: @molecules %>
+
+     <%#= render 'molecules/dbresult' %>
+   </div>
+
+ </div>
+ <script>
+
+
+
+
+
+
+
+
+jQuery('#openbabel').on('click',function(){ // use event as per your need
+  let editor = chemwriter.components['my-editor'];
+
+  let molefile = editor.getMolfile();
+
+  alert(editor.getMolfile());
+  // let jsonfile = $.ajax({
+  //   type: "GET",
+  //   url: "/molecules/edit_comment?molefile="+molefile,
+  //   dataType:"json",
+  //   success:function(data){
+  //       message = data;
+  //       console.log(data);
+  //        alert(JSON.stringify(data));
+  //     }
+  // });
+});
+
+
+
+$(document).on('turbolinks:load',function()  {
+    if (document.location.href.indexOf('reload')==-1) {
+         document.location.replace(document.location.href+'?reload');
+    }
+    $('#editorbutton').on('click',function(){ // use event as per your need
+      let editor = chemwriter.components['my-editor'];
+      let molefile = editor.getMolfile();
+      console.log(molefile)
+      console.log(typeof(molefile))
+      var fingerprint_2d= "AAADcYBAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGgAACAAAAACggAICAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      $("#fingerprint_field").val(molefile);
+    });
+    $('#smilesbutton').on('click',function(){ // use event as per your need
+      let editor = chemwriter.components['my-editor'];
+      let molefile = editor.getMolfile();
+      let empty = "  0  0  0  0  0  0  0  0  0  0999 V2000"
+      let array = molefile.split("\n")
+      $("#fingerprint_field").val(molefile);
+    });
+});
+
+$(document).ready(function(){
+$(document)
+  .ajaxStop(function () {
+    window.scrollTo(0,document.body.scrollHeight);
+  });  });
+
+// $("#editorbutton").on('click',(function(event) {
+//
+//   /* stop form from submitting normally */
+//
+//   /* get values from elements on the page: */
+//    // var mdate = $('#mdate').val();
+//    var phone = 'ethanol';
+//   /* Send the data using post and put the results in a div */
+//     $.ajax({
+//       url: "/editorsearch_molecules/?search_param="phone,
+//       type: "post",
+//       data: values,
+//       success: function(){
+//         alert('Saved Successfully');
+//       },
+//       error:function(){
+//        alert('Error');
+//       }
+//     });
+// }));
+
+
+// $("#editorbutton").on("click", function(){
+//   $.ajax({
+//     complete:function(request){},
+//     data: {search_param:"ethanol"},
+//     dataType:'script',
+//     type:'get',
+//     url: '/editorsearch_molecules' // in your case, may be '/[CONTROLLER NAME]/geocode' until you define route
+//   })
+// });
+ </script>

@@ -1,0 +1,142 @@
+  <hr>
+  <div id="binding_properties">
+    <div class="form-group">
+      <strong class="control-label col-md-2 unit" style="text-align:left;" id="binding_properties_label"><u>Binding Properties</u></strong>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1">
+        <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "binding constant of formation, click for further information in glossary"}), glossary_url(anchor:'TD_Ka'),
+        target: :_blank %>
+      </div>
+      <div class="col-md-1">
+        <%= f.label :binding_constant, "<em>K</em><sub>a</sub>".html_safe, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-1" style="text-align:left;">
+        <%= f.select :binding_range, [['=','equal'],['<','less'],['>','greater']],{}, class:"select_range", :onchange => "range_ka()"  %>
+      </div>
+
+      <div class="col-md-2">
+        <%= f.text_field :binding_constant, :class => 'form-control binding-input', placeholder: 'binding', id: 'ka' , onchange:"checkValidNumber(this),checkAboveZero(),calcfromka(),calcfromkaerror(),deltaGConsisticyCheck()"%>
+      </div>
+      <%=f.error_span(:binding_constant) %>
+
+      <label class="col-md-1" style="text-align:right;"> &#177; </label>
+      <%#= f.label :binding_constant_error, :class => 'control-label col-md-2' %>
+
+      <div class="col-md-4">
+        <%= f.text_field :binding_constant_error, :class => 'form-control', placeholder: "error".html_safe, id: 'kaerror', onchange:"checkValidNumber(this),calcfromkaerror()"%>
+
+      </div>
+      <%=f.error_span(:binding_constant_error) %>
+<% if false %>
+      <div class="container-fluid col-md-2">
+        <div class="row-fluid">
+            <div class="col-12">
+              <div class="row-fluid">
+                <span class="has-tooltip col-4" data-toggle="tooltip" title="bimolecular complex 1:1">
+                <label class="radio-inline"><%= f.radio_button :binding_constant_unit, 'M-1', class:"binding_constant_unit custom_radio" , checked:true %><span></span> M<sup>-1</sup>
+                </label>
+                </span>
+                <span class="has-tooltip col-4" data-toggle="tooltip" title="ternary complex 1:1:1, 2:1">
+                <label class="radio-inline"><%= f.radio_button :binding_constant_unit, 'M-2', class:"binding_constant_unit custom_radio" %><span></span> M<sup>-2</sup>
+                </label>
+                </span>
+                <span class="has-tooltip col-4" data-toggle="tooltip" title="quaternary complex 1:3, 2:2">
+                <label class="radio-inline"><%= f.radio_button :binding_constant_unit, 'M-3', class:"binding_constant_unit custom_radio" %><span></span> M<sup>-3</sup>
+                </label>
+                </span>
+              </div>
+            </div>
+        </div>
+      </div>
+<% end %>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-md-1">
+        <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "dissociation constant of formation, click for further information in glossary"}), glossary_url(anchor:'TD_Ka'),
+        target: :_blank %>
+      </div>
+      <div class="col-md-1">
+        <%= label_tag 'dissociation_constant', "<em>K</em><sub>d</sub>".html_safe, :class => 'control-label form-label' %>
+      </div>
+      <div class="col-md-1" style="text-align:left;">
+        <%= select_tag 'dissociation_range', options_for_select([['=','equal'],['<','less'],['>','greater']]), class:"select_range", onchange:"range_kd()" %>
+      </div>
+
+      <div class="col-md-2">
+        <%= text_field_tag 'dissociation_constant','', :class => 'form-control binding-input', placeholder: 'dissociation', id: 'kd' , onchange:"checkValidNumber(this), calcfromkd(), checkAboveZero(), calcfromkderror()"%>
+      </div>
+
+
+      <label class="col-md-1" style="text-align:right;"> &#177; </label>
+      <%#= f.label :binding_constant_error, :class => 'control-label col-md-2' %>
+      <div class="col-md-4">
+        <%= text_field_tag 'dissociation_constant_error','', :class => 'form-control', placeholder: "error".html_safe, id: 'kderror', onchange:"checkValidNumber(this),calcfromkderror()"%>
+      </div>
+
+
+
+    </div>
+      <!-- range indicator panel -->
+
+    <div class="form-group">
+      <div class="col-md-1">
+        <%= render 'interactions/info/question_guide', text:"decadic logarithm of the binding constant" %>
+      </div>
+      <div class="col-md-1">
+        <%= f.label :logKa,"log <i>K</i><sub>a</sub>".html_safe, :class => 'control-label  form-label' %>
+      </div>
+
+      <div class="col-md-1" style="text-align:left;">
+        <%= select_tag 'logka_range', options_for_select([['=','equal'],['<','less'],['>','greater']]), class:"select_range", onchange:"range_logka()" %>
+
+      </div>
+      <div class="col-md-2">
+        <%= f.text_field :logKa, :class => 'form-control binding-input', placeholder: 'decadic logarithm' , id:'logka', onchange:"checkValidNumberbelow(this),calcfromlogka(),calcfromlogkaerror()"%>
+      </div>
+      <%=f.error_span(:logKa) %>
+
+      <%#= f.label :logka_error, :class => 'control-label col-md-2' %>
+      <label class="col-md-1" style="text-align:right;"> &#177; </label>
+      <div class="col-md-4">
+        <%= f.text_field :logka_error, :class => 'form-control', placeholder: 'error', id:"logkaerror", onchange:"checkValidNumber(this),calcfromlogkaerror()" %>
+      </div>
+      <%=f.error_span(:logka_error) %>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1">
+        <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "binding constant of formation &#916;<em>G</em>=-RT ln<em>K</em><sub>a</sub>, click for further information in glossary"}), glossary_url(anchor:'TD_dG'), target: :_blank %>
+      </div>
+      <div class="col-md-1">
+        <%= f.label :deltaG,"&#916;<em>G</em>".html_safe, :class => 'control-label form-label' %>
+      </div>
+
+      <div class="col-md-1" style="text-align:left;">
+        <%= select_tag 'deltag_range', options_for_select([['=','equal'],['<','less'],['>','greater']]), class:"select_range", onchange:"range_deltag()" %>
+
+      </div>
+      <div class="col-md-2">
+        <%= f.text_field :deltaG, :class => 'form-control binding-input', id:'deltag', placeholder: "free energy", onchange:"checkValidNumberbelow(this),calcfromdeltaG(),calcfromdeltaGerror()" %>
+      </div>
+      <%=f.error_span(:deltaG) %>
+
+      <%#= f.label :logka_error, :class => 'control-label col-md-2' %>
+      <label class="col-md-1" style="text-align:right;"> &#177; </label>
+      <div class="col-md-4">
+        <%= f.text_field :deltaG_error, :class => 'form-control', placeholder: 'error', id:"deltagerror", onchange:"checkValidNumber(this),calcfromdeltaGerror()"%>
+      </div>
+      <%=f.error_span(:deltaG_error) %>
+
+        <label class="control-label col-md-2 unit"> kJ mol<sup>-1</sup>
+        </label>
+
+    </div>
+
+  </div>

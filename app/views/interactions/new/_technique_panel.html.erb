@@ -1,0 +1,99 @@
+<div class="row col-md-12" id="technique_panel_content">
+
+
+</div>
+
+<script type="text/javascript" >
+  $(document).on('ready turbolinks:load', function(){
+
+        var val = $('.technique:checked').val();
+        switch (val) {
+          case 'Isothermal Titration Calorimetry':
+            $('#int_thermodynamics_panel').collapse("show")
+            $("#technique_panel_content").collapse("hide")
+            break;
+          case 'Circular Dichroism':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/icd_panel', f: f) %>")
+            break;
+          case 'Fluorescence':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/fluorescence_panel', f: f) %>")
+            break;
+          case 'Absorbance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/absorbance_panel', f: f) %>")
+            break;
+          case 'Nuclear Magnetic Resonance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/nmr_panel', f: f) %>")
+            break;
+          case 'Surface Enhanced Raman Scattering':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/sers_panel', f: f) %>")
+            break;
+          case 'Extraction':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/ext_panel', f: f) %>")
+          break;
+          case 'Potentiometry':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/pot_panel', f: f) %>")
+          break;
+          case 'Electron Paramagnetic Resonance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/epr_panel', f: f) %>")
+            break;
+        }
+
+  });
+
+
+
+
+
+  $(document).on('ready turbolinks:load', function(){
+      $('.technique').on('change', function() {
+
+        var val = $('.technique:checked').val();
+        switch (val) {
+          case 'Isothermal Titration Calorimetry':
+            $('#int_thermodynamics_panel').collapse("show")
+            $("#technique_panel_content").collapse("hide")
+            break;
+          case 'Circular Dichroism':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/icd_panel', f: f) %>")
+            break;
+          case 'Fluorescence':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/fluorescence_panel', f: f) %>")
+            break;
+          case 'Absorbance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/absorbance_panel', f: f) %>")
+            break;
+          case 'Nuclear Magnetic Resonance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/nmr_panel', f: f) %>")
+            break;
+          case 'Surface Enhanced Raman Scattering':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/sers_panel', f: f) %>")
+            break;
+         case 'Extraction':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/ext_panel', f: f) %>")
+         break;
+         case 'Potentiometry':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/pot_panel', f: f) %>")
+         break;
+         case 'Electron Paramagnetic Resonance':
+            $("#technique_panel_content").collapse("show")
+            $("#technique_panel_content").html("<%= escape_javascript(render 'interactions/new/epr_panel', f: f) %>")
+         break;
+        }
+      });
+  });
+</script>

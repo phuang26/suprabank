@@ -1,0 +1,40 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+<% 1.upto(10) do |i| %>
+interaction_related_identifier_<%= i %>:
+  related_identifier_id: 1
+  interaction_id: <%= i %>
+<% end %>
+# column: value
+#
+two:
+  related_identifier_id: 2
+  interaction: interaction_two
+
+two_2:
+  related_identifier_id: 2
+  interaction: interaction_three
+
+three:
+  related_identifier_id: 3
+  interaction: interaction_published
+
+<% 21.upto(30) do |i| %>
+published_<%= i %>:
+  related_identifier_id: 5
+  interaction_id: <%= i %>
+<% end %>
+
+
+<% 31.upto(40) do |i| %>
+published_<%= i %>:
+  related_identifier_id: 4
+  interaction_id: <%= i %>
+<% end %>
+
+#  column: value

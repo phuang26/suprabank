@@ -1,0 +1,24 @@
+<hr>
+<div class="form-group">
+    <strong class="control-label col-md-12 unit" style="text-align:left;"><u>Publishing in SupraBank</u></strong>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+    </div>
+  <div class="col-md-1">
+  <%= f.label :published,"Publish?", :class => 'control-label' %>
+  </div>
+  <div class="col-md-8 ">
+      <div class="row-fluid ">
+        <span class="has-tooltip col-md-3" data-toggle="tooltip" title="The dataset will be ONLY accesible to you and your group members">
+          <label class="radio-inline control-label"><%= f.radio_button :published, false %> Do not publish!
+          </label>
+        </span>
+        <span class="has-tooltip col-md-3" data-toggle="tooltip" title="The dataset will be accesible to EVERYBODY">
+          <label class="radio-inline control-label"><%= f.radio_button :published, true %> Yes, publish!
+          </label>
+        </span>
+    </div>
+  </div>
+</div>

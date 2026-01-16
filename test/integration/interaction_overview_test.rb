@@ -1,0 +1,602 @@
+require 'test_helper'
+
+class InteractionOverviewTest < Capybara::Rails::TestCase
+  include Warden::Test::Helpers
+
+  def setup
+    @five = interactions :interaction_five
+    @six = interactions :interaction_six
+    @seven = interactions :interaction_seven
+    @eight = interactions :interaction_eight
+    @nine = interactions :interaction_nine
+    @ten = interactions :interaction_ten
+    @eleven = interactions :interaction_eleven
+    @twelve = interactions :interaction_twelve
+    @thirteen = interactions :interaction_thirteen
+
+    @user = users :user_one
+    login_as(@user)
+  end
+
+  test 'overview page of interaction_five complete' do
+
+    visit interaction_path(@five)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count:2)
+    assert page.has_content?(@five.molecule.display_name)
+    assert page.has_content?('c = 0.0 — 50.0 µM')
+    assert page.has_content?(@five.host.display_name)
+    assert page.has_content?('c = 200.0 µM')
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    #assert page.has_content?('72.0') - calculated by js, not accessible
+    assert page.has_content?('±')
+    #assert page.has_content?('7.2')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    #assert page.has_content?('14')
+    assert page.has_content?('mM')
+    assert page.has_content?('logKa')
+    assert page.has_content?('1.86')
+    assert page.has_content?('0.04')
+    assert page.has_content?('T')
+    assert page.has_content?('=')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('kin', count: 2)
+    assert page.has_content?('45.0')
+    assert page.has_content?('4.5	M-1s-1')
+    assert page.has_content?('kout')
+    assert page.has_content?('0.625')
+    assert page.has_content?('0.063	s-1')
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-10.6')
+    assert page.has_content?('0.25')
+    assert page.has_content?('-2.53')
+    assert page.has_content?('0.06')
+    assert page.has_content?('ΔH')
+    assert page.has_content?('-5.6')
+    assert page.has_content?('0.15')
+    assert page.has_content?('-1.34')
+    assert page.has_content?('0.04')
+    assert page.has_content?('-TΔS')
+    assert page.has_content?('-5.0')
+    assert page.has_content?('0.1')
+    assert page.has_content?('-1.2')
+    assert page.has_content?('0.02')
+    assert page.has_content?('J mol-1 K-1')
+    assert page.has_content?('cal mol-1 K-1')
+    assert page.has_content?('ΔS')
+    assert page.has_content?('16.8')
+    assert page.has_content?('0.3')
+    assert page.has_content?('4.0')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Fluorescence')
+    assert page.has_content?('𝛌ex')
+    assert page.has_content?('222.0 nm')
+    assert page.has_content?('𝛌em')
+    assert page.has_content?('333.0 nm')
+    assert page.has_content?('Ibound⁄Ifree')
+    assert page.has_content?('4.0')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('Single Solvent')
+    assert page.has_content?('Solvent')
+    assert page.has_content?('water')
+    assert page.has_content?('pH')
+    assert page.has_content?('7.3')
+    assert page.has_content?('Solubility')
+    assert page.has_content?('24.0 mM')
+
+    assert page.has_content?('Reference:')
+    assert page.has_content?('A. I. Lazar, F. Biedermann, K. R. Mustafina, K. I. Assaf, A. Hennig, W. M. Nau, J. Am. Chem. Soc. 2016, 138, 13022–13029.')
+    assert page.has_content?('Link:')
+    assert page.has_content?('https://doi.org/10.1021/jacs.6b07655')
+    
+    assert page.has_content?('Comment')
+    assert page.has_content?('It is just for testing.')
+
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_six complete' do
+
+    visit interaction_path(@six)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Revision requested')
+    assert page.has_content?('Reviewer comments')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count:3)
+    assert page.has_content?(@six.molecule.display_name)
+    assert_not page.has_content?('c =')
+    assert page.has_content?(@six.host.display_name)
+    assert page.has_content?(@six.conjugate.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "2")
+    assert page.has_css?('#stoichio_host', text: "1")
+    assert page.has_css?('#stoichio_supplement', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('<', count: 3)
+    assert_not page.has_content?('±')
+    assert page.has_content?('M-2')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('9.0')
+    assert page.has_content?('T')
+    assert page.has_content?('=')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('kin', count: 1)
+    assert_not page.has_content?('kout')
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-51.37')
+    assert page.has_content?('12.28')
+    assert_not page.has_content?('ΔH')
+    assert_not page.has_content?('-TΔS')
+    assert_not page.has_content?('J mol-1 K-1')
+    assert_not page.has_content?('cal mol-1 K-1')
+    assert_not page.has_content?('ΔS')
+
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Associative Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Absorbance')
+    assert page.has_content?('𝛌abs')
+    assert page.has_content?('234.0 nm')
+    assert page.has_content?('Abound⁄Afree')
+    assert page.has_content?('2.3')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('Buffer System')
+    assert page.has_content?('PO4')
+    #more details of buffer are not shown why so ever.
+
+    assert_not page.has_content?('Comment')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_seven complete' do
+
+    visit interaction_path(@seven)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count:3)
+    assert page.has_content?(@seven.molecule.display_name)
+    assert_not page.has_content?('c =')
+    assert page.has_content?(@seven.host.display_name)
+    assert page.has_content?(@seven.indicator.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "3")
+    assert page.has_css?('#stoichio_supplement', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('>', count: 3)
+    assert_not page.has_content?('±')
+    assert page.has_content?('M-3')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('9.0')
+    assert page.has_content?('T')
+    assert page.has_content?('=')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('kin', count: 1) #In the edit explanation
+    assert_not page.has_content?('kout')
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-51.37')
+    assert page.has_content?('12.28')
+    assert_not page.has_content?('ΔH')
+    assert_not page.has_content?('-TΔS')
+    assert_not page.has_content?('J mol-1 K-1')
+    assert_not page.has_content?('cal mol-1 K-1')
+    assert_not page.has_content?('ΔS')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Competive')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Competitive Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Isothermal Titration Calorimetry')
+    assert page.has_content?('Instrument')
+    assert page.has_content?('MircoCal PEAQ-ITC')
+    assert page.has_content?('VCell')
+    assert page.has_content?('200.0 𝜇L')
+    assert page.has_content?('VSyringe')
+    assert page.has_content?('40.0 𝜇L')
+    assert page.has_content?('cmolecule')
+    assert page.has_content?('200.0 𝜇M')
+    assert page.has_content?('syringe')
+    assert page.has_content?('cpartner')
+    assert page.has_content?('50.0 𝜇M')
+    assert page.has_content?('cell')
+    assert page.has_content?('cindicator')
+    assert page.has_content?('50.0 𝜇M')
+    assert page.has_content?('cell')
+    assert page.has_content?('Ninjection')
+    assert page.has_content?('19')
+    assert page.has_content?('Vinjection')
+    assert page.has_content?('2.0 𝜇L')
+    assert page.has_content?('Vinit')
+    assert page.has_content?('0.5 𝜇L')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('Complex Mixture')
+    assert page.has_content?('Solvents')
+    assert page.has_content?('water')
+    assert page.has_content?('70.0 %')
+    assert page.has_content?('methanol')
+    assert page.has_content?('30.0 %')
+    assert page.has_content?('Additives')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('sodium iodide')
+    assert page.has_content?('20.0 mM')
+    assert page.has_content?('sodium chloride')
+    assert page.has_content?('15.0 mM')
+    assert page.has_content?('Total concentration')
+    assert page.has_content?('35.0 mM')
+    assert page.has_content?('pH')
+    assert page.has_content?('6.5')
+
+    assert_not page.has_content?('Comment')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_eight complete' do
+
+    visit interaction_path(@eight)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@eight.molecule.display_name)
+    assert page.has_content?('c = 200.0 µM')
+    assert page.has_content?(@eight.host.display_name)
+    assert page.has_content?('c = 0.0 — 50.0 µM')
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('4.0')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-22.83')
+    assert page.has_content?('-5.46')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Nuclear Magnetic Resonance')
+    assert page.has_content?('Nucleus')
+    assert page.has_content?('H-1')
+    assert page.has_content?('δfree')
+    assert page.has_content?('3.0 ppm')
+    assert page.has_content?('δbound')
+    assert page.has_content?('4.0 ppm')
+    assert page.has_content?('Δδbound')
+    assert page.has_content?('1.0 ppm')
+    assert page.has_content?('δbound⁄δfree')
+    assert page.has_content?('0.75')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+    assert_not page.has_content?('Comment')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_nine complete' do
+
+    visit interaction_path(@nine)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@nine.molecule.display_name)
+    assert_not page.has_content?('c = ')
+    assert page.has_content?(@nine.host.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('2.0')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-11.42')
+    assert page.has_content?('-2.73')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Circular Dichroism')
+    assert page.has_content?('𝛌(I)CD')
+    assert page.has_content?('200.0 nm')
+    assert page.has_content?('CDbound⁄CDfree')
+    assert page.has_content?('2.0')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_ten complete' do
+
+    visit interaction_path(@ten)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@ten.molecule.display_name)
+    assert_not page.has_content?('c = ')
+    assert page.has_content?(@ten.host.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('2.0')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-68.5')
+    assert page.has_content?('-16.37')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Surface Enhanced Raman Scattering')
+    assert page.has_content?('νobs')
+    assert page.has_content?('200.0 cm-1')
+    assert page.has_content?('νbound⁄νfree')
+    assert page.has_content?('2.0')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+    assert_not page.has_content?('Total concentration')
+    assert_not page.has_content?('pH')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_eleven complete' do
+
+    visit interaction_path(@eleven)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@eleven.molecule.display_name)
+    assert_not page.has_content?('c = ')
+    assert page.has_content?(@eleven.host.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('0.7')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('-3.99')
+    assert page.has_content?('-0.95')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Extraction')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_twelve complete' do
+
+    visit interaction_path(@twelve)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@twelve.molecule.display_name)
+    assert_not page.has_content?('c = ')
+    assert page.has_content?(@twelve.host.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('-1.0')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('5.71')
+    assert page.has_content?('1.36')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Potentiometry')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+  test 'overview page of interaction_thirteen complete' do
+
+    visit interaction_path(@thirteen)
+
+    assert page.has_content?('Interaction')
+    assert page.has_content?('Submitted')
+
+    assert page.has_content?('Interaction Scheme')
+    assert page.has_css?(".interaction-structure-image", count: 2)
+    assert page.has_content?(@thirteen.molecule.display_name)
+    assert_not page.has_content?('c = ')
+    assert page.has_content?(@thirteen.host.display_name)
+    assert page.has_content?('Stoichiometry')
+    assert page.has_css?('#stoichio_molecule', text: "1")
+    assert page.has_css?('#stoichio_host', text: "1")
+
+    assert page.has_content?('Binding Properties')
+    assert page.has_content?('Ka')
+    assert page.has_content?('=')
+    assert page.has_content?('M-1')
+    assert page.has_content?('Kd')
+    assert page.has_content?('logKa')
+    assert page.has_content?('-4.0')
+    assert page.has_content?('T')
+    assert page.has_content?('25.0 °C')
+    assert page.has_content?('≈', count: 1)
+    assert page.has_content?('Energy')
+    assert page.has_content?('kJ mol-1')
+    assert page.has_content?('kcal mol-1')
+    assert page.has_content?('ΔG')
+    assert page.has_content?('22.83	')
+    assert page.has_content?('5.46')
+
+    assert page.has_content?('Determination Specification')
+    assert page.has_content?('Detection Method')
+    assert page.has_content?('Direct')
+    assert page.has_content?('Assay Type')
+    assert page.has_content?('Direct Binding Assay')
+    assert page.has_content?('Technique')
+    assert page.has_content?('Electron Paramagnetic Resonance')
+    assert page.has_content?('Bobs')
+    assert page.has_content?('200.0 G')
+    assert page.has_content?('Bbound⁄Bfree')
+    assert page.has_content?('2.0')
+
+    assert page.has_content?('Solvation Properties')
+    assert page.has_content?('Solvent System')
+    assert page.has_content?('No Solvent')
+
+    assert page.has_link?('Edit', :exact => true)
+  end
+
+end

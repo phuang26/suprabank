@@ -1,0 +1,213 @@
+.second-solvent {
+  display: none;
+}
+
+.third-solvent {
+  display: none;
+}
+
+.fourth-solvent {
+  display: none;
+}
+
+.add-third-solvent {
+  display: none;
+}
+
+.add-fourth-solvent {
+  display: none;
+}
+
+.solvent-container {
+  border-right-style: double;
+
+  border-right-color: darkgray;
+}
+
+
+
+.add-solvent {
+  text-align: right;
+}
+
+.second-additive {
+  display: none;
+}
+
+.third-additive {
+  display: none;
+}
+
+.fourth-additive {
+  display: none;
+}
+
+.remove-solvent {
+  text-align: right;
+}
+
+.interaction-show-table td {
+  padding-top: 20px;
+  border-bottom: solid;
+  border-color: lightgrey;
+  border-width: thin;
+  font-weight: normal
+}
+
+.no_top_border {
+  border-top: none !important;
+}
+
+.determination_specification {
+  font-weight: normal ;
+}
+
+.interaction_properties {
+  font-weight: normal ;
+  border: none !important;
+}
+
+.interaction_properties tbody tr td {
+  padding: 2px;
+}
+
+.interaction-solvent {
+  margin-bottom: 10px;
+}
+
+.interaction-additive {
+  margin-bottom: 10px;
+}
+
+.dataTables_length {
+  margin-top: 10px;
+}
+
+.dataTables_filter {
+  margin-top: 10px;
+}
+
+
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+//
+// .single-solvent-field #interaction_interaction_solvents_attributes_1_first_solvent_name{
+//   display: none;
+// }
+//
+// .single-solvent-field #interaction_interaction_solvents_attributes_2_first_solvent_name{
+//   display: none;
+// }
+//
+// .single-solvent-field #interaction_interaction_solvents_attributes_3_first_solvent_name{
+//   display: none;
+// }
+
+
+td.tight-column {
+  padding-right: 0px !important;
+  padding-left: 2px !important;
+}
+
+td.col-md-1.center.logkaerror {
+  padding-left: 0px;
+  text-align: right;
+}
+
+
+.information-selector-left {
+  border-right: solid;
+}
+
+.user-interactions-panel .panel-heading {
+  cursor: pointer;
+}
+
+.user-interactions-panel .panel-heading.collapsed i{
+  color: white;
+}
+
+.user-interactions-panel .panel-heading i{
+  // color: #5cb85c;
+  color: black;
+}
+
+.fa-actived {
+  transition:transform .75s;
+  transform:rotate(180deg);
+}
+
+.fa-deactived {
+  transition:transform .75s;
+}
+
+
+
+
+.nav-tabs li.active.interaction-citation  a{
+  display: block;
+  background-color: white !important;
+}
+
+.nav-tabs li.active.interaction-citation  a i{
+  color: #5cb85c;
+}
+
+.nav-tabs li.interaction-citation  a i{
+  color: cornflowerblue;
+}
+
+
+.nav-tabs.interaction-citation-tabs {
+  border-bottom: 0;
+}
+
+.nav-tabs li.active.interaction-citation  a .fas {
+  transition:transform .75s;
+  transform:rotate(90deg);
+}
+
+.nav-tabs li.interaction-citation  a .fas {
+  transition:transform .75s;
+}
+
+.panel-orange {
+  border-color: #efaa1b;
+}
+
+.panel-orange > .panel-heading {
+  background-color: #edcb16;
+  border-color: #efaa1b;
+}
+
+.panel-orange > .badge {
+  background-color: #816e0c;
+}
+
+.dataTables_wrapper table.dataTable tr td {
+  vertical-align: middle;
+}
+
+.labelAlign {
+  padding-top: 1rem;
+}
+
+table.table.dataTable th{
+  text-align: center;
+}
+
+table.table.dataTable td{
+  text-align: center;
+}

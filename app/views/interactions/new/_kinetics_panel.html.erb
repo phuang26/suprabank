@@ -1,0 +1,71 @@
+<hr>
+
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u>Kinetic Parameters</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+    <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "k</em><sub>in</sub>: reaction rate of the association of molecule and partner, k</em><sub>out</sub>: reaction rate of the dissociation. Click for further information in glossary. If you want to enter a reaction rate having another unit, please contact us. For now, enter the reaction rate constant here and add the correct unit in the comment section below."}),
+    glossary_url(anchor:'Kin'), target: :_blank %>
+  </div>
+  <div class="col-md-1">
+  <%= f.label :kin_hg,"<em>k</em><sub>in</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-lg-3">
+    <%= f.text_field :kin_hg, :class => 'form-control', placeholder:"association process", onchange: "checkValidNumber(this),calculatekhgout()" %>
+  </div>
+  <%=f.error_span(:kin_hg) %>
+  <label for="" class="control-label col-lg-1">&#177;</label>
+  <div class="col-lg-4">
+    <%= f.text_field :kin_hg_error, :class => 'form-control', placeholder:"error" , onchange: "checkValidNumber(this)" %>
+  </div>
+  <%=f.error_span(:kin_hg_error) %>
+
+
+  <%=f.error_span(:kin_hg_unit) %>
+
+      <div class="container-fluid col-lg-2">
+        <div class="row-fluid">
+            <div class="col-12">
+                <div class="row-fluid">
+                  <span class="has-tooltip col-4" data-toggle="tooltip" title="Bimolecular Complex">
+                  <label class="radio-inline control-label"><%= f.radio_button :kin_hg_unit, 'M-1s-1', checked: true %> M<sup>-1</sup> s<sup>-1</sup>
+                  </label>
+                  </span>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+
+
+<div class="form-group">
+  <div class="col-md-1">
+    </div>
+  <div class="col-md-1">
+  <%= f.label :kout_hg,"<em>k</em><sub>out</sub>".html_safe, :class => 'control-label form-label' %>
+  </div>
+  <div class="col-lg-3">
+    <%= f.text_field :kout_hg, :class => 'form-control', placeholder:"dissociation process", onchange: "checkValidNumber(this),calculatekhgin()" %>
+  </div>
+  <%=f.error_span(:kout_hg) %>
+  <label for="" class="control-label col-lg-1">&#177;</label>
+  <div class="col-lg-4">
+    <%= f.text_field :kout_hg_error, :class => 'form-control', placeholder:"error" , onchange: "checkValidNumber(this)" %>
+  </div>
+  <%=f.error_span(:kout_hg_error) %>
+
+  <%=f.error_span(:kout_hg_unit) %>
+  <div class="container-fluid col-lg-2">
+    <div class="row-fluid">
+        <div class="col-12">
+            <div class="row-fluid">
+              <span class="has-tooltip col-4" data-toggle="tooltip" title="Bimolecular Complex">
+              <label class="radio-inline control-label"><%= f.radio_button :kout_hg_unit, 's-1', checked: true %>  s<sup>-1</sup>
+              </label>
+              </span>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

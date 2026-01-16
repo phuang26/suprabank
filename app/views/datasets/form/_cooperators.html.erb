@@ -1,0 +1,52 @@
+<div class="container-flex">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active bg-info">
+          <a href="#creators" data-toggle="tab" class="cooperator-tab">
+            <strong>Creators</strong>
+          </a>
+        </li>
+        <li role="presentation" class="bg-info ">
+          <a href="#contributors" data-toggle="tab" class="cooperator-tab">
+            <strong>Contributors</strong>
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="creators">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>Creators</strong>
+              are the main researchers involved in producing the data, or the authors of the publication, in priority order. Example: You, the one that bundles the interactions to a dataset.</div>
+            <div class="panel-body panel-cooperator input_fields_wrap_creator">
+              <%= render "datasets/form/creators", f:f %>
+            </div>
+            <div class="panel-footer">
+              <p><strong>Remark:</strong>Please only <span class="text-danger">Remove</span> <strong>OR</strong> <span class="text-info">Add</span> Creators in a single update step.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="contributors">
+          <div class="tab-pane fade in active" id="creators">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong>Contributors</strong>
+                are the institutions or persons responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource. Example: Scientists with supportive contribution to the dataset in the author's list of your manuscript.
+              </div>
+              <div class="panel-body panel-cooperator input_fields_wrap_contributor">
+                <%= render "datasets/form/contributors", f:f %>
+              </div>
+              <div class="panel-footer">
+                <p><strong>Remark:</strong>Please only <span class="text-danger">Remove</span> <strong>OR</strong> <span class="text-info">Add</span> Contributors in a single update step.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<%#= render "datasets/form/creators", f:f %>

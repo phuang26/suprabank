@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="container largescreens col-md-12 col-xs-12">
+    <div class="background-wrapper">
+      <div class="container col-md-12 col-xs-12 spacer-div suprabank-logo-div" id="spacer1">
+        <%= image_tag "logo-production.svg", :class => "img-rounded suprabank-welcome-logo"%>
+      </div>
+      <%= render 'search' %>
+      <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer2">
+      </div>
+    </div>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer3">
+    </div>
+    <%= render 'funding' %>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer4">
+    </div>
+    <%= render 'trust' %>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer5">
+    </div>
+    <%= render 'power' %>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer6">
+    </div>
+    <%= render 'mission' %>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer7">
+    </div>
+    <%= render 'useful_links' %>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer8">
+    </div>
+    <div class="container col-md-12 col-xs-12 spacer-div "  id="spacer9">
+    </div>
+  </div>
+</div>
+<script >
+  $(function() {
+    $("#mission").hide()
+    $("#power").hide()
+    $("#funding").hide()
+    $("#trust").hide()
+    $("#links").hide()
+    $("#footer").hide()
+  })
+  
+  $(window).scroll(function() {
+      var y_scroll_pos = window.pageYOffset;
+      var scroll_pos_test = 200;
+  	// set to whatever you want it to be
+  
+      if(y_scroll_pos > 350) {
+  	   $("#funding").fadeIn("slow")
+      }
+  
+      if(y_scroll_pos > 700) {
+  	   $("#trust").fadeIn("slow")
+      }
+  
+      if(y_scroll_pos > 1000) {
+  	   $("#power").fadeIn("slow")
+      }
+  
+      if(y_scroll_pos > 1300) {
+  	   $("#mission").fadeIn("slow")
+      }
+  
+      if(y_scroll_pos > 1600) {
+  	   $("#links").fadeIn("slow")
+      }
+        
+      if(y_scroll_pos > 1900) {
+  	   $("#footer").fadeIn("slow")
+      }
+  });
+</script>

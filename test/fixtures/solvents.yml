@@ -1,0 +1,53 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+solvent_one:
+ display_name: water
+ preferred_abbreviation: water
+ cid: 962
+ iso_smiles: O
+ molecular_weight: 18.015
+
+solvent_two:
+ display_name: methanol
+ preferred_abbreviation: methanol
+ cid: 887
+ iso_smiles: O
+ molecular_weight: 32.042
+
+solvent_three:
+  display_name: ethanol
+  preferred_abbreviation: ethanol
+  cid: 702
+  iso_smiles: CCO
+  molecular_weight: 46.069
+
+solvent_four:
+  display_name: butanol
+  preferred_abbreviation: butanol
+  cid: 263
+  iso_smiles: CCCCO
+  molecular_weight: 74.12
+  inchikey: LRHPLDYGYMQRHN-UHFFFAOYSA-N
+  inchistring: InChI=1S/C4H10O/c1-2-3-4-5/h5H,2-4H2,1H3
+  volume_3d: 67.4
+  tpsa: 20.2
+  complexity: 13.0
+  sum_formular: C4H10O
+  names: ['buthyl alcohol']
+  iupac_name: butan-1-ol
+  cas: 71-36-3
+  conformer_count_3d: 8.0
+  bond_stereo_count: 0.01
+  atom_stereo_count: 0.02
+  h_bond_donor_count: 1.01
+  h_bond_acceptor_count: 1.02
+  x_log_p: 0.9
+  charge: 0.0
+  cano_smiles: CCCCO
+  iso_smiles: CCCCO
+  fingerprint_2d: [0, 0, 0, 0, 0, 1073741824, 0, 524296, 0, 18014398509481985, 0, 72057594037927952, 0, 0, 0, 0]
+  mdl_string:  OpenBabel07162107142D  5  4  0  0  0  0  0  0  0  0999 V2000    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0    0.0000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0  1  2  1  0  0  0  0  2  3  1  0  0  0  0  3  4  1  0  0  0  0  4  5  1  0  0  0  0M  END

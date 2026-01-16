@@ -1,0 +1,38 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+ id: 1
+ user_id: 5
+ role: independent
+ confirmed_at: <%= Time.now %>
+ confirmed: true
+
+
+curator:
+  id: 2
+  user_id: 1
+  role: independent
+  confirmed_at: <%= Time.now %>
+  confirmed: true
+
+<% 21.upto(24) do |i| %>
+assignment_<%= i %>:
+  id: <%= i %>
+  user_id: <%= i %>
+  group_id: <%= Faker::Number.between(from: 1, to: 3)  %>
+  role: "Group Member"
+  confirmed_at: <%= Time.now %>
+  confirmed: true
+<% end %>
+
+<% 25.upto(30) do |i| %>
+assignment_<%= i %>:
+  id: <%= i %>
+  user_id: <%= i %>
+  desired_group_id: <%= Faker::Number.between(from: 4, to: 6)  %>
+  role: "Independent"
+  desired_role: "Group Member"
+  confirmation_token: <%= SecureRandom.urlsafe_base64.to_s %>
+  #confirmed_at: <%= Time.now %>
+  #user_role: 0
+<% end %>

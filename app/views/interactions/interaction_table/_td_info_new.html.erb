@@ -1,0 +1,92 @@
+<table class="table table-info">
+  <thead>
+    <tr>
+      <th class="col-md-2">
+        <span class="has-tooltip" id="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Show  #{interaction.assay_type} between #{interaction.molecule.display_name} and #{interaction.host.display_name}" %>">
+          <%= link_to "", {controller: "interactions", action: 'show', id: interaction.id}, class:'far fa-eye', target:"_blank"%>
+        </span>
+      </th>
+      <th class="col-md-2">
+        <span class="has-tooltip" data-toggle="ajax-tooltip" title="Citation">
+          <span class="has-js-popover citation_popover" data-toggle="ajax-popover" data-container="body" title= "<span class='text-info'><strong>Citation</strong></span>
+        <button type='button' id='close' class='close' onclick='$(&quot;.citation_popover&quot;).popover(&quot;hide&quot;);' > &times;</button>"
+          data-content='
+          <div class="">
+            <%= interaction.citation %>
+          </div>
+          <div class="">
+            <%= link_to interaction.doi, "https://doi.org/#{interaction.doi}", target: :_blank, class:"external-link", "rel" => "noopener noreferrer" %>
+          </div>
+          ' >
+              <i class="fas fa-quote-right"></i>
+          </span>
+
+        </span>
+      </th>
+      <th class="col-md-2">
+          <% if interaction.solvents.present? %>
+          <span class="has-tooltip " data-toggle="ajax-tooltip" title="<%= interaction.solvents.first.preferred_abbreviation %>">
+            <% if interaction.solvents.first.preferred_abbreviation == "water" || interaction.solvents.first.preferred_abbreviation == "Deuterium Oxide" %>
+              <i class="fas fa-tint aqueous"></i>
+            <% else %>
+              <i class="fas fa-tint organic"></i>
+            <% end %>
+          </span>
+          <% else %>
+          <span class="has-tooltip " data-toggle="ajax-tooltip" title="No Solvent">
+            <i class="fas fa-tint-slash"></i>
+          </span>
+          <% end %>
+      </th>
+      <th class="col-md-2">
+        <span class="has-tooltip " data-toggle="ajax-tooltip" title="<%= AssayType.search_by_names(interaction.assay_type).first.names[0] if interaction.assay_type.present? %>">
+          <% if interaction.assay_type == "Direct Binding Assay" %>
+            <span class="icon-dba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+          <% elsif interaction.assay_type == 'Competitive Binding Assay' %>
+            <span class="icon-cba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+          <% elsif interaction.assay_type == "Associative Binding Assay" %>
+            <span class="icon-aba <%= AssayType.search_by_names(interaction.assay_type).first.names[1] if interaction.assay_type.present? %>"></span>
+          <% else %>
+          <% end %>
+        </span>
+      </th>
+      <th class="col-md-2">
+        <span class="has-tooltip " data-toggle="ajax-tooltip" title="<%= Technique.search_by_names(interaction.technique).first.names[0] if interaction.technique.present? %>">
+            <span class="icon-<%= Technique.search_by_names(interaction.technique).first.names[1].downcase if interaction.technique.present? %> <%= Technique.search_by_names(interaction.technique).first.names[1] if interaction.technique.present? %>" ></span>
+        </span>
+      </th>
+
+    </tr>
+  </thead>
+  <% if current_user.present? %>
+  <tbody>
+    <tr>
+      <td>
+      <span class="has-tooltip" data-toggle="ajax-tooltip" title="
+      <% if interaction.published? %>
+        <%= "Interaction with ID #{interaction.id} is published" %>
+      <% elsif interaction.embargo? %>
+        <%= "Interaction with ID #{interaction.id} is embargoed" %>
+      <% elsif interaction.revision == "submitted" %>
+        <%= "Interaction with ID #{interaction.id} is submitted" %>
+      <% elsif interaction.revision == "pending" %>
+        <%= "Interaction with ID #{interaction.id} needs revision" %>
+      <% elsif interaction.revision == "accepted" %>
+        <%= "Interaction with ID #{interaction.id} is accepted" %>
+      <% end %> ">
+        <% if interaction.published? %>
+          <i class="fa fa-check-circle"></i>
+        <% else %>
+          <i class="fa fa-circle <%= interaction.revision %>"></i>
+        <% end %>
+      </span>
+      </td>
+      <td>
+        <span class="has-tooltip" data-toggle="ajax-tooltip" title="<%= "Clone this interaciton" %>">
+          <%= link_to "", {controller: "interactions", action: 'duplicate', id: interaction.id}, class:'fas fa-clone', :method=>:post%>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+  <% end %>
+</table>

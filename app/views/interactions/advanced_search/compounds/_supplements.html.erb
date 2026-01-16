@@ -1,0 +1,10 @@
+<div class="form-group row">
+  <div class="col-md-2 col-xs-12">
+    <label class="labelAlign" for="q_indicator_display_name_or_conjugate_display_name_eq"><i class="fas fa-trash"></i> Supplement</label>
+  </div>
+  <div class="col-md-7 col-xs-12">
+    <%= f.search_field :indicator_display_name_or_conjugate_display_name_eq, class:"form-control refinement-input", placeholder: "type and select", data: {autocomplete_source: query_molecules_path }  %>
+  </div>
+  <div class="col-md-3">
+  </div>
+</div>

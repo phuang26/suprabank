@@ -1,0 +1,41 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+relatedIdentifier_1:
+  id: 1
+  relatedIdentifier:  10.1002/anie.201400718
+  doi_validity: true
+#
+relatedIdentifier_2:
+  id: 2
+  relatedIdentifier:  10.1021/jacs.6b07655
+  doi_validity: true
+#
+relatedIdentifier_3:
+  id: 3
+  relatedIdentifier:  10.1039/D0CC03715J
+  doi_validity: true
+#
+relatedIdentifier_4:
+  id: 4
+  relatedIdentifier:  10.1021/jacs.9b00150
+  doi_validity: true
+
+relatedIdentifier_5:
+  id: 5
+  relatedIdentifier:  10.1021/jo00373a018
+  doi_validity: true
+# column: value
+
+<% 100.upto(200) do |i| %>
+relatedIdentifier_<%= i %>:
+  id: <%= i %>
+  relatedIdentifier: <%= "10.1021/jacs." + Faker::Number.number(digits: 7).to_s %>
+  doi_validity: false
+<% end %>
+
+#  column: value

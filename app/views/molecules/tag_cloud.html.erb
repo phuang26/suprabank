@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <div class="col-md-12 center-screen">
+      <ul class="cloud">
+      <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+      <li style="font-size:<%=  1 + 0.005 * tag.taggings_count %>em;" ><%= tag.name %> </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+
+</div>

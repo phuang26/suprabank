@@ -1,0 +1,12 @@
+<tr>
+  <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Association rate constant"><strong>k<sub>in</sub></strong></span><span class="pull-right">=</span></td>
+  <td class="col-md-1"><span><%= @interaction.kin_hg %> </span> </td>
+  <td class="col-md-1"><span>&#177; <%= @interaction.kin_hg_error %> </span> </td>
+  <td class="col-md-1"><span><%= @interaction.kin_hg_unit.gsub(/\W+\d/, '<sup>\0</sup>').html_safe %> </span> </td>
+</tr>
+<tr>
+  <td class="col-md-1"><span class="has-tooltip" data-toggle="tooltip" title="Dissociation rate constant"><strong>k<sub>out</sub></strong></span><span class="pull-right">=</span></td>
+  <td class="col-md-1"><span><%= @interaction.kout_hg %> </span> </td>
+  <td class="col-md-1"><span>&#177; <%= @interaction.kout_hg_error %> </span> </td>
+  <td class="col-md-1"><span><%= @interaction.kout_hg_unit.gsub(/\W+\d/, '<sup>\0</sup>').html_safe %> </span> </td>
+</tr>

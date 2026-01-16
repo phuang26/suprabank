@@ -1,0 +1,28 @@
+<div class="col-md-12" >
+  <h3 style="margin-top: 30px; margin-bottom: 20 px">Based on the IZA Structure Commission <%= link_to (image_tag("logos/IZA.png", height:'38')), "http://www.iza-structure.org/databases/", target: :_blank, class:"pull-right" %> </h3>
+</div>
+<div class="col-md-12">
+  <br>
+</div>
+<div class="" id="framework-lookup">
+  <%= form_tag framework_dbsearch_molecules_path, remote: true, method: :get, id: "framework-lookup-form" do %>
+  <div class="form-group row">
+    <div class="col-md-8">
+      <%= text_field_tag :framework_search, params[:framework_search], placeholder: "by Code e.g. AEL, or Name", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1">
+      <div id="cidloader">
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= button_tag(type: :submit, class: "btn btn-primary search_button", onclick: "showLoader('cid')") do %>
+        <i class="fa fa-search"></i> Search by Name or Code
+      <% end %>
+    </div>
+
+  </div>
+  <% end %>
+  <div id="framework_result" class="container col-md-12"></div>
+
+</div>

@@ -1,0 +1,55 @@
+$navbar-supraback-color: #5479b4;
+
+.navbar-default {
+	background-color: white;
+	border-color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: $navbar-supraback-color;
+	background-color: transparent;
+}
+
+
+.nav-logo {
+  height: 50px;
+}
+
+.navbar-nav {
+  text-transform: uppercase;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: black;
+}
+
+
+.footer-text{
+  color: white;
+  padding: 10px 10px;
+  //background-color: #0d203d;
+}
+
+.navbar-default.footer-text{
+  color: black;
+  padding: 10px 10px;
+  // background-color: #0d203d;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  // background-color: #0d203d;
+
+}
+
+
+.nav-bottom-img {
+  height: 40px;
+	padding-right: 15px;
+  padding-left: 25px;
+}
+

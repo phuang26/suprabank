@@ -1,0 +1,111 @@
+<h3 id="publishing_suprabank" class="level2">Publishing on SupraBank</h3>
+<p class="item">
+On SupraBank a research can publish datasets containing experimental details of intermolecular interactions and meta data about the content. The experimental details are acquired and stored by creating an interaction. This and other interactions of your project are then bundled in a dataset which holds the meta data. With the dataset the researcher obtains a DOI enabling referencing and citation of the data. 
+</p>
+<p class="item">
+  A researcher has two options to publish data on SupraBank, <strong>pre-published</strong> or <strong>post-published</strong>, which refers to the corresponding scholarly article being in preparation or is already published, respectively. The post-published method, so after the publication of the scholarly article, is slightly easier but does not allow a cross-referencing from the paper towards the dataset, resulting in possibly lower impact. 
+</p>
+<h4 id="curation" class="level3">Curation</h4>
+<p class="item">
+  SupraBank holds curated data, which means that two checkups are conducted of the data researchers provide. 
+  <ol>
+  <li>Automatic Compliance Check</li>
+  <p>When a researcher creates an interaction, the data is automatically checked by an algorithm avoiding typos and aiding compliance with minimal reporting standards.</p>
+  <li>Manual Curation</li>
+  <p>After publication, an experienced scietist curates the dataset, which means that she compares the data published on SupraBank with the data presented in the corresponding scholarly article. A requested revision of entries typically refers to typos or missing parts such as solvents or concentrations. A SupraBank curator will not refuse a dataset, but aids the researchers to provide reliable data.</p>
+  <p>
+  Before the manual curation has been completed a dataset is labeled as <span class="label uncurated"> uncurated </span>
+  </p>
+  <p>
+  After the manual curation is completed a dataset will labeled as <span class="label curated"> curated </span>
+  </p>
+  </ol>
+</p>
+
+<h4 id="post-published_heading" class="level3">Post-Publishing</h4>
+<p id="post-published" class="item">
+    Situation: A researcher has published his work in a scientific journal in form of a scholarly article and now would like to store and publish his work at the SupraBank. The researcher should follow these steps:
+    <ol>
+      <li class="publishing-step"><%= link_to  "Create a new Dataset", new_dataset_path, target:"_blank" %> </li>
+        <ul>
+          <li>Select Post-Publishing</li>
+          <li>Enter the DOI of the scholarly article</li>
+          <li>Retrieve the meta data from CrossRef (Click button)</li>
+          <li>Click the button Create Dataset</li>
+          <li>You are basically done with all meta data, but you can (optional!) add missing parts such as description or tags.</li>
+        </ul>
+      <li class="publishing-step">Add Interactions</li>
+        <ul>
+          <li>You can now add interactions to your dataset</li>
+          <li>Either create new interactions on the basis of your experimental details</li>
+          <li>Or add interactions, that you have previously created and but not yet assigned to a dataset</li>
+          <li>After successful and complete (check with your paper) addition of interactions you completed the scientific data</li>
+        </ul>
+      <li class="publishing-step"> Publishing </li>
+        <ul>
+          <li>Register your dataset (orange button at the bottom of your dataset)</li>
+          <li>Publish your dataset (green button at the bottom of your dataset after registration)</li>
+          <li>Your dataset will undergo a compliance check by a curator, which means that the curator checks, that the description inside your scholarly article complies with the data on SupraBank. Maybe, a revision of the data is then needed (ruling out typos). </li>
+          <li>During the curation, your dataset will be marked uncurated, but is already findable and accessible on SupraBank.</li>
+          <li>After the compliance check is finished and the curator accepts the data (only a couple of days) your dataset will be marked curated.</li>
+        </ul>
+      
+    </ol>
+  </p>
+<h4 id="pre-published_heading" class="level3">Pre-Publishing</h4>
+  <p class="item">
+    Situation: A researcher is working on a project for which she needs to acquire intermolecular binding data. She aims to publish the results of the project in form of a scholarly article in a scientific journal alongside publication of the data on SupraBank. The researcher should follow the graphic schema below and these steps:
+    <ol>
+      <li class="publishing-step"><%= link_to  "Create a new Dataset", new_dataset_path, target:"_blank" %> </li>
+      <ul>
+        <li>Select Pre-Publishing</li>
+        <li>Enter a unique title</li>
+        <li>Click the button Create Dataset</li>
+      </ul>
+      <li class="publishing-step">Add Interactions</li>
+      <ul>
+        <li>You can now add interactions to your dataset</li>
+        <li>Either create new interactions on the basis of your experimental details</li>
+        <li>Or add interactions, that you have previously created and but not yet assigned to a dataset</li>
+        <li>After successful and complete (check with your paper) addition of interactions you completed the scientific data</li>
+        <li>You prepare your scholarly article for submission</li>
+      </ul>
+      <li class="publishing-step">Publishing</li>
+      <ul>
+        <li>You have finished the scholarly article and you are about to submit it to a scientific journal</li>
+        <li>Edit the meta data of your dataset:</li>
+          <ul>
+            <li>Add 1-3 creators of the dataset (identical to the authors of your paper)</li>
+            <li>Enter the title of your paper as the title of your dataset</li>
+            <li>Click Update Dataset</li>
+          </ul>
+        <li>Add the DOI of the dataset you created earlier in your scholarly article. You can see how to cite your work by the dropdown panel.</li>
+        <li>Register your dataset (orange button at the bottom of your dataset)</li>
+        <li>Submit your scholarly article</li>
+        <li>The DOI of your dataset, that you included in the paper will resolve to a preview page of your data. This allows the reviewer of your article to have a view on your data. You are still able to make changes or add interactions to the dataset (maybe because of revision requests from the reviewer of your paper).</li>
+        <li>You revised your paper and it is accepted for publication from the publisher.</li>
+        <li>Your paper is published and you obtain a DOI of that article.</li>
+        <li>Edit the meta data of your dataset:</li>
+          <ul>
+            <li>Enter the DOI of your article into the field "Literature DOI"</li>
+            <li>Retrieve the meta data from CrossRef (Click button)</li>
+            <li>Click Update Dataset</li>
+            <li>You are basically done with all meta data, but you can (optional!) add missing parts such as description or tags.</li>
+          </ul>
+        <li>Publish your dataset (green button at the bottom of your dataset after registration)</li>
+        <li>Your dataset will undergo a compliance check by a curator, which means that the curator checks, that the description inside your scholarly article complies with the data on SupraBank. Maybe, a revision of the data is then needed (ruling out typos). </li>
+        <li>During the curation, your dataset will be marked uncurated, but is already findable and accessible on SupraBank.</li>
+        <li>After the compliance check is finished and the curator accepts the data (only a couple of days) your dataset will be marked curated.</li>
+      </ul>
+    </ol>
+  </p>
+<p id="figure_publishing_workflow" class="item"><br>
+</p>
+<figure>
+  <%= image_tag "glossary/SupraBank_Publishing.svg", class:"figure publishing-workflow"%>
+  <figcaption class="gloss_caption">
+    Fig. 8: Publishing workflow
+  </figcaption>
+</figure>
+
+<!-- reviewed 2.2.2021 -->

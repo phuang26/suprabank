@@ -1,0 +1,31 @@
+<div class="page-header container-fluid">
+  <div class="row">
+    <h1 class="col-xs-12">Media</h1>
+    <p class="col-xs-12">
+      <strong>Media</strong> describe on SupraBank in which environment the interaction is taking place for instance in a solvent (e.g. water) or buffer (e.g. PBS). Often the media are not pure and contain additives (e.g. NaCl). 
+    </p>
+    <p class="col-xs-12"><strong>Solvents</strong>, <strong>Additives</strong> and <strong>Buffers</strong> are loaded in the interaction creation form. Most of the time you do not have to add new parts in these sections, except you created a unique buffer for your experiments.</p>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <%= link_to buffers_path, :class => 'btn btn-success new_button btn-lg' do %>
+        <i class="fas fa-vial"></i> Buffers
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <%= link_to solvents_path, :class => 'btn btn-primary new_button btn-lg' do %>
+        <i class="fas fa-tint"></i> Solvents
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <%= link_to additives_path, :class => 'btn btn-orange new_button btn-lg' do %>
+        <i class="fas fa-mortar-pestle"></i> Additives
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <p class="col-xs-12">
+      SupraBank takes interactions in other media into account, and contineously tries to improve the avaiable media.
+    </p>
+  </div>
+</div>

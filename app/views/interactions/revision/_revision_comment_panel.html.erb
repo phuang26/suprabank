@@ -1,0 +1,37 @@
+<%= form_for @interaction, :url => { :controller => "interactions", :action => "reviewer_comments" }, :html => {:method => :post, :class => "form-horizontal interaction" }  do |f| %>
+<div class="container">
+  <div class="col-md-12">
+
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">Review comments</h3>
+      </div>
+      <div class="panel-body">
+        <h5>You are the selected reviewer for this entry please make your comments and submit.</h5>
+        <%= f.text_area :revision_comment, :class => 'form-control', size: "25x10" %>
+      </div>
+      <div class="panel-footer">
+        <%=f.error_span(:revision_comment) %>
+        <div class="container">
+          <div class="row-fluid ">
+            <span class="col-md-2"></span>
+            <span class="has-tooltip col-md-3" data-toggle="tooltip" title="The creator of the interaction will be asked to revise her/his entry.">
+              <label class="radio-inline control-label"><%= f.radio_button :revision, 'pending', checked:true %> Needs Revision
+              </label>
+            </span>
+            <span class="has-tooltip col-md-3" data-toggle="tooltip" title="You reviewed the entry and think it is ready for publication">
+              <label class="radio-inline control-label"><%= f.radio_button :revision, 'accepted' %> Accept
+              </label>
+            </span>
+            <span class="col-md-3" >
+            <%= f.submit "Send Review", :class => 'btn btn-primary'%>
+            </span>
+            <span class="col-md-1"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

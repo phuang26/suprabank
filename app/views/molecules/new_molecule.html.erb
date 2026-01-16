@@ -1,0 +1,23 @@
+<div class="page-header normalWidthOnLargeScreens">
+  <h1>Create a compound / small molecule</h1>
+</div>
+<div class="row col-md-12 normalWidthOnLargeScreens">
+  <div>
+    <%= render 'molecules/custom/custom_molecule' %>
+  </div>
+</div>
+<script>
+  $(document).on('ready turbolinks:load', function(){
+    $("#molecule_iso_smiles").on('input', function(){
+      var smiles = $(this).val();
+      requestSMILES(smiles);
+      });
+      $(document)
+      .ajaxStart(function () {
+        $('.loader').show();
+      })
+      .ajaxComplete(function () {
+        $('.loader').hide();
+      });
+  });
+</script>

@@ -1,0 +1,61 @@
+<%= fields_for :in_technique do |technique| %>
+<hr>
+<div class="form-group">
+  <strong class="control-label col-md-12 unit" style="text-align:left;"><u class="technique-panel-label">Nuclear Magnetic Resonance</u></strong>
+</div>
+<div class="form-group">
+  <div class="col-md-1">
+  <%= link_to render(:partial => 'interactions/info/question_guide', :locals => {:text => "Enter the observed shift &#916;&#948; of the chemical shift &#948;, the measured nucleus (H-1 for proton NMR), or
+  the ratio of chemical shift of bound species to free species. Click for further information in glossary.".html_safe}),
+  glossary_url(anchor:'nmr'), target: :_blank %>
+  </div>
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= technique.label :nucleus %>
+  </div>
+  <div class="col-md-3">
+    <%= technique.text_field :nucleus, :class => 'form-control', placeholder: "e.g. Xe-129, H-1 or C-13" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= technique.label :shift_unbound,"&#948;<sub>free</sub>".html_safe %>
+  </div>
+  <div class="col-md-3">
+    <%= technique.text_field :shift_unbound, placeholder: "unbound shift e.g. 7.1", class:"nmr-shift form-control" , onchange: "checkValidNumber(this),removeCalculatedClassITC(this), calcNMRValues()"%>
+  </div>
+  <%=technique.error_span(:shift_unbound) %>
+  <label class="control-label col-md-1" style="text-align:left;">ppm</label>
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= technique.label :shift_bound,"&#948;<sub>bound</sub>".html_safe %>
+  </div>
+  <div class="col-md-3">
+    <%= technique.text_field :shift_bound, placeholder: "bound shift e.g. 6.3", class:"nmr-shift form-control" , onchange: "checkValidNumber(this),removeCalculatedClassITC(this),calcNMRValues()" %>
+  </div>
+  <%=technique.error_span(:shift_bound) %>
+  <label class="control-label col-md-1" style="text-align:left;">ppm</label>
+</div>
+
+<div class="form-group">
+  <div class="col-md-1">
+  </div>
+  <div class="control-label col-md-1" style="text-align:left;">
+  <%= technique.label :delta_shift,"&#916;&#948;".html_safe %>
+  </div>
+  <div class="col-md-3">
+    <%= technique.text_field :delta_shift, :class => 'form-control', placeholder: "induced shift e.g. 0.5" , onchange: "checkValidNumber(this),removeCalculatedClassITC(this),calcNMRValues()" %>
+  </div>
+  <%=technique.error_span(:delta_shift) %>
+  <label class="control-label col-md-1" style="text-align:left;">ppm</label>
+  <div class="control-label col-md-1">
+  <%= technique.label :free_to_bound,"<sup>&#948;<sub>bound</sub></sup>&frasl;<sub>&#948;<sub>free</sub></sub>".html_safe %>
+  </div>
+  <div class="col-md-4">
+    <%= technique.text_field :free_to_bound, :class => 'form-control', placeholder: "e.g. 1.8", onchange: "checkValidNumber(this),removeCalculatedClassITC(this),calcNMRValues()" %>
+  </div>
+  <%=technique.error_span(:free_to_bound) %>
+
+</div>
+<% end %>

@@ -1,0 +1,41 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+ael: 
+  id: 980190963
+  user_id: 1
+  png_file_name: AET_001.jpg
+  png_content_type: image/jpeg
+  png_file_size: 221492
+  png_updated_at: 2021-10-20 09:09:16.959426000 Z
+  png_url: "/system/frameworks/pngs/980/190/963/original/AET_001.jpg?1634720956"
+  name: Type AEL
+  code: AEL
+  iza_url: https://europe.iza-structure.org/IZA-SC/framework.php?STC=AEL
+  crystal_system: orthorhombic
+  space_group: I m m a (# 74)
+  unit_cell_a: 8.312
+  unit_cell_b: 18.729
+  unit_cell_c: 13.392
+  unit_cell_alpha: 90.0
+  unit_cell_beta: 90.0
+  unit_cell_gamma: 90.0
+  volume: 2084.8
+  rdls: 0.0035
+  framework_density: 19.2
+  topological_density: 904.0
+  topological_density_10: 0.766975
+  ring_sizes:
+  - 10
+  - 6
+  - 4
+  channel_dimensionality: 'Topological (pore opening > 6-ring): 1-dimensional'
+  max_d_sphere_included: 5.64
+  max_d_sphere_diffuse_a: 4.63
+  max_d_sphere_diffuse_b: 2.01
+  max_d_sphere_diffuse_c: 2.01
+  accessible_volume: 6.77

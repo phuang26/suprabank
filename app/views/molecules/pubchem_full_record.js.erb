@@ -1,0 +1,4 @@
+//$('#message').text("#{@message}");
+$("#message").show()
+$("#message").html("<%= escape_javascript(render partial: 'successful_retrieval', :locals => {molecule: @molecule}) %>");
+$(".decision-buttons").hide();

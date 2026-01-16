@@ -1,0 +1,226 @@
+<script type="text/javascript">
+  $(document).on('turbolinks:load',function() {
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+  });
+</script>
+<%- model_class = Interaction -%>
+<div class="row">
+  <div class="col-md-12" id="advanced_index_content"></div>
+</div>
+<div class="row">
+  <div class="col-md-3 center">
+    <%= image_tag "preloader/default_trans.png", size:"50x50", class:"formLoader"%>
+  </div>
+  <div class="col-md-9" id="advanced_index_paginator"></div>
+</div>
+
+<script type="text/javascript">
+  $(document).on('ready turbolinks:load', function(){
+    var $loading = $('.formLoader').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show();
+      })
+      .ajaxComplete(function () {
+        $loading.hide();
+        dataTables.datasets = $('#datasets_table').DataTable(dataTablesProp);
+        $('.kaminari-paginate-button').on("click", function (){
+          hidePopovers();
+        });
+      });
+  });
+  
+  
+  
+  
+  //molecule
+  
+  
+  
+  
+  
+  $(document).ready(function() {
+    $('#molecule_param').autocomplete({
+    source: $('#molecule_param').data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( "#molecule_param" ).val( ui.item[1] );
+      return false;
+    },
+    response: function(event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+            if (ui.content.length === 0) {
+                $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+            } else {
+                $("#empty-message-molecule").empty();
+            }
+    }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+    //host
+  $(document).ready(function() {
+    $('#host_param').autocomplete({
+    source: $('#host_param').data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( "#host_param" ).val( ui.item[1] );
+      return false;
+    },
+    response: function(event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+            if (ui.content.length === 0) {
+                $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+            } else {
+                $("#empty-message-molecule").empty();
+            }
+    }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+    //supplement
+  $(document).ready(function() {
+    $('#supplement_param').autocomplete({
+    source: $('#supplement_param').data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( "#supplement_param" ).val( ui.item[1] );
+      return false;
+    },
+    response: function(event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+            if (ui.content.length === 0) {
+                $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+            } else {
+                $("#empty-message-molecule").empty();
+            }
+    }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+    //solvent
+  $(document).ready(function() {
+    $('#solvent_param').autocomplete({
+    source: $('#solvent_param').data('autocomplete-source'),
+      select: function( event, solvent0 ) {
+        $( "#solvent_param" ).val( solvent0.item[1] );
+        return false;
+        }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li class='col-md-4'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center previewDiv'>" + " <br>  " + "<img src=" + item[2] + " alt='image' class='preview'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+        .appendTo( ul );
+      };
+    });
+  
+    //technique
+  $(document).ready(function() {
+    $('#technique_param').autocomplete({
+    source: $('#technique_param').data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( "#technique_param" ).val( ui.item[0] );
+      return false;
+    }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        ul.addClass('adv_technique');
+      return $( "<li class='col-md-12'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0] + " | <span class='icon-" + item[1].toLowerCase() + " " + item[1] + "'></span></div>" )
+        .appendTo( ul );
+      }
+    });
+    //assay_type
+  $(document).ready(function() {
+    $('#assay_type_param').autocomplete({
+    source: $('#assay_type_param').data('autocomplete-source'),
+    select: function( event, ui ) {
+      $( "#assay_type_param" ).val( ui.item[0] );
+      return false;
+    }
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        ul.addClass('adv_technique');
+      return $( "<li class='col-md-12'>" )
+        .append( "<div class='well col-md-12 center' >" + item[0] + " | <span class='icon-" + item[1].toLowerCase() + " " + item[1] + "'></span></div>" )
+        .appendTo( ul );
+      }
+    });
+  
+     //tags
+    $(document).on('turbolinks:load',function () {
+      if (!$("#mol_tag_tokens").hasClass(".tagFieldshown")) {
+         $("#mol_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                theme: "facebook",
+                tokenValue: "name",
+                placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                hintText: 'Start typing and choose one or more of the proposals',
+                prePopulate: $('#mol_tag_tokens').data('load')
+              });
+              $("#mol_tag_tokens").addClass(".tagFieldshown");
+      } else {
+        $("#mol_tags_div").empty();
+        $("#mol_tags_div").append("<input type='text' name='mol_tags_param' id='mol_tag_tokens' autofocus='autofocus' class='.tagFieldshown' style='display: none;'>");
+        $("#mol_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                 theme: "facebook",
+                 tokenValue: "name",
+                 placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                 hintText: 'Start typing and choose one or more of the proposals',
+                 prePopulate: $('#mol_tag_tokens').data('load')
+               });
+      };
+      if (!$("#host_tag_tokens").hasClass(".tagFieldshown")) {
+        $("#host_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                      theme: "facebook",
+                      tokenValue: "name",
+                      placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                      hintText: 'Start typing and choose one or more of the proposals',
+                      prePopulate: $('#host_tag_tokens').data('load')
+              });
+              $("#host_tag_tokens").addClass(".tagFieldshown");
+      } else {
+        $("#host_tags_div").empty();
+        $("#host_tags_div").append("<input type='text' name='host_tags_param' id='host_tag_tokens' autofocus='autofocus' class='.tagFieldshown' style='display: none;'>");
+        $("#host_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                       theme: "facebook",
+                       tokenValue: "name",
+                       placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                       hintText: 'Start typing and choose one or more of the proposals',
+                       prePopulate: $('#host_tag_tokens').data('load')
+                     });
+        };
+  
+    });
+  
+  // clear all inputs with the clear all button
+  $(document).ready(function() {
+      $('.clearbutton').click(function() {
+        $('.searchfield').val('');
+        $("#mol_tag_tokens").tokenInput("clear");
+        $("#host_tag_tokens").tokenInput("clear");
+      });
+    });
+  
+  $('button[name=searchAdvancedButton]').on("click", function(){
+      hidePopovers();
+      searchButtons_clicked = searchButtons_clicked + 1;
+      if ($.fn.DataTable.isDataTable('#int-index-molecules' )) {
+        dataTables.molecules.state.clear();
+        searchButtons_clicked = searchButtons_clicked - 1;
+      };
+    });
+</script>

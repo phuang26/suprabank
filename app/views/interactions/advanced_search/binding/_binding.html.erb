@@ -1,0 +1,22 @@
+  <div class="form-group row">
+    <div class="col-md-3" style="text-align:left;">
+      <label for="q_binding_constant_gteq_any" class="alignLabel" > <i class="fas fa-trash"></i> <i>K</i><sub>a</sub> </label>
+    </div>
+    <div class="col-md-4">
+    <%= f.search_field :binding_constant_gteq_any, placeholder: "from", autofocus: true, class: "form-control search-box searchfield refinement-input", onchange:"calcToDecLog(this, '#logka')"  %>
+   </div>
+   <div class="col-md-4">
+     <%= f.search_field :binding_constant_lteq_any, placeholder: "from", autofocus: true, class: "form-control search-box searchfield refinement-input", onchange:"calcToDecLog(this, '#logka_upper')"  %>
+   </div>
+ </div>
+ <div class="form-group row">
+   <div class="col-md-3" style="text-align:left;">
+     <label for="q_binding_constant_gteq_any" class="alignLabel" > <i class="fas fa-trash"></i> log <i>K</i><sub>a</sub> </label>
+   </div>
+   <div class="col-md-4">
+     <%= text_field_tag :logka,nil, placeholder: "from", autofocus: true, class: "form-control search-box searchfield" , id:'logka', onchange:"calcToDecPower(this, '#q_binding_constant_gteq_any')"%>
+   </div>
+  <div class="col-md-4">
+    <%= text_field_tag :logka_upper, nil, placeholder: "to", autofocus: true, class: "form-control search-box searchfield", id:'logka_upper', onchange:"calcToDecPower(this, '#q_binding_constant_lteq_any')" %>
+  </div>
+</div>

@@ -1,0 +1,386 @@
+<div class="container col-md-12" id="interactions-lookup">
+  <%= form_tag advsearch_datasets_path, remote: true, method: :get, id: "interaction-advlookup-form" do %>
+    <div class="container col-md-12">
+      <div class="col-md-3" style="margin-bottom:33px;">
+        <%= hidden_field_tag "user_id", current_user.id %>
+        <%= button_tag(type: :submit, class: "btn btn-md btn-primary search_button", value:"list_all", onclick: "showLoader('turbo')") do %>
+         <i class="fas fa-search"></i> All possible interaction
+        <% end %>
+      </div>
+      <div class="col-md-3" style="margin-bottom:33px;">
+        <button type="button" name="refine" class="btn btn-md btn-info" data-toggle="collapse" data-target="#refinement_panel" aria-expanded="false"><i class="fas fa-search"></i> Refine results</button>
+      </div>
+       <div class="col-md-1" style="margin-bottom:33px;">
+         <div id='turboloader'>
+           <%= image_tag "preloader/default_trans.gif", size:"25x25"%>
+         </div>
+      </div>
+    </div>
+    <div class="container collapse" id="refinement_panel">
+
+    <!-- binding -->
+    <div class="container col-md-12">
+      <div class="form-group row" >
+        <div class="col-md-2" style="text-align:left; ">
+            <%= label_tag 'moleculeAdvSearch',"Molecule/Guest".html_safe, class: "alignLabel"%>
+        </div>
+         <div class="col-md-7">
+          <%= text_field_tag :molecule_param, params[:molecule_param], placeholder: "name of e.g. guest, ligand", autofocus: true, class: "form-control col-md-9 search-box searchfield", data: {autocomplete_source: query_molecules_path }%>
+         </div>
+         <div class="col-md-3">
+          <%= check_box_tag :molecule_exclusive_param, "yes", false, class:"middle" %>
+          <span class="middle has-tooltip" data-toggle="tooltip" data-placement="top" title="Molecule is exclusively in the role of a Guest." >exclusive</span>
+         </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-2" style="text-align:left;">
+          <%= check_box_tag :host_or_param, "yes", false, class:"middle" %>
+          <span class="middle has-tooltip" data-toggle="tooltip" data-placement="top" title="Typical query: Guest AND Host in one interaction. Select to get Guest OR Host in an interaction." >OR</span>
+        </div>
+         <div class="col-md-7" id="mol_tags_div">
+            <%= text_field_tag :mol_tags_param, params[:mol_tags_param], value:nil, id: "mol_tag_tokens", autofocus: true%>
+         </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-2" style="text-align:left;">
+        <%= label_tag 'partnerAdvSearch',"Partner/Host".html_safe, class: "alignLabel" %>
+        </div>
+        <div class="col-md-7">
+          <%= text_field_tag :host_param, params[:host_param], placeholder: "name of e.g. host, protein", autofocus: true, class: "form-control search-box searchfield"  , data: {autocomplete_source: query_molecules_path }%>
+        </div>
+        <div class="col-md-3">
+         <%= check_box_tag :host_exclusive_param, "yes", false, class:"middle" %>
+         <span class="middle has-tooltip" data-toggle="tooltip" data-placement="top" title="Molecule is exclusively in the role of a Host." >exclusive</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-2" style="text-align:left;">
+            <%= label_tag 'hostTagsAdvSearch',"".html_safe, class: "alignLabel"%>
+        </div>
+         <div class="col-md-7" id="host_tags_div">
+          <%= text_field_tag :host_tags_param, params[:host_tags_param], value:nil, id: "host_tag_tokens", autofocus: true%>
+         </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-2" style="text-align:left;">
+        <%= label_tag 'suppAdvSearch',"Supplement".html_safe, class: "alignLabel" %>
+        </div>
+        <div class="col-md-7">
+          <%= text_field_tag :supplement_param, params[:supplement_param], placeholder: "name of e.g. cofactor or indicator", autofocus: true, class: "form-control search-box searchfield" , data: {autocomplete_source: query_molecules_path } %>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container col-md-12">
+
+    </div>
+
+    <div class="collapse" id="more_options">
+        <!-- method -->
+      <div class="container col-md-6">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <button class="btn btn-md btn-default include_button" type="button" data-toggle="collapse" data-target="#method_panel" aria-expanded="false" aria-controls="collapseExample">
+              Specify Method
+            </button>
+          </div>
+        </div>
+        <div class="collapse container col-md-12" id="method_panel">
+             <%= render 'interactions/search/method_adv_search' %>
+       </div>
+      </div>
+      <!-- binding -->
+      <div class="container col-md-6">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <button class="btn btn-md btn-default include_button" type="button" data-toggle="collapse" data-target="#binding_panel" aria-expanded="false" aria-controls="collapseExample">
+              Specify Binding (<em>K</em><sub>a</sub>)
+            </button>
+          </div>
+        </div>
+        <div class="collapse container col-md-12" id="binding_panel">
+          <%= render 'interactions/search/binding_to_adv_search' %>
+       </div>
+      </div>
+      <div class="container col-md-12">
+
+      </div>
+      <div class="container col-md-6">
+        <!-- condition -->
+        <div class="form-group row">
+            <div class="col-md-12">
+            <button class="btn btn-md btn-default include_button" type="button" data-toggle="collapse" data-target="#condition_panel" aria-expanded="false" aria-controls="collapseExample">
+              Specify Conditions
+            </button>
+          </div>
+        </div>
+        <div class="collapse container col-md-12" id="condition_panel">
+            <%= render 'interactions/search/condition_adv_search' %>
+        </div>
+      </div>
+      <div class="container col-md-6">
+      <!-- citation -->
+        <div class="form-group row">
+          <div class="col-md-12">
+            <button class="btn btn-md btn-default include_button" type="button" data-toggle="collapse" data-target="#citation_panel" aria-expanded="false" aria-controls="collapseExample">
+              Specify Citation
+            </button>
+          </div>
+        </div>
+        <div class="collapse container col-md-12" id="citation_panel">
+          <%= render 'interactions/search/citation_adv_search' %>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="container col-md-12" style="margin-bottom:30px;">
+      <div class="form-group row" >
+        <div class="col-md-2" style="margin-bottom:33px;">
+          <button class="btn btn-md btn-default clearbutton search_button" type="button" >
+            Clear All
+          </button>
+         </div>
+        <div class="col-md-3" style="margin-bottom:33px;">
+          <button class="btn btn-md btn-primary search_button" type="button" data-toggle="collapse" data-target="#more_options" aria-expanded="false" aria-controls="collapseExample">
+            More options for search
+          </button>
+         </div>
+         <div class="col-md-3" style="margin-bottom:33px;">
+           <%= hidden_field_tag "dataset_id", @dataset.id %>
+           <%= button_tag(type: :submit, class: "btn btn-md btn-success search_button", value:"search", onclick: "showLoader('turbo')") do %>
+            <i class="fa fa-search"></i> Search
+           <% end %>
+         </div>
+
+      </div>
+    </div>
+</div>
+  <div class="form-group row no-padding text-center col-md-12">
+  </div>
+
+
+
+  <% end %>
+
+  <%#= link_to "Show all possible interactions", {controller: "datasets", action: 'list_all_possible_interactions', user_id: current_user, dataset_id: @dataset, :utf8=>"✓"}, class:"btn btn-md btn-default", remote: true, method: :get %>
+  <div class="container col-md-12" id='advresults'>
+
+  </div>
+
+
+</div>
+<%= link_to t('Cancel', :default => t("helpers.links.back")),
+              dataset_path(@dataset), :class => 'btn btn-default'  %>
+
+<script type="text/javascript">
+
+//tags
+$(document).on('turbolinks:load',function () {
+ if (!$("#mol_tag_tokens").hasClass(".tagFieldshown")) {
+    $("#mol_tag_tokens").tokenInput("/molecules/query_tags.json", {
+           theme: "facebook",
+           tokenValue: "name",
+           placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+           hintText: 'Start typing and choose one or more of the proposals',
+           prePopulate: $('#mol_tag_tokens').data('load')
+         });
+         $("#mol_tag_tokens").addClass(".tagFieldshown");
+ } else {
+   $("#mol_tags_div").empty();
+   $("#mol_tags_div").append("<input type='text' name='mol_tags_param' id='mol_tag_tokens' autofocus='autofocus' class='.tagFieldshown' style='display: none;'>");
+   $("#mol_tag_tokens").tokenInput("/molecules/query_tags.json", {
+            theme: "facebook",
+            tokenValue: "name",
+            placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+            hintText: 'Start typing and choose one or more of the proposals',
+            prePopulate: $('#mol_tag_tokens').data('load')
+          });
+ };
+ if (!$("#host_tag_tokens").hasClass(".tagFieldshown")) {
+   $("#host_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                 theme: "facebook",
+                 tokenValue: "name",
+                 placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                 hintText: 'Start typing and choose one or more of the proposals',
+                 prePopulate: $('#host_tag_tokens').data('load')
+         });
+         $("#host_tag_tokens").addClass(".tagFieldshown");
+ } else {
+   $("#host_tags_div").empty();
+   $("#host_tags_div").append("<input type='text' name='host_tags_param' id='host_tag_tokens' autofocus='autofocus' class='.tagFieldshown' style='display: none;'>");
+   $("#host_tag_tokens").tokenInput("/molecules/query_tags.json", {
+                  theme: "facebook",
+                  tokenValue: "name",
+                  placeholder: 'Enter tags as e.g. dye, hormone, macrocycle',
+                  hintText: 'Start typing and choose one or more of the proposals',
+                  prePopulate: $('#host_tag_tokens').data('load')
+                });
+   };
+
+});
+
+  //molecule
+
+
+$(document).ready(function() {
+  $('#molecule_param').autocomplete({
+  source: $('#molecule_param').data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( "#molecule_param" ).val( ui.item[1] );
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+          } else {
+              $("#empty-message-molecule").empty();
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+      .appendTo( ul );
+    };
+  });
+  //host
+$(document).ready(function() {
+  $('#host_param').autocomplete({
+  source: $('#host_param').data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( "#host_param" ).val( ui.item[1] );
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+          } else {
+              $("#empty-message-molecule").empty();
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+      .appendTo( ul );
+    };
+  });
+  //supplement
+$(document).ready(function() {
+  $('#supplement_param').autocomplete({
+  source: $('#supplement_param').data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( "#supplement_param" ).val( ui.item[1] );
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+          } else {
+              $("#empty-message-molecule").empty();
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+      .appendTo( ul );
+    };
+  });
+  //solvent
+$(document).ready(function() {
+  $('#solvent_param').autocomplete({
+  source: $('#solvent_param').data('autocomplete-source'),
+    select: function( event, solvent0 ) {
+      $( "#solvent_param" ).val( solvent0.item[1] );
+      return false;
+      }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li class='col-md-4'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0].substring(0, 20) + " <br> "  + "<div class='center'>" + " <br>  " + "<img src=" + item[2] + " alt='image' height='150'>" + "</div>"+ item[1].substring(0, 20)  +  " <span>"   + "</span></div>" )
+      .appendTo( ul );
+    };
+  });
+
+ //buffer
+ $(document).ready(function() {
+   return $('#buffer_param').autocomplete({
+     source: $('#buffer_param').data('autocomplete-source')
+   });
+ });
+
+
+  //technique
+$(document).ready(function() {
+  $('#technique_param').autocomplete({
+  source: $('#technique_param').data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( "#technique_param" ).val( ui.item[0] );
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+          } else {
+              $("#empty-message-molecule").empty();
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      ul.addClass('adv_technique');
+    return $( "<li class='col-md-12'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0] + " | <span class='icon-" + item[1].toLowerCase() + " " + item[1] + "'></span></div>" )
+      .appendTo( ul );
+    }
+  });
+  //assay_type
+$(document).ready(function() {
+  $('#assay_type_param').autocomplete({
+  source: $('#assay_type_param').data('autocomplete-source'),
+  select: function( event, ui ) {
+    $( "#assay_type_param" ).val( ui.item[0] );
+    return false;
+  },
+  response: function(event, ui) {
+          // ui.content is the array that's about to be sent to the response callback.
+          if (ui.content.length === 0) {
+              $("#empty-message-molecule").html("<%= escape_javascript(render 'interactions/autocomplete/response_molecules', molecule:"Molecule") %>");
+          } else {
+              $("#empty-message-molecule").empty();
+          }
+  }
+    })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      ul.addClass('adv_technique');
+    return $( "<li class='col-md-12'>" )
+      .append( "<div class='well col-md-12 center' >" + item[0] + " | <span class='icon-" + item[1].toLowerCase() + " " + item[1] + "'></span></div>" )
+      .appendTo( ul );
+    }
+  });
+
+
+// clear all inputs with the clear all button
+$(document).ready(function() {
+    $('.clearbutton').click(function() {
+      $('.searchfield').val('');
+    });
+  });
+// toggle the style of the buttons when the panel is open
+$(document).ready(function() {
+    $('.include_button').click(function() {
+      $(this).toggleClass('highlight').blur();
+    });
+  });
+
+
+
+</script>

@@ -1,0 +1,3 @@
+$("#advanced_search_content").html("<%= escape_javascript(render 'interactions/advanced_search/ransack_table', interactions:@interactions, table_id:'molecules') %>");
+$('#advanced_search_paginator').html('<%= escape_javascript(paginate(@interactions, btncolor:"primary", :remote => true).to_s) %>');
+

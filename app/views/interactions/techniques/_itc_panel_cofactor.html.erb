@@ -1,0 +1,28 @@
+
+<div class="form-group" style="margin-top: 40px">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1 unit">
+    <label for="" class="control-label form-label">Cofactor:</label>
+  </div>
+
+  <div class="col-md-3 itc_position_radio">
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :conjugate_cell, true , class:"conjugate_cell custom_radio itc_radio", checked:"checked", onchange: "calculateConcFromITC('conjugate')", data: {species: "conjugate"} %><span></span>
+        Cell
+      </label>
+      <label class="radio-inline control-label">
+        <%= technique.radio_button :conjugate_cell, false, class:"conjugate_cell custom_radio itc_radio",  onchange: "calculateConcFromITC('conjugate')", data: {species: "conjugate"}%><span></span>
+        Syringe
+      </label>
+  </div>
+  <div class="col-md-1 unit control-label">
+    <%= technique.label :concentration_conjugate, "C<sub>cofactor</sub>".html_safe, class:"form-label" %>
+  </div>
+
+  <div class="col-md-4" >
+    <%= technique.text_field :concentration_conjugate, :class => 'form-control' , placeholder:"concentration cofactor", onchange: "checkValidNumber(this), calculateConcFromITC('conjugate')" %>
+  </div>
+
+  <label class="control-label col-md-1 unit"> &#120583;M </label>
+</div>

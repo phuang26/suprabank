@@ -1,0 +1,6 @@
+$('#content').html("<%= escape_javascript(render :partial => 'molecules/frameworks/frameworks_lookup') %>");
+$('#cidsearch').html("");
+$("#message").hide();
+$('#framework-lookup-form').on('ajax:complete', function(event, data, status){
+      $('#framework_result').html(data.responseText);
+     });

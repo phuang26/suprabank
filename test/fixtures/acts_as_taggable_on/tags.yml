@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+tag_one:
+ name: guest
+ taggings_count: 1
+
+tag_two:
+  name: alcohol
+  taggings_count: 1

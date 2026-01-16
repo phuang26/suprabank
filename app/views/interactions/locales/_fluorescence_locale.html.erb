@@ -1,0 +1,29 @@
+<% if @interaction.in_technique.lambda_ex.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">&#120524;<sub>ex</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.lambda_ex %> nm</td>
+    <td class="col-md-2"></td>
+  </tr>
+<% end %>
+<% if @interaction.in_technique.lambda_em.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">&#120524;<sub>em</sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.lambda_em %> nm</td>
+    <td class="col-md-2"></td>
+  </tr>
+<% end %>
+
+<% if @interaction.in_technique.free_to_bound.present? %>
+  <tr>
+    <td class='no_top_border col-md-3'></td>
+    <td class="col-md-1">
+      <sup>I<sub>bound</sub></sup>&frasl;<sub>I<sub>free</sub></sub></td>
+    <td class="col-md-1">=</td>
+    <td class="col-md-2"><%= @interaction.in_technique.free_to_bound %></td>
+    <td class="col-md-2"></td>
+  </tr>
+<% end %>

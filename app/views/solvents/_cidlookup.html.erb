@@ -1,0 +1,29 @@
+<div class="col-md-12">
+  <hr>
+</div>
+
+<div class="" id="cidsolvent-lookup">
+  <%= form_tag cid_request_solvents_path, remote: true, method: :get, id: "cidsolvent-lookup-form" do %>
+  <div class="form-group row">
+    <div class="col-md-8">
+      <%= text_field_tag :cidsolvent, params[:cidsolvent], placeholder: "by CID", autofocus: true, class: "form-control search-box" %>
+    </div>
+    <div class="col-md-1">
+      <div id='cidloader'>
+        <%= image_tag "preloader/default_trans.gif", size:"32x32"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= button_tag(type: :submit, class: "btn btn-primary search_button", onclick: "showLoader('cid')") do %>
+        <i class="fa fa-search"></i> Search by CID
+      <% end %>
+    </div>
+  </div>
+
+  <% end %>
+
+  <div class="container col-md-12" id='cidresults'>
+    <%= render 'solvents/result' %>
+  </div>
+
+</div>

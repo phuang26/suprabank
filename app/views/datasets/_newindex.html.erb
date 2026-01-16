@@ -1,0 +1,97 @@
+<%- model_class = Dataset -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %> <%= userlabel %></h1>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover" id="datasets_table">
+    <thead>
+      <tr>
+        <th class="col-md-1 no-sort">Info</th>
+        <th class="col-md-2" >DOI</th>
+        <th class="col-md-4" ><%= model_class.human_attribute_name(:title) %></th>
+        <th class="col-md-1" >Size</th>
+        <th class="col-md-1 no-sort" ><%= model_class.human_attribute_name(:rights) %></th>
+        <th class="col-md-1" ><%= model_class.human_attribute_name(:state) %></th>
+        <th class="col-md-2" >Created</th>
+        <% if false%>
+        <th class="col-md-1" ><%= model_class.human_attribute_name(:subjects) %></th>
+        <th class="col-md-1" ><%=t '.actions', :default => t("helpers.actions") %></th>
+        <th class="col-md-1" >Reference</th>
+        <% end %>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @datasets.each do |dataset| %>
+        <tr>
+          <td><%= link_to "", dataset_path(dataset.id), class:"fas fa-eye", target:"_blank" %></td>
+          <td><span class="label label-supra has-tooltip" id="dataset_doi" onclick="copyToClipboard('#dataset_doi')" data-toggle="tooltip" data-placement="top" title="Click to copy"><%= dataset.identifier %></span></td>
+          <td><%= dataset.title %></td>
+          <% if false %>
+          <td><%= dataset.subjects %></td>
+          <td><%= dataset.related_identifiers.first.present? ? dataset.related_identifiers.first.relatedIdentifier : "" %></td>
+          <td>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+            edit_dataset_path(dataset), :class => 'btn btn-default btn-xs' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+            dataset_path(dataset),
+            :method => :delete,
+            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+            :class => 'btn btn-xs btn-danger' %>
+          </td>
+          <% end %>
+          <td><span class="badge dataset_size"> <%= dataset.size_count %> </span> </td>
+          <td>
+            <%= link_to (image_tag "logos/cc.svg", size:"20x20"), dataset.rightsURI, target: :_blank %>
+
+            <% if dataset.rightsIdentifier == "cc-by-sa-4.0"%>
+              <%= image_tag "logos/cc-by-4.0.svg", size:"20x20" %>
+            <% end %>
+            <%= image_tag "logos/#{dataset.rightsIdentifier}.svg", size:"20x20" %>
+          </td>
+          <td> <span class="<%= dataset.state %> label"><%= dataset.state %></span></td>
+          <td><%= dataset.created_at.strftime("%d. %b %Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="col-md-3 col-xs-12">
+  <%= render 'buttons/create_datasets' %>
+</div>
+
+<script type="text/javascript">
+
+    dataTable = $('#datasets_table').DataTable({
+      "bAutoWidth": false,
+      stateSave: true,
+      "order": [],
+      "columnDefs": [{
+        "targets"  : 'no-sort',
+        "orderable": false,
+      },
+      {"width": "2%", "targets": 3}
+      ],
+      "drawCallback": function(){
+
+          $('[data-toggle="popover"]').popover({
+
+              placement : 'bottom',
+
+              trigger : 'click',
+
+              html : true,
+          });
+          $('[data-toggle="tooltip"]').tooltip({
+
+              placement : 'top',
+
+              trigger : 'hover',
+
+              html : true,
+          });
+
+      }
+    })
+
+</script>

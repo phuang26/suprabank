@@ -1,0 +1,20 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 class="panel-title"><%= image_tag "struc.svg", class:"svg-structure" %> Structure</h2>
+  </div>
+  <div class="panel-body structure-image-panel">
+    <div class="molecule-structure">
+      <%# <%= image_tag("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/#{@molecule.display_name}/PNG" , size: "150x150")%>
+      <input type="checkbox" id="zoomCheck" class="zoomCheck">
+      <label for="zoomCheck">
+        <%= image_tag object.png_url, class: 'structure-image'%>
+      </label>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <%= link_to "Download Image", @molecule.png.url , :class => 'btn btn-default btn-md'%>
+    <% if @molecule.cdx.present? %>
+        <%= link_to "Download CDX", @molecule.cdx.url , :class => 'btn btn-default btn-md'%>
+    <% end %>
+  </div>
+</div>

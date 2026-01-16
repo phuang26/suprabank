@@ -1,0 +1,2 @@
+//$('#message').text("#{@message}");
+$("#message").html("<%= escape_javascript(render partial: 'successful_retrieval', :locals => {additive: @additive}) %>");

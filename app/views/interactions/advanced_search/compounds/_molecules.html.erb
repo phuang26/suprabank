@@ -1,0 +1,10 @@
+<div class="form-group row">
+  <div class="col-md-2 col-xs-12">
+    <label class="labelAlign" for="q_molecule_display_name_eq"><i class="fas fa-trash"></i> Molecule/Guest </label>
+  </div>
+  <div class="col-md-7 col-xs-12">
+    <%= f.search_field :molecule_display_name_eq, class:"form-control refinement-input", placeholder: "type and select", data: {autocomplete_source: query_molecules_path }  %>
+  </div>
+  <div class="col-md-3">
+  </div>
+</div>
