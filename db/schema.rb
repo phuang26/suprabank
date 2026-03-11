@@ -455,8 +455,35 @@ ActiveRecord::Schema.define(version: 20211028142735) do
     t.datetime "updated_at",              null: false
   end
 
-# Could not dump table "users" because of following FrozenError
-#   can't modify frozen String: "false"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  null: false, default: ""
+    t.string   "encrypted_password",     null: false, default: ""
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string   "givenName"
+    t.string   "familyName"
+    t.string   "url"
+    t.boolean  "moderator",              default: false
+    t.integer  "user_role"
+    t.string   "nameIdentifier"
+    t.string   "affiliation"
+    t.string   "affiliationIdentifier"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "users", ["email"],                name: "index_users_on_email",                  unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token",   unique: true, using: :btree
+  add_index "users", ["givenName"],            name: "index_users_on_givenName",              using: :btree
+  add_index "users", ["familyName"],           name: "index_users_on_familyName",             using: :btree
+  add_index "users", ["nameIdentifier"],       name: "index_users_on_nameIdentifier",         using: :btree
+  add_index "users", ["affiliation"],          name: "index_users_on_affiliation",            using: :btree
+  add_index "users", ["affiliationIdentifier"],name: "index_users_on_affiliationIdentifier",  using: :btree
 
   add_foreign_key "assignments", "groups"
   add_foreign_key "assignments", "users"
