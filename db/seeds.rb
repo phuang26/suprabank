@@ -32,38 +32,26 @@ tags = ["typical guest","typical host","aromatic","aliphatic", "dye","amino acid
 
   ActsAsTaggableOn::Tag.create(tags.map { |tag| {name: tag} })
 
-# Default users
+# Default users — saved with validate: false so MX/disposable checks don't run
+# against seed addresses in environments without external DNS.
 # Roles: user (0), group_admin (1), admin (2), editor (3)
-User.find_or_create_by!(email: 'admin@example.com') do |u|
-  u.password              = 'SupraBank123!'
-  u.password_confirmation = 'SupraBank123!'
-  u.givenName             = 'Admin'
-  u.familyName            = 'User'
-  u.user_role             = :admin
-end
-
-User.find_or_create_by!(email: 'editor@example.com') do |u|
-  u.password              = 'SupraBank123!'
-  u.password_confirmation = 'SupraBank123!'
-  u.givenName             = 'Editor'
-  u.familyName            = 'User'
-  u.user_role             = :editor
-end
-
-User.find_or_create_by!(email: 'user@example.com') do |u|
-  u.password              = 'SupraBank123!'
-  u.password_confirmation = 'SupraBank123!'
-  u.givenName             = 'Regular'
-  u.familyName            = 'User'
-  u.user_role             = :user
-end
-
-User.find_or_create_by!(email: 'group_admin@example.com') do |u|
-  u.password              = 'SupraBank123!'
-  u.password_confirmation = 'SupraBank123!'
-  u.givenName             = 'Group'
-  u.familyName            = 'Admin'
-  u.user_role             = :group_admin
+[
+  { email: 'admin@example.com',       password: 'SupraBank123!', givenName: 'Admin',   familyName: 'User',  user_role: :admin },
+  { email: 'editor@example.com',      password: 'SupraBank123!', givenName: 'Editor',  familyName: 'User',  user_role: :editor },
+  { email: 'user@example.com',        password: 'SupraBank123!', givenName: 'Regular', familyName: 'User',  user_role: :user },
+  { email: 'group_admin@example.com', password: 'SupraBank123!', givenName: 'Group',   familyName: 'Admin', user_role: :group_admin },
+].each do |attrs|
+  next if User.exists?(email: attrs[:email])
+  u = User.new(
+    email:                 attrs[:email],
+    password:              attrs[:password],
+    password_confirmation: attrs[:password],
+    givenName:             attrs[:givenName],
+    familyName:            attrs[:familyName],
+    user_role:             attrs[:user_role]
+  )
+  u.skip_confirmation!
+  u.save!(validate: false)
 end
 
 

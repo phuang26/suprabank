@@ -23,7 +23,7 @@ scope :editors, -> { where(user_role: 3) }
          :recoverable, :rememberable, :validatable, :confirmable
  has_attached_file :avatar, styles: { medium: "250x250>", thumb: "60x60>" }, default_url: "/images/:style/blank-user-profile.png"
  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
- validates :email, 'valid_email_2/email': { mx: true, disposable_with_whitelist: true, disallow_subaddressing: true, blacklist: true, message: "is not a valid email"}
+ validates :email, 'valid_email_2/email': { mx: true, disposable_with_allow_list: true, disallow_subaddressing: true, deny_list: true, message: "is not a valid email"}
 
  has_many :buffers
  has_many :interactions
