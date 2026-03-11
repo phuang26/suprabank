@@ -24,49 +24,8 @@ ActiveRecord::Schema.define(version: 20211028142735) do
     t.datetime "updated_at",    null: false
   end
 
-  create_table "additives", force: :cascade do |t|
-    t.string   "inchikey"
-    t.string   "inchistring"
-    t.float    "molecular_weight"
-    t.float    "volume_3d"
-    t.float    "tpsa"
-    t.float    "complexity"
-    t.string   "sum_formular"
-    t.string   "names",                            default: [],                 array: true
-    t.string   "iupac_name"
-    t.string   "display_name"
-    t.string   "cas"
-    t.float    "conformer_count_3d"
-    t.float    "bond_stereo_count"
-    t.float    "atom_stereo_count"
-    t.float    "h_bond_donor_count"
-    t.float    "h_bond_acceptor_count"
-    t.float    "x_log_p"
-    t.float    "charge"
-    t.string   "cano_smiles"
-    t.string   "iso_smiles"
-    t.string   "fingerprint_2d"
-    t.boolean  "is_partial",                       default: false, null: false
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.datetime "deleted_at"
-    t.string   "pubchem_link"
-    t.integer  "cid"
-    t.string   "svg_file_name"
-    t.string   "svg_content_type"
-    t.integer  "svg_file_size",          limit: 8
-    t.datetime "svg_updated_at"
-    t.string   "png_file_name"
-    t.string   "png_content_type"
-    t.integer  "png_file_size",          limit: 8
-    t.datetime "png_updated_at"
-    t.string   "mdl_string"
-    t.string   "preferred_abbreviation"
-    t.float    "ertl_tpsa"
-    t.float    "cheng_xlogp3"
-    t.integer  "interactions_count"
-    t.text     "png_url"
-  end
+# Could not dump table "additives" because of following FrozenError
+#   can't modify frozen String: "false"
 
   create_table "additives_interactions", force: :cascade do |t|
     t.integer "interaction_id"
@@ -384,115 +343,8 @@ ActiveRecord::Schema.define(version: 20211028142735) do
   add_index "interaction_solvents", ["interaction_id"], name: "index_interaction_solvents_on_interaction_id", using: :btree
   add_index "interaction_solvents", ["solvent_id"], name: "index_interaction_solvents_on_solvent_id", using: :btree
 
-  create_table "interactions", force: :cascade do |t|
-    t.string   "method"
-    t.string   "assay_type"
-    t.string   "technique"
-    t.float    "binding_constant"
-    t.float    "binding_constant_error"
-    t.string   "binding_constant_unit"
-    t.integer  "molecule_id"
-    t.float    "lower_molecule_concentration"
-    t.integer  "host_id"
-    t.float    "lower_host_concentration"
-    t.integer  "indicator_id"
-    t.float    "lower_indicator_concentration"
-    t.integer  "conjugate_id"
-    t.float    "lower_conjugate_concentration"
-    t.float    "temperature",                             default: 25.0,                 null: false
-    t.float    "pH"
-    t.string   "doi"
-    t.float    "itc_deltaH"
-    t.float    "itc_deltaH_error"
-    t.float    "itc_deltaST"
-    t.float    "itc_deltaST_error"
-    t.float    "kin_hg"
-    t.float    "kin_hg_error"
-    t.string   "kin_hg_unit"
-    t.string   "kout_hg_unit"
-    t.float    "icd"
-    t.float    "ct_band"
-    t.float    "lambda_em"
-    t.float    "lambda_ex"
-    t.float    "free_to_bound_FL"
-    t.string   "data"
-    t.boolean  "is_listed"
-    t.datetime "created_at",                                                             null: false
-    t.datetime "updated_at",                                                             null: false
-    t.boolean  "is_clone",                                default: false,                null: false
-    t.integer  "linked_interaction"
-    t.integer  "user_id"
-    t.float    "logKa"
-    t.float    "vol_perc",                                                                            array: true
-    t.float    "additive_conc",                                                                       array: true
-    t.float    "logka_error"
-    t.float    "kout_hg"
-    t.float    "kout_hg_error"
-    t.string   "citation"
-    t.integer  "buffer_id"
-    t.float    "deltaG"
-    t.float    "deltaG_error"
-    t.float    "nmrshift"
-    t.float    "upper_host_concentration"
-    t.float    "upper_molecule_concentration"
-    t.float    "upper_indicator_concentration"
-    t.float    "upper_conjugate_concentration"
-    t.string   "binding_range"
-    t.string   "solvent_system"
-    t.float    "solubility"
-    t.float    "ionic_strength"
-    t.string   "nucleus"
-    t.float    "delta_S"
-    t.boolean  "published",                               default: false
-    t.string   "revision",                                default: "pending inspection"
-    t.text     "revision_comment"
-    t.string   "variation",                               default: "molecule"
-    t.text     "comment"
-    t.json     "crossref"
-    t.string   "bibtex_file_name"
-    t.string   "bibtex_content_type"
-    t.integer  "bibtex_file_size",              limit: 8
-    t.datetime "bibtex_updated_at"
-    t.integer  "reviewer_id"
-    t.boolean  "embargo",                                 default: true
-    t.integer  "in_technique_id"
-    t.string   "in_technique_type"
-    t.text     "revisions_reply"
-    t.boolean  "doi_validity"
-    t.datetime "deleted_at"
-    t.float    "stoichometry_molecule",                   default: 1.0
-    t.float    "stoichometry_host",                       default: 1.0
-    t.float    "stoichometry_indicator",                  default: 1.0
-    t.float    "stoichometry_conjugate",                  default: 1.0
-    t.text     "label"
-    t.boolean  "varified"
-    t.integer  "show_count",                              default: 0
-    t.boolean  "host_suspension",                         default: false
-    t.float    "host_cofactor_wt"
-    t.float    "host_wt_low"
-    t.float    "host_wt_high"
-    t.float    "host_indicator_wt"
-  end
-
-  add_index "interactions", ["assay_type"], name: "index_interactions_on_assay_type", using: :btree
-  add_index "interactions", ["binding_constant"], name: "index_interactions_on_binding_constant", using: :btree
-  add_index "interactions", ["buffer_id"], name: "index_interactions_on_buffer_id", using: :btree
-  add_index "interactions", ["citation"], name: "index_interactions_on_citation", using: :btree
-  add_index "interactions", ["conjugate_id"], name: "index_interactions_on_conjugate_id", using: :btree
-  add_index "interactions", ["deltaG"], name: "index_interactions_on_deltaG", using: :btree
-  add_index "interactions", ["doi"], name: "index_interactions_on_doi", using: :btree
-  add_index "interactions", ["host_id"], name: "index_interactions_on_host_id", using: :btree
-  add_index "interactions", ["indicator_id"], name: "index_interactions_on_indicator_id", using: :btree
-  add_index "interactions", ["itc_deltaH"], name: "index_interactions_on_itc_deltaH", using: :btree
-  add_index "interactions", ["itc_deltaST"], name: "index_interactions_on_itc_deltaST", using: :btree
-  add_index "interactions", ["logKa"], name: "index_interactions_on_logKa", using: :btree
-  add_index "interactions", ["method"], name: "index_interactions_on_method", using: :btree
-  add_index "interactions", ["molecule_id"], name: "index_interactions_on_molecule_id", using: :btree
-  add_index "interactions", ["pH"], name: "index_interactions_on_pH", using: :btree
-  add_index "interactions", ["solvent_system"], name: "index_interactions_on_solvent_system", using: :btree
-  add_index "interactions", ["technique"], name: "index_interactions_on_technique", using: :btree
-  add_index "interactions", ["temperature"], name: "index_interactions_on_temperature", using: :btree
-  add_index "interactions", ["user_id"], name: "index_interactions_on_user_id", using: :btree
+# Could not dump table "interactions" because of following FrozenError
+#   can't modify frozen String: "false"
 
   create_table "isothermal_titration_calorimetries", force: :cascade do |t|
     t.float    "cell_volume"
@@ -523,74 +375,8 @@ ActiveRecord::Schema.define(version: 20211028142735) do
     t.datetime "updated_at",       null: false
   end
 
-  create_table "molecules", force: :cascade do |t|
-    t.string   "inchikey"
-    t.string   "inchistring"
-    t.float    "molecular_weight"
-    t.float    "volume_3d"
-    t.float    "tpsa"
-    t.float    "complexity"
-    t.string   "sum_formular"
-    t.string   "names",                            default: [],                 array: true
-    t.string   "iupac_name"
-    t.string   "display_name"
-    t.string   "cas"
-    t.float    "conformer_count_3d"
-    t.float    "bond_stereo_count"
-    t.float    "atom_stereo_count"
-    t.float    "h_bond_donor_count"
-    t.float    "h_bond_acceptor_count"
-    t.float    "x_log_p"
-    t.float    "charge"
-    t.string   "cano_smiles"
-    t.string   "iso_smiles"
-    t.string   "fingerprint_2d"
-    t.boolean  "is_partial",                       default: false, null: false
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.datetime "deleted_at"
-    t.string   "pubchem_link"
-    t.integer  "cid"
-    t.string   "svg_file_name"
-    t.string   "svg_content_type"
-    t.integer  "svg_file_size",          limit: 8
-    t.datetime "svg_updated_at"
-    t.string   "png_file_name"
-    t.string   "png_content_type"
-    t.integer  "png_file_size",          limit: 8
-    t.datetime "png_updated_at"
-    t.string   "mdl_string"
-    t.string   "preferred_abbreviation"
-    t.integer  "user_id"
-    t.string   "cdx_file_name"
-    t.string   "cdx_content_type"
-    t.integer  "cdx_file_size",          limit: 8
-    t.datetime "cdx_updated_at"
-    t.string   "pdb_id"
-    t.float    "total_structure_weight"
-    t.integer  "atom_count"
-    t.integer  "residue_count"
-    t.text     "pdb_descriptor"
-    t.text     "pdb_title"
-    t.text     "pdb_keywords"
-    t.integer  "molecule_type",                    default: 0
-    t.float    "cheng_xlogp3"
-    t.float    "ertl_tpsa"
-    t.integer  "interactions_count"
-    t.text     "png_url"
-  end
-
-  add_index "molecules", ["cano_smiles"], name: "index_molecules_on_cano_smiles", using: :btree
-  add_index "molecules", ["cas"], name: "index_molecules_on_cas", using: :btree
-  add_index "molecules", ["cid"], name: "index_molecules_on_cid", using: :btree
-  add_index "molecules", ["display_name"], name: "index_molecules_on_display_name", using: :btree
-  add_index "molecules", ["inchikey"], name: "index_molecules_on_inchikey", using: :btree
-  add_index "molecules", ["iso_smiles"], name: "index_molecules_on_iso_smiles", using: :btree
-  add_index "molecules", ["iupac_name"], name: "index_molecules_on_iupac_name", using: :btree
-  add_index "molecules", ["molecular_weight"], name: "index_molecules_on_molecular_weight", using: :btree
-  add_index "molecules", ["preferred_abbreviation"], name: "index_molecules_on_preferred_abbreviation", using: :btree
-  add_index "molecules", ["sum_formular"], name: "index_molecules_on_sum_formular", using: :btree
-  add_index "molecules", ["user_id"], name: "index_molecules_on_user_id", using: :btree
+# Could not dump table "molecules" because of following FrozenError
+#   can't modify frozen String: "false"
 
   create_table "nuclear_magnetic_resonances", force: :cascade do |t|
     t.float    "shift_bound"
@@ -625,49 +411,8 @@ ActiveRecord::Schema.define(version: 20211028142735) do
     t.text     "toc_url"
   end
 
-  create_table "solvents", force: :cascade do |t|
-    t.string   "inchikey"
-    t.string   "inchistring"
-    t.float    "molecular_weight"
-    t.float    "volume_3d"
-    t.float    "tpsa"
-    t.float    "complexity"
-    t.string   "sum_formular"
-    t.string   "names",                            default: [],                 array: true
-    t.string   "iupac_name"
-    t.string   "display_name"
-    t.string   "cas"
-    t.float    "conformer_count_3d"
-    t.float    "bond_stereo_count"
-    t.float    "atom_stereo_count"
-    t.float    "h_bond_donor_count"
-    t.float    "h_bond_acceptor_count"
-    t.float    "x_log_p"
-    t.float    "charge"
-    t.string   "cano_smiles"
-    t.string   "iso_smiles"
-    t.string   "fingerprint_2d"
-    t.boolean  "is_partial",                       default: false, null: false
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.datetime "deleted_at"
-    t.string   "pubchem_link"
-    t.integer  "cid"
-    t.string   "svg_file_name"
-    t.string   "svg_content_type"
-    t.integer  "svg_file_size",          limit: 8
-    t.datetime "svg_updated_at"
-    t.string   "png_file_name"
-    t.string   "png_content_type"
-    t.integer  "png_file_size",          limit: 8
-    t.datetime "png_updated_at"
-    t.string   "mdl_string"
-    t.string   "preferred_abbreviation"
-    t.float    "ertl_tpsa"
-    t.float    "cheng_xlogp3"
-    t.integer  "interactions_count"
-    t.text     "png_url"
-  end
+# Could not dump table "solvents" because of following FrozenError
+#   can't modify frozen String: "false"
 
   create_table "surface_enhanced_raman_scatterings", force: :cascade do |t|
     t.float    "nu_obs"
@@ -710,39 +455,8 @@ ActiveRecord::Schema.define(version: 20211028142735) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                            default: "",    null: false
-    t.string   "encrypted_password",               default: "",    null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.string   "givenName"
-    t.string   "familyName"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "url"
-    t.boolean  "moderator",                        default: false
-    t.string   "nameIdentifier"
-    t.integer  "user_role"
-    t.string   "affiliation"
-    t.string   "affiliationIdentifier"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size",       limit: 8
-    t.datetime "avatar_updated_at"
-  end
-
-  add_index "users", ["affiliation"], name: "index_users_on_affiliation", using: :btree
-  add_index "users", ["affiliationIdentifier"], name: "index_users_on_affiliationIdentifier", using: :btree
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["familyName"], name: "index_users_on_familyName", using: :btree
-  add_index "users", ["givenName"], name: "index_users_on_givenName", using: :btree
-  add_index "users", ["nameIdentifier"], name: "index_users_on_nameIdentifier", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+# Could not dump table "users" because of following FrozenError
+#   can't modify frozen String: "false"
 
   add_foreign_key "assignments", "groups"
   add_foreign_key "assignments", "users"
