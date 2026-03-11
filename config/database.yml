@@ -1,11 +1,31 @@
-development:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: datasets_framework
   pool: 5
-  username: postgres 
-  host: db  
+  timeout: 5000
+
+development:
+  <<: *default
+  ## Versioning
+  ## database: repo_20250227
+  database: suprabank_1
+  username: postgres
+  password: pg12342234
+  template: template0
+  host: localhost
   port: 5432
 
+test:
+  <<: *default
+  database: test
+  username: postgres
+  password: pg12342234
+  template: template0
+  host: localhost
+  port: 5432
 
-
+production:
+  <<: *default
+  database: chemotion_production
+  username: postgres
+  password:

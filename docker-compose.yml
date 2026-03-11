@@ -1,0 +1,58 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Suprabank – Docker Compose
+#
+# NOTE: config/database.yml uses `host: localhost`, which does not resolve
+# inside Docker (the database is a separate container). The DATABASE_URL
+# environment variable set below overrides this automatically in Rails 4.2+.
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:10
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pg12342234   # matches config/database.yml
+      POSTGRES_DB: suprabank_1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"                   # expose locally for psql / GUI clients
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Rails application ────────────────────────────────────────────────────────
+  web:
+    build: .
+    restart: unless-stopped
+    command: bundle exec rails server -b 0.0.0.0 -p 3000
+    volumes:
+      # Mount the project for live code reloading in development.
+      # Remove this volume in production so the image's baked-in code is used.
+      - .:/app
+      # Keep the container's bundle intact; don't overlay it with the host copy.
+      - gem_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: development
+      # Overrides config/database.yml host so the app can reach the db container.
+      DATABASE_URL: postgresql://postgres:pg12342234@db:5432/suprabank_1
+      # Change SECRET_KEY_BASE for production; dev/test values are in secrets.yml.
+      SECRET_KEY_BASE: 493a2187e11f10bf3d466df3a1f4cfd82520c4d7dc443c556a809646bf951fd9a12f917b0cd9af6d436f74609bf9d4b71a9ef79748ef62fcfc37cfb65eff62b3
+      # Suppress Thor deprecation warnings (mirrors config/local_env.yml)
+      THOR_SILENCE_DEPRECATION: "true"
+
+# ── Named volumes ──────────────────────────────────────────────────────────────
+volumes:
+  postgres_data:
+  gem_cache:
