@@ -50,7 +50,7 @@ tags = ["typical guest","typical host","aromatic","aliphatic", "dye","amino acid
     familyName:            attrs[:familyName],
     user_role:             attrs[:user_role]
   )
-  u.skip_confirmation!
+  u.confirmed_at = Time.now if User.column_names.include?('confirmed_at')
   u.save!(validate: false)
 end
 
