@@ -36,6 +36,10 @@ RUN bundle install --jobs "$(nproc)" --retry 3
 # Copy the rest of the application source
 COPY . .
 
+# Ensure gitbranch file exists (used by config/initializers/git.rb).
+# When building outside a git repo (e.g. CI) the file is created as a fallback.
+RUN git rev-parse --abbrev-ref HEAD > gitbranch 2>/dev/null || echo "docker" > gitbranch
+
 # Precompile assets at build time for production.
 # Comment this out if you prefer to precompile at runtime or run in development mode.
 # RUN RAILS_ENV=production SECRET_KEY_BASE=placeholder bundle exec rake assets:precompile
