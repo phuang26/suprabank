@@ -1,4 +1,48 @@
 module Suprababel
+  # Shims for missing dependencies
+  unless defined?(OpenBabel)
+    module OpenBabel
+      class OBConversion
+        GENOPTIONS = 0
+        OUTOPTIONS = 0
+        def initialize(*args); end
+        def set_in_format(*args); end
+        def set_out_format(*args); end
+        def read_string(*args); end
+        def write_string(*args); "" end
+        def add_option(*args); end
+        def set_options(*args); end
+        def get_options(*args); end
+      end
+      class OBMol
+        def initialize(*args); end
+        def get_total_charge; 0 end
+        def get_mol_wt; 0.0 end
+        def get_exact_mass; 0.0 end
+        def get_title; "" end
+        def get_total_spin_multiplicity; 0 end
+        def get_formula; "" end
+      end
+      class OBFingerprint
+        def self.find_fingerprint(*args); new end
+        def get_fingerprint(*args); end
+      end
+      class VectorUnsignedInt
+        def self.new(*args); Array.new(32, 0) end
+      end
+    end
+  end
+
+  unless defined?(Rubabel)
+    module Rubabel
+      class Molecule
+        def self.from_string(*args); new end
+        def matches(*args); [] end
+        def write_file(*args); end
+        def mol_wt; 0.0 end
+      end
+    end
+  end
 
   # mdl V3000
   MOLFILE_COUNT_LINE_START      = 'M  V30 COUNTS '
@@ -472,7 +516,11 @@ module Suprababel
 
 
 
-    require 'rubabel'
+    begin
+      require 'rubabel'
+    rescue LoadError
+      # rubabel not available
+    end
 
 
     def ertl_TPSA(iso_smiles)
