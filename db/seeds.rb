@@ -32,6 +32,40 @@ tags = ["typical guest","typical host","aromatic","aliphatic", "dye","amino acid
 
   ActsAsTaggableOn::Tag.create(tags.map { |tag| {name: tag} })
 
+# Default users
+# Roles: user (0), group_admin (1), admin (2), editor (3)
+User.find_or_create_by!(email: 'admin@example.com') do |u|
+  u.password              = 'SupraBank123!'
+  u.password_confirmation = 'SupraBank123!'
+  u.givenName             = 'Admin'
+  u.familyName            = 'User'
+  u.user_role             = :admin
+end
+
+User.find_or_create_by!(email: 'editor@example.com') do |u|
+  u.password              = 'SupraBank123!'
+  u.password_confirmation = 'SupraBank123!'
+  u.givenName             = 'Editor'
+  u.familyName            = 'User'
+  u.user_role             = :editor
+end
+
+User.find_or_create_by!(email: 'user@example.com') do |u|
+  u.password              = 'SupraBank123!'
+  u.password_confirmation = 'SupraBank123!'
+  u.givenName             = 'Regular'
+  u.familyName            = 'User'
+  u.user_role             = :user
+end
+
+User.find_or_create_by!(email: 'group_admin@example.com') do |u|
+  u.password              = 'SupraBank123!'
+  u.password_confirmation = 'SupraBank123!'
+  u.givenName             = 'Group'
+  u.familyName            = 'Admin'
+  u.user_role             = :group_admin
+end
+
 
 
 # #moleculms#
