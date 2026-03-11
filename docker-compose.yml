@@ -37,7 +37,7 @@ services:
       # Keep the container's bundle intact; don't overlay it with the host copy.
       - gem_cache:/usr/local/bundle
     ports:
-      - "3000:3000"
+      - "4444:3000"
     depends_on:
       db:
         condition: service_healthy
